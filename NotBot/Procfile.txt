@@ -1,1 +1,1 @@
- bot: gunicorn gettingstarted.wsgi
+bot: gunicorn runp-heroku:app
