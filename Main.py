@@ -20,8 +20,9 @@ def incoming():
     if data['type'] == 'confirmation':
         return '18258778'
     if data['type'] == 'message_new':
-        sn.set_user( data['object']['from_id']  )
-        sn.send(id=sn.user_id,message="Hello",method='vk')
+        if 'авторизация' in data['object']['text'].lower()
+            sn.set_user( data['object']['from_id']  )
+            sn.send(id=sn.user_id,message="https://notbotme.herokuapp.com/auth",method='vk')
     return Response(status=200)
 
 @app.route('/login', methods=['POST'])
