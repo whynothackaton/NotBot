@@ -12,7 +12,7 @@ def incoming():
     data = json.loads(request.data)
     
     if data['type'] == 'confirmation':
-        return '**'
+        return '18258778'
     return Response(status=200)
 
 if __name__ == "__main__":
