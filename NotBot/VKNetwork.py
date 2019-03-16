@@ -16,4 +16,4 @@ class VKNetwork():
         message=message)
 
     def delete(self,message_id):
-        self.vk_api.messages.delete(message_ids=[message_id],group_id=self.group_id,delete_for_all=1)
+        self.vk_api.messages.delete(message_ids=[message_id],group_id=self.group_id,delete_for_all=0)
