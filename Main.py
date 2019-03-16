@@ -6,6 +6,7 @@ import json
 import os
 import threading
 import time 
+import datetime
 
 app = Flask(__name__)
 
@@ -40,9 +41,12 @@ def auth():
 def Main():
     while True:
         #sn.send(id='207189016',message="12",method='vk')        
-        time.sleep(15)
+        time.sleep(30)
         date_time = datetime.datetime.now()
-        ekzemplyar_mailbox.get_new_message(date_time)
+        for mbx in MBoxs:
+            msg=mbx.get_new_message(date_time)
+            if msg is not None:
+                sn.send(msg,mbx,id)
         
 
 if __name__ == "__main__":

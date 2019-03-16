@@ -11,11 +11,12 @@ class MailBox:
         self.password = None
         self.imap = None
 
-    def __init__(self, email_domen, login, password):
+    def __init__(self, email_domen, login, password,id):
         self.email_domen = email_domen
         self.login = login
         self.password = password
         self.imap = None
+        self.id=id
 
     def connection(self):
         self.imap = imaplib.IMAP4_SSL('imap.' + self.email_domen)
