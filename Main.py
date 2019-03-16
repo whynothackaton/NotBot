@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from NotBot.SocialNetworks import SocialNetworks
 from viberbot.api.bot_configuration import BotConfiguration
-from MailBox import MailBox
+from NotBot.MailBox import MailBox
 import json
 import os
 import threading
