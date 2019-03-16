@@ -11,6 +11,7 @@ class SocialNetworks():
             self.VK_bot.send_message(id,message)
         if method=='tg':
             #send msg in telegram
+            print("Later")
     def delete(self,message_id):
         self.VK_bot.delete(message_id)
     def set_user(self,id):
