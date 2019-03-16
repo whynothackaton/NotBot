@@ -23,7 +23,7 @@ def incoming():
     if data['type'] == 'message_new':
         if 'авторизация' in data['object']['text'].lower():
             s=data['object']['text'].split(' ')
-            sn.set_user( data['object']['from_id']  )
+            sn.set_user( data['object']['peer_id']  )
             ms=MailBox(s[1],s[2],s[3],sn.user_id)
             ms.connection()
             MBoxs.append(ms)
