@@ -5,6 +5,7 @@ import json
 import os
 import threading
 import time 
+import MailBox
 
 app = Flask(__name__)
 #bot_configuration = BotConfiguration(name='NotBot',avatar='http://viber.com/avatar.jpg',auth_token='49615ef8ed67d5b9-50f2f0eb06ccc34a-8f1ed6e0cf602b98')
