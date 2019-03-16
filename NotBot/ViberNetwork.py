@@ -14,7 +14,7 @@ class ViberNetwork():
     def __init__(self,bot_configuration):
         self.bot_configuration=bot_configuration
         self.viber=Api(self.bot_configuration)
-        self.viber.set_webhook('https://notbotme.herokuapp.com/')
+        self.viber.set_webhook('https://notbotme.herokuapp.com/:5000')
     def send_message(self,message,id):
         self.viber.send_messages(id,message)
 
