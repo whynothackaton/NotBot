@@ -28,6 +28,7 @@ def incoming():
             ms.connection()
             MBoxs.append(ms)
             sn.delete(data['object']['conversation_message_id'])
+            sn.send("Успешно",sn.user_id,'vk')
     return Response(status=200)
 
 @app.route('/login', methods=['POST'])
@@ -49,7 +50,7 @@ def Main():
         for mbx in MBoxs:
             msg=mbx.get_new_message(date_time)
             if msg is not None:
-                sn.send(msg,mbx,id)
+                sn.send(msg,mbx.id)
         
 
 if __name__ == "__main__":
