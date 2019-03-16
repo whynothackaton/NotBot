@@ -49,7 +49,7 @@ class MailBox:
         subject = str(email.header.make_header(email.header.decode_header(email_message['Subject'])))
 
         if local_date > date_time:
-            return email_from, subject
+            return email_from + '\n ' subject
         else:
             None
 
