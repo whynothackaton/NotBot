@@ -1,0 +1,1 @@
+notbotme: python NotBot\Main.py $PORT
