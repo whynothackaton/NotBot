@@ -33,7 +33,7 @@ def login():
     #MBoxs.append(MailBox(email_domen,login,password))
     return "OK"
 
-@app.route('/auth', methods=['POST'])
+@app.route('/auth', methods=['POST','GET'])
 def auth():
     return  render_template('login.html')
 
