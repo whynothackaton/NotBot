@@ -5,7 +5,6 @@ import json
 import os
 import threading
 import time 
-import MailBox
 
 app = Flask(__name__)
 
