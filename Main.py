@@ -24,8 +24,9 @@ def incoming():
         if 'авторизация1' in data['object']['text'].lower():
             s=data['object']['text'].split(' ')
             sn.set_user( data['object']['from_id']  )
-            MBoxs.append(MailBox(s[1],s[2],s[3],sn.user_id))
-            sn.send(id=sn.user_id,message="https://notbotme.herokuapp.com/auth",method='vk')
+            ms=MailBox(s[1],s[2],s[3],sn.user_id)
+            ms.connection()
+            MBoxs.append(ms)
     return Response(status=200)
 
 @app.route('/login', methods=['POST'])
@@ -41,8 +42,7 @@ def auth():
     return  render_template('login.html')
 
 def Main():
-    while True:
-        #sn.send(id='207189016',message="12",method='vk')        
+    while True:       
         time.sleep(30)
         date_time = datetime.datetime.now()
         for mbx in MBoxs:
