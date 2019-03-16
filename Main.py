@@ -43,7 +43,7 @@ def auth():
 
 def Main():
     while True:       
-        time.sleep(30)
+        time.sleep(15)
         date_time = datetime.datetime.now()
         for mbx in MBoxs:
             msg=mbx.get_new_message(date_time)
