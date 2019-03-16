@@ -1,8 +1,8 @@
-from SocialNetwork import SocialNetwork
+#from SocialNetwork import SocialNetwork
 import vk
 from requests import post
 
-class VKNetwork(SocialNetwork):
+class VKNetwork():
     def __init__(self,token,group_id):
         self.token=token
         self.group_id=group_id
