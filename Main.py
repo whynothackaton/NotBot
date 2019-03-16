@@ -1,6 +1,6 @@
 from flask import Flask, request, Response
-from NotBot.SocialNetworks.ViberNetwork import ViberNetwork
-from NotBot.SocialNetworks.VKNetwork import VKNetwork
+from SocialNetworks.ViberNetwork import ViberNetwork
+from SocialNetworks.VKNetwork import VKNetwork
 from viberbot.api.bot_configuration import BotConfiguration
 import json
 
