@@ -1,6 +1,5 @@
 from flask import Flask, request, Response
-from NotBot.ViberNetwork import ViberNetwork
-from NotBot.VKNetwork import VKNetwork
+from NotBot.SocialNetworks import SocialNetworks
 from viberbot.api.bot_configuration import BotConfiguration
 import json
 import os
@@ -10,19 +9,23 @@ import time
 app = Flask(__name__)
 #bot_configuration = BotConfiguration(name='NotBot',avatar='http://viber.com/avatar.jpg',auth_token='49615ef8ed67d5b9-50f2f0eb06ccc34a-8f1ed6e0cf602b98')
 #vn=ViberNetwork(bot_configuration)
-vk_bot=VKNetwork(vk_access_token='66d88a983bd5b7f39de9db6f9235782db2b62a03160978a44c9ebc4e97558a335e7b1bf32317203799a5d',group_id=179748337,vk_api_version='5.92')
 
+sn= SocialNetworks()
 
 @app.route('/', methods=['POST'])
 def incoming():
     data = json.loads(request.data)
     if data['type'] == 'confirmation':
         return '18258778'
+    if data['type'] == 'message_new':
+        sn.set_user( data['object']['from_id']  )
+        sn.send(id=sn.user_id,message="Hello",method='vk')
     return Response(status=200)
+
 
 def Main():
     while True:
-        vk_bot.send_message(id='207189016',message="hello")
+        sn.send(id='207189016',message="12",method='vk')
         time.sleep(15)
 
 
