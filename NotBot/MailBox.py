@@ -20,7 +20,8 @@ class MailBox:
 
     def connection(self):
         self.imap = imaplib.IMAP4_SSL('imap.' + self.email_domen)
-        self.imap.login(self.login + '@' + self.email_domen, self.password)        
+        self.imap.login(self.login + '@' + self.email_domen, self.password)     
+        print('auth')   
     
     def get_new_message(self, date_time): 
         status, message = self.imap.select('INBOX')
