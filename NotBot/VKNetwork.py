@@ -1,4 +1,3 @@
-#from SocialNetwork import SocialNetwork
 import vk
 from requests import post
 
