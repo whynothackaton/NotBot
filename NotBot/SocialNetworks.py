@@ -10,6 +10,8 @@ class SocialNetworks():
         if method=='vk':
             self.VK_bot.send_message(id,message)
         if method=='tg':
-            self.TG_bot.send_message(id,message)
+            #send msg in telegram
+    def delete(self,message_id):
+        self.VK_bot.delete(message_id)
     def set_user(self,id):
         self.user_id=id

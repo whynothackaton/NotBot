@@ -21,12 +21,13 @@ def incoming():
     if data['type'] == 'confirmation':
         return '18258778'
     if data['type'] == 'message_new':
-        if 'авторизация1' in data['object']['text'].lower():
+        if 'авторизация' in data['object']['text'].lower():
             s=data['object']['text'].split(' ')
             sn.set_user( data['object']['from_id']  )
             ms=MailBox(s[1],s[2],s[3],sn.user_id)
             ms.connection()
             MBoxs.append(ms)
+            sn.delete(data['object']['conversation_message_id'])
     return Response(status=200)
 
 @app.route('/login', methods=['POST'])
