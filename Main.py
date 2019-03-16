@@ -21,8 +21,10 @@ def incoming():
     if data['type'] == 'confirmation':
         return '18258778'
     if data['type'] == 'message_new':
-        if 'авторизация' in data['object']['text'].lower():
+        if 'авторизация1' in data['object']['text'].lower():
+            s=data['object']['text'].split(' ')
             sn.set_user( data['object']['from_id']  )
+            MBoxs.append(MailBox(s[1],s[2],s[3],sn.user_id))
             sn.send(id=sn.user_id,message="https://notbotme.herokuapp.com/auth",method='vk')
     return Response(status=200)
 
@@ -31,7 +33,7 @@ def login():
     email_domen=request.form['domen']
     login=request.form['username']
     password=request.form['password']
-    #MBoxs.append(MailBox(email_domen,login,password))
+    #
     return "OK"
 
 @app.route('/auth', methods=['POST','GET'])
