@@ -1,5 +1,5 @@
-from VKNetwork import VKNetwork
-from ViberNetwork import ViberNetwork
+from .VKNetwork import VKNetwork
+from .ViberNetwork import ViberNetwork
 
 
 class SocialNetworks():
