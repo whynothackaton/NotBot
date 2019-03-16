@@ -3,6 +3,7 @@ import getpass
 import email
 import quopri
 from email.parser import Parser
+from email.message import EmailMessage
 
 
 class MailBox:
@@ -30,15 +31,20 @@ class MailBox:
         id_list = ids.split() # ids is a space separated string
         latest_email_id = id_list[-1] # get the latest
         result, data = self.imap.fetch(latest_email_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
-        raw_email = data[0][1] # here's the body, which is raw text of the whole email
-        # including headers and alternate payloads
-        string = Parser().parsestr(raw_email.decode('utf-8'))
-        print(string['From'])
+
+        raw_email = data[0][1]
+        raw_email_string = raw_email.decode('utf-8')
+        email_message = email.message_from_string(raw_email_string)
+
+        email_from = str(email.header.make_header(email.header.decode_header(email_message['From'])))
+        email_to = str(email.header.make_header(email.header.decode_header(email_message['To'])))
+        subject = str(email.header.make_header(email.header.decode_header(email_message['Subject'])))
+
+        print(subject)
 
     def close_connection(self):
         self.imap.close()
-
-
-mail = MailBox('', '', '')
+        
+mail = MailBox()
 mail.connection()
 mail.get_new_message()
