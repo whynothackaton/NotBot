@@ -7,14 +7,15 @@ import threading
 import time 
 
 app = Flask(__name__)
-#bot_configuration = BotConfiguration(name='NotBot',avatar='http://viber.com/avatar.jpg',auth_token='49615ef8ed67d5b9-50f2f0eb06ccc34a-8f1ed6e0cf602b98')
-#vn=ViberNetwork(bot_configuration)
+
 
 sn= SocialNetworks()
 
 @app.route('/', methods=['POST'])
 def incoming():
     data = json.loads(request.data)
+    print(data)
+
     if data['type'] == 'confirmation':
         return '18258778'
     if data['type'] == 'message_new':
@@ -25,7 +26,7 @@ def incoming():
 
 def Main():
     while True:
-        sn.send(id='207189016',message="12",method='vk')
+        #sn.send(id='207189016',message="12",method='vk')
         time.sleep(15)
 
 
