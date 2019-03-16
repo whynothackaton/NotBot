@@ -3,8 +3,7 @@ import vk
 from requests import post
 
 class VKNetwork():
-    def __init__(self,token,group_id,vk_access_token,vk_api_version,):
-        self.token=token
+    def __init__(self,group_id,vk_access_token,vk_api_version):
         self.group_id=group_id
         self.vk_api_version = vk_api_version
         self.vk_access_token = vk_access_token
