@@ -22,8 +22,11 @@ def incoming():
         return '18258778'
     if data['type'] == 'message_new':
         if 'авторизация' in data['object']['text'].lower():
+            
             s=data['object']['text'].split(' ')
+           
             sn.set_user( data['object']['peer_id']  )
+
             ms=MailBox(s[1],s[2],s[3],sn.user_id)
             ms.connection()
             MBoxs.append(ms)
@@ -47,10 +50,10 @@ def Main():
     while True:       
         time.sleep(15)
         date_time = datetime.datetime.now()
-        for mbx in MBoxs:
-            msg=mbx.get_new_message(date_time)
-            if msg is not None:
-                sn.send(msg,mbx.id)
+        #for mbx in MBoxs:
+          #  %msg=mbx.get_new_message(date_time)
+            #if msg is not None:
+             #   sn.send(msg,mbx.id)
         
 
 if __name__ == "__main__":
