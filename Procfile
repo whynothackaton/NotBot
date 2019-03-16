@@ -1,1 +1,1 @@
-notbotme: python Main.py $PORT
+web: python Main.py $PORT
