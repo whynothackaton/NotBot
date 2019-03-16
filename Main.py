@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response,render_template
 from NotBot.SocialNetworks import SocialNetworks
 from viberbot.api.bot_configuration import BotConfiguration
 from NotBot.MailBox import MailBox
@@ -30,7 +30,7 @@ def login():
     email_domen=request.form['domen']
     login=request.form['username']
     password=request.form['password']
-    MBoxs.append(MailBox(email_domen,login,password))
+    #MBoxs.append(MailBox(email_domen,login,password))
     return "OK"
 
 @app.route('/auth', methods=['POST'])
