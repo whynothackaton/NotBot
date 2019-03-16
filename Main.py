@@ -39,8 +39,10 @@ def auth():
 
 def Main():
     while True:
-        #sn.send(id='207189016',message="12",method='vk')
+        #sn.send(id='207189016',message="12",method='vk')        
         time.sleep(15)
+        date_time = datetime.datetime.now()
+        ekzemplyar_mailbox.get_new_message(date_time)
         
 
 if __name__ == "__main__":
