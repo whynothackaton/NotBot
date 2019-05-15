@@ -2,31 +2,42 @@ from vkapi import VK
 import requests
 import redis
 import re
+from pai import PaiFlow
+
 
 class Bot():
-    def __init__(self, group_id='', access_token='', api_version=''):
+    def __init__(self, name="bot", group_id='', vk_access_token='', api_version=''):
         """[summary]
 
         Keyword Arguments:
+            name {str} -- Bot name
             group_id {str} -- VK group identifier (default: {''})
             access_token {str} -- Access token (default: {''})
             api_version {str} -- Version api VK (default: {''})
         """
-        self.VK = VK(token=access_token, api_version=api_version)
+        self.VK = VK(token=vk_access_token, api_version=api_version)
         self.group_id = group_id
-        self.Redis = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
+        self.Redis = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+        self.Name = name
+        self.PAI = PaiFlow()
+        self.PAI.build()
 
-    def search_email(self,message):
+    def search_email(self, message):
         """Search email address in a message from the user VK
-        
+
         Arguments:
             message {str} -- A message from the user VK
         """
-        pattern1=re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
-        pattern2=re.compile('[yandex\.ru]*[gmail\.com]*[mail\.ru]*')
-        email=re.search(pattern1,message)
-        email=re.search(pattern2,email.group())
-        return email
+        pattern1 = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
+        regexes = 'yandex\.ru', 'mail\.ru', 'gmail\.com'
+        pattern2 = re.compile('|'.join('(?:{0})'.format(x) for x in regexes))
+        email = re.search(pattern1, message)
+        if email:
+
+            if re.search(pattern2, email.group()):
+                return 1, email.group()
+            return 0, "null"
+        return -1, "null"
 
     def add_to_Redis(self, email, ids):
         """Adding to the DBMS
@@ -35,20 +46,9 @@ class Bot():
             email {str} --  E-mail address (Key)
             ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
-        print(type(email),type(ids))
-        print("1")
-        self.Redis.set(email, ids)
+        self.Redis.sadd(email, ids)
 
-    def add_to_Redis(self, email, ids):
-        """Adding to the DBMS
-
-        Arguments:
-            email {str} --  E-mail address (Key)
-            ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
-        """
-        print(email)
-        self.Redis.set(email, ids)
-    def get_id_from_Redis(self,email):
+    def get_id_from_Redis(self, email):
         """Getting identifiers (value) by e-mail address (key) in the DBMS
 
         Arguments:
@@ -56,12 +56,71 @@ class Bot():
         Returns:
             ids -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
-        return self.Redis.get(email)
-    def dialog(self,message):
+        return self.Redis.smembers(email)
+
+    def get_emails_from_Redis(self):
+        """Getting  e-mail address (key) in the DBMS
+
+        Arguments:
+
+
+        Returns:
+            [str] -- List of e-mail addresses
+        """
+
+        return self.Redis.keys()
+
+    def dialog(self, message, peer_id, from_id):
         """[summary]
         """
-        if self.search_email(update['object']['text']):
-            VK.messages.send(peer_id=update['from_id'], random_id=0, message='Hello World !!!')
+        if peer_id != from_id:
+            peer_id = from_id
+        UserName = self.VK.users.get(user_ids=peer_id)
+        UserName = UserName[0]['first_name']+" "+UserName[0]['last_name']
+        code=None
+        email=None
+        category=None
+
+        if 'авторизация' in message.lower():
+            code, email = self.search_email(message)
+        else:
+            category = self.PAI.get_category(message.lower())
+
+        if code == 1:
+            resp1 = self.PAI.get_response(8)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1)
+
+            self.add_to_Redis(str(email), peer_id)
+
+            resp2 = self.PAI.get_response(9)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp2)
+
+        elif code == 0:
+
+            resp1 = self.PAI.get_response(4)
+            resp2 = self.PAI.get_response(5)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1+resp2)
+
+        elif category == "1":
+            resp1 = self.PAI.get_response(category)
+            resp2 = self.PAI.get_response(5)
+            resp3 = self.PAI.get_response(3)
+            resp4 = self.PAI.get_response(7)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1+" "+UserName+"! Меня зовут "+self.Name+"."+resp2+resp3+resp4)
+
+        elif category == "2":
+            resp1 = self.PAI.get_response(category)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1)
+
+        elif category == "6":
+
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=self.PAI.help())
 
     def testLP(self):
         self.r = self.VK.groups.getLongPollServer(group_id=self.group_id)
@@ -78,15 +137,14 @@ class Bot():
                 }).json()
 
             for update in self.longPoll['updates']:
-                if update['type']=='message_new':
-                    id=update['object']['from_id']
-                    
-                    email=self.search_email(update['object']['text'])
-                    if email:
-                        self.add_to_Redis(str(email.group()),id)
-                    print(str(self.get_id_from_Redis(email.group())))
+                if update['type'] == 'message_new':
+                    id = update['object']['from_id']
+                    self.dialog(update['object']['text'], update['object']
+                                ['from_id'], update['object']['peer_id'])
+
             self.ts = self.longPoll['ts']
 
 
-bot = Bot("179748337", "66d88a983bd5b7f39de9db6f9235782db2b62a03160978a44c9ebc4e97558a335e7b1bf32317203799a5d", "5.95")
+bot = Bot("bot", "**",
+          "**", "5.95")
 bot.testLP()
