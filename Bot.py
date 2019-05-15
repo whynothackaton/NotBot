@@ -14,7 +14,7 @@ class Bot():
         """
         self.VK = VK(token=access_token, api_version=api_version)
         self.group_id = group_id
-        self.Redis = redis.StrictRedis(host='localhost', port=6379, db=1)
+        self.Redis = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
 
     def search_email(self,message):
         """Search email address in a message from the user VK
@@ -22,8 +22,10 @@ class Bot():
         Arguments:
             message {str} -- A message from the user VK
         """
-        pattern=re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
-        email=re.search(pattern,message)
+        pattern1=re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
+        pattern2=re.compile('[yandex\.ru]*[gmail\.com]*[mail\.ru]*')
+        email=re.search(pattern1,message)
+        email=re.search(pattern2,email.group())
         return email
 
     def add_to_Redis(self, email, ids):
@@ -33,6 +35,8 @@ class Bot():
             email {str} --  E-mail address (Key)
             ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
+        print(type(email),type(ids))
+        print("1")
         self.Redis.set(email, ids)
 
     def add_to_Redis(self, email, ids):
@@ -42,6 +46,7 @@ class Bot():
             email {str} --  E-mail address (Key)
             ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
+        print(email)
         self.Redis.set(email, ids)
     def get_id_from_Redis(self,email):
         """Getting identifiers (value) by e-mail address (key) in the DBMS
@@ -52,6 +57,11 @@ class Bot():
             ids -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
         return self.Redis.get(email)
+    def dialog(self,message):
+        """[summary]
+        """
+        if self.search_email(update['object']['text']):
+            VK.messages.send(peer_id=update['from_id'], random_id=0, message='Hello World !!!')
 
     def testLP(self):
         self.r = self.VK.groups.getLongPollServer(group_id=self.group_id)
@@ -73,8 +83,8 @@ class Bot():
                     
                     email=self.search_email(update['object']['text'])
                     if email:
-                        self.add_to_Redis(email.group,id)
-                    print(self.get_id_from_Redis(email))
+                        self.add_to_Redis(str(email.group()),id)
+                    print(str(self.get_id_from_Redis(email.group())))
             self.ts = self.longPoll['ts']
 
 
