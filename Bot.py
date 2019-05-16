@@ -23,7 +23,7 @@ class Bot():
         self.PAI.build()
         self.api_version=api_version
     def auth(self,token):
-        self.VK = VK(token=token, api_version=api_version)
+        self.VK = VK(token=token, api_version=self.api_version)
     def search_email(self, message):
         """Search email address in a message from the user VK
 
