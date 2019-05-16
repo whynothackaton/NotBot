@@ -1,5 +1,10 @@
 import redis
 import secrets
+from difflib import SequenceMatcher
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
+
 #  Categories
 #  1 --- hello
 #  2 --- what I can
@@ -25,6 +30,8 @@ class PaiFlow():
         self.build_cat7()
         self.build_cat8()
         self.build_cat9()
+        self.build_cat10()
+        self.build_cat11()
 
     def build_cat1(self):
         self.RedisPh.set("привет", 1)
@@ -44,7 +51,7 @@ class PaiFlow():
 
     def build_cat3(self):
         self.RedisPh.set("что ты можешь", 3)
-        self.RedisPh.set("что ты можешь", 3)
+        self.RedisPh.set("что ты умеешь", 3)
 
         self.RedisRes.sadd(3, "Я могу отправлять Вам уведомления о новый письмах на электронной почте. ")
         self.RedisRes.sadd(3, "Вы будете получать сообщение с уведомлением о новом письме. ")
@@ -77,14 +84,34 @@ class PaiFlow():
     
     def build_cat10(self):
         self.RedisRes.sadd(10, "Что-то пошло не так. ")
+
+    def build_cat11(self):
+        self.RedisPh.set("Кто ты", 11)
+        self.RedisPh.set("Вы кто", 11)
+        self.RedisPh.set("Как тебя зовут", 11)
+        self.RedisPh.set("Твое имя", 11)
+
+        self.RedisRes.sadd(11, "Меня зовут ")
+        self.RedisRes.sadd(11, "Я чат-бот ")
+        self.RedisRes.sadd(11, "Я ваш помошник ")
+        
         
 
     
 
     def get_category(self, word):
-        resp = self.RedisPh.get(word)
+        max_sim=0.5
+        best=""
+        for key in self.RedisPh.keys():
+            s=key.decode()
+            sim=similar(word,s)
+            if sim>max_sim:
+                best=s
+                max_sim=sim
+        
+        resp=self.RedisPh.get(best)
         if resp != None:
-            return resp.decode()
+                return resp.decode()
         return '2'
         
 

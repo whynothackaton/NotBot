@@ -77,9 +77,9 @@ class Bot():
             peer_id = from_id
         UserName = self.VK.users.get(user_ids=peer_id)
         UserName = UserName[0]['first_name']+" "+UserName[0]['last_name']
-        code=None
-        email=None
-        category=None
+        code = None
+        email = None
+        category = None
 
         if 'авторизация' in message.lower():
             code, email = self.search_email(message)
@@ -109,18 +109,27 @@ class Bot():
             resp2 = self.PAI.get_response(5)
             resp3 = self.PAI.get_response(3)
             resp4 = self.PAI.get_response(7)
+            resp5 = self.PAI.get_response(11)
             self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1+" "+UserName+"! Меня зовут "+self.Name+"."+resp2+resp3+resp4)
+                peer_id=peer_id, random_id=0, message=resp1+" "+UserName+"!"+resp5+self.Name+"."+resp2+resp3+resp4)
 
         elif category == "2":
             resp1 = self.PAI.get_response(category)
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1)
 
-        elif category == "6":
+        elif category == "3":
+            resp1 = self.PAI.get_response(category)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1)
 
+        elif category == "6":
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=self.PAI.help())
+        elif category == "11":
+            resp1 = self.PAI.get_response(category)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1+" "+self.Name)
 
     def testLP(self):
         self.r = self.VK.groups.getLongPollServer(group_id=self.group_id)
