@@ -47,8 +47,9 @@ class PaiFlow():
         self.RedisRes.sadd(1, "Здравствуйте ")
 
     def build_cat2(self):
-        self.RedisRes.sadd(2, "Я не знаю что Вы хотите.")
-
+        self.RedisRes.sadd(2, "Извините, но я Вас не понимаю ")
+        self.RedisRes.sadd(2, "Пожалуйста, напишите что Вы хотите ")
+        self.RedisRes.sadd(2, "Пожалуйста, напишите что Вам нужно ")
     def build_cat3(self):
         self.RedisPh.set("что ты можешь", 3)
         self.RedisPh.set("что ты умеешь", 3)
@@ -71,6 +72,11 @@ class PaiFlow():
         self.RedisPh.set("выручай", 6)
 
     def build_cat7(self):
+        self.RedisPh.set("Авторизация", 7)
+        self.RedisPh.set("Войти", 7)
+        self.RedisPh.set("Начать", 7)
+        self.RedisPh.set("Получать", 7)
+
         self.RedisRes.sadd(7, "\n Для авторизации напишите комманду: \n <<Авторизация + Ваш e-mail>. ")
 
     def build_cat8(self):
@@ -94,6 +100,8 @@ class PaiFlow():
         self.RedisRes.sadd(11, "Меня зовут ")
         self.RedisRes.sadd(11, "Я чат-бот ")
         self.RedisRes.sadd(11, "Я ваш помошник ")
+
+      
         
         
 

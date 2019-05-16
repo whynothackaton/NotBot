@@ -103,6 +103,11 @@ class Bot():
             resp2 = self.PAI.get_response(5)
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1+resp2)
+        elif code == -1:
+            category = self.PAI.get_category(message.lower())
+            resp1 = self.PAI.get_response(category)
+            self.VK.messages.send(
+                peer_id=peer_id, random_id=0, message=resp1)
 
         elif category == "1":
             resp1 = self.PAI.get_response(category)
@@ -154,6 +159,6 @@ class Bot():
             self.ts = self.longPoll['ts']
 
 
-bot = Bot("bot", "**",
-          "**", "5.95")
+bot = Bot("bot", "179748337",
+          "dfad8d090faf70fafccd02178112cef08faccbf4c2caa925695ea050e6dd95fb871683f4e749009d184a5", "5.95")
 bot.testLP()
