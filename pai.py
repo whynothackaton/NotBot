@@ -17,8 +17,8 @@ def similar(a, b):
 
 class PaiFlow():
     def __init__(self):
-        self.RedisPh = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
-        self.RedisRes = redis.StrictRedis(host='127.0.0.1', port=6379, db=2)
+        self.RedisPh = redis.from_url(os.environ.get("REDIS_URL"), db=1)
+        self.RedisRes = redis.from_url(os.environ.get("REDIS_URL"), db=2)
 
     def build(self):
         self.build_cat1()

@@ -3,7 +3,7 @@ import requests
 import redis
 import re
 from pai import PaiFlow
-
+import os
 
 class Bot():
     def __init__(self, name="bot", group_id='', api_version=''):
@@ -17,12 +17,13 @@ class Bot():
         """
         
         self.group_id = group_id
-        self.Redis = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+        self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
         self.Name = name
         self.PAI = PaiFlow()
         self.PAI.build()
+        self.api_version=api_version
     def auth(self,token):
-        self.VK = VK(token=vk_access_token, api_version=api_version)
+        self.VK = VK(token=token, api_version=api_version)
     def search_email(self, message):
         """Search email address in a message from the user VK
 
