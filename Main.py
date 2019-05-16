@@ -7,13 +7,14 @@ import datetime
 from Bot import Bot
 app = Flask(__name__)
 bot = Bot(name="bot",group_id="179748337", api_version="5.95")
+mb = MailBox('rollabushka@yandex.ru') 
 
 @app.route('/login=<token>',methods=['GET'])
 def login(token):
     bot.auth(token)
     return "OK"
 
-@app.route('access_token/=<token>', methods=['GET', 'POST'])
+@app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
     mb.connection(token)
     new_message = mb.get_new_message()
@@ -35,7 +36,6 @@ def bot():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     
-    app.run(host='0.0.0.0', port=port)
-    mb = MailBox('rollabushka@yandex.ru')        
+    app.run(host='0.0.0.0', port=port)   
 
     
