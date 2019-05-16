@@ -18,8 +18,8 @@ def similar(a, b):
 
 class PaiFlow():
     def __init__(self):
-        self.RedisPh = redis.from_url(os.environ.get("REDIS_URL"), db=1)
-        self.RedisRes = redis.from_url(os.environ.get("REDIS_URL"), db=2)
+        self.RedisPh = redis.from_url(os.environ.get("REDIS_URL"), db=0)
+        self.RedisRes = redis.from_url(os.environ.get("REDIS_URL"), db=0)
 
     def build(self):
         self.build_cat1()
