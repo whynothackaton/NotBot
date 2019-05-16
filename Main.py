@@ -24,7 +24,7 @@ def incoming(token):
     mb.close_connection()
         
 @app.route('/bot',methods=['POST'])
-def bot():
+def botserver():
     
     data = json.loads(request.data)
     if data['type'] == 'confirmation':
