@@ -6,7 +6,7 @@ from pai import PaiFlow
 
 
 class Bot():
-    def __init__(self, name="bot", group_id='', vk_access_token='', api_version=''):
+    def __init__(self, name="bot", group_id='', api_version=''):
         """[summary]
 
         Keyword Arguments:
@@ -15,13 +15,14 @@ class Bot():
             access_token {str} -- Access token (default: {''})
             api_version {str} -- Version api VK (default: {''})
         """
-        self.VK = VK(token=vk_access_token, api_version=api_version)
+        
         self.group_id = group_id
         self.Redis = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
         self.Name = name
         self.PAI = PaiFlow()
         self.PAI.build()
-
+    def auth(self,token):
+        self.VK = VK(token=vk_access_token, api_version=api_version)
     def search_email(self, message):
         """Search email address in a message from the user VK
 
@@ -159,6 +160,4 @@ class Bot():
             self.ts = self.longPoll['ts']
 
 
-bot = Bot("bot", "179748337",
-          "dfad8d090faf70fafccd02178112cef08faccbf4c2caa925695ea050e6dd95fb871683f4e749009d184a5", "5.95")
-bot.testLP()
+
