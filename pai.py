@@ -1,6 +1,7 @@
 import redis
 import secrets
 from difflib import SequenceMatcher
+import os
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
