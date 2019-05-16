@@ -10,8 +10,8 @@ app = Flask(__name__)
 bot = Bot(name="bot",group_id="179748337", api_version="5.95")
 mb = MailBox('rollabushka@yandex.ru') 
 
-@app.route('/login=<token>',methods=['GET'])
-def login(token):
+@app.route('/log=<token>',methods=['GET','POST'])
+def logauth(token):
     bot.auth(token)
     return "OK"
 
