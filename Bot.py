@@ -12,10 +12,8 @@ class Bot():
         Keyword Arguments:
             name {str} -- Bot name
             group_id {str} -- VK group identifier (default: {''})
-            access_token {str} -- Access token (default: {''})
             api_version {str} -- Version api VK (default: {''})
         """
-        
         self.group_id = group_id
         self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
         self.Name = name
@@ -26,14 +24,14 @@ class Bot():
         if self.token!=None:
             self.VK = VK(token=self.token.decode(), api_version=self.api_version)
     
-    def auth(self,token):
-        """[summary]
+    def auth(self,access_token):
+        """Bot registration
         
         Arguments:
-            token {str} -- [description]
+            access_token {str} -- Access token 
         """
-        self.VK = VK(token=token, api_version=self.api_version)
-        self.Redis.set('VK_token',token)
+        self.VK = VK(token=access_token, api_version=self.api_version)
+        self.Redis.set('VK_token',access_token)
     
 
     def search_email(self, message):
@@ -53,14 +51,14 @@ class Bot():
             return 0, "null"
         return -1, "null"
 
-    def add_to_Redis(self, email, ids):
+    def add_to_Redis(self, email, ids, token):
         """Adding to the DBMS
 
         Arguments:
             email {str} --  E-mail address (Key)
             ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
-        self.Redis.sadd(email, ids)
+        self.Redis.sadd(email, ids+"|"+token)
 
     def get_id_from_Redis(self, email):
         """Getting identifiers (value) by e-mail address (key) in the DBMS
@@ -70,6 +68,7 @@ class Bot():
         Returns:
             ids -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
+        
         return self.Redis.smembers(email)
 
     def get_emails_from_Redis(self):
@@ -104,7 +103,7 @@ class Bot():
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1)
 
-            self.add_to_Redis(str(email), peer_id)
+            self.add_to_Redis(str(email), peer_id,"erer4r4f44w54546")
 
             resp2 = self.PAI.get_response(9)
             self.VK.messages.send(
