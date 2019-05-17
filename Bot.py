@@ -58,7 +58,7 @@ class Bot():
             email {str} --  E-mail address (Key)
             ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
-        self.Redis.sadd(email, ids+"|"+token)
+        self.Redis.sadd(email, str(ids)+"|"+token)
 
     def get_id_from_Redis(self, email):
         """Getting identifiers (value) by e-mail address (key) in the DBMS

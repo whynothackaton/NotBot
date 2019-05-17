@@ -46,8 +46,8 @@ def Main():
         st=bot.get_id_from_Redis(email).split('|')
         peer_id =st[0]
         token = st[1]
-        print(peer_id)
-        print(token)
+        print("peer_id=",peer_id)
+        print("token=",token)
         bot.VK.messages.send(
                 peer_id=peer_id, random_id=0, message="Вам новое письмо")
 
