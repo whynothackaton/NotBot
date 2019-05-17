@@ -22,8 +22,11 @@ class Bot():
         self.PAI = PaiFlow()
         self.PAI.build()
         self.api_version=api_version
+        if self.Redis.get("VK_token"):
+            self.VK = VK(token=self.Redis.get("VK_name").decode(), api_version=self.api_version)
     def auth(self,token):
         self.VK = VK(token=token, api_version=self.api_version)
+        self.Redis.set('VK_token',token)
     def search_email(self, message):
         """Search email address in a message from the user VK
 
