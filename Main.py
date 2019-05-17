@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response,render_template
 import json
 import os
 import threading
@@ -11,6 +11,10 @@ import threading
 app = Flask(__name__)
 bot = Bot(name="bot",group_id="179748337", api_version="5.95")
 #mb = MailBox('rollabushka@yandex.ru') 
+
+@app.route('/paiflow',methods=['GET','POST'])
+def paiflow(token):
+    return render_template("paiflow.html")
 
 @app.route('/log=<token>',methods=['GET','POST'])
 def logauth(token):
