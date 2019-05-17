@@ -17,10 +17,6 @@ def logauth(token):
     bot.auth(token)
     return "OK"
 
-@app.route('/emails',methods=['GET','POST'])
-def getmails():
-    print(bot.get_emails_from_Redis())
-    return "bot.get_emails_from_Redis()"
 
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
@@ -45,6 +41,7 @@ def botserver():
 def Main():
     while True:       
         time.sleep(15)
+        emails = bot.get_emails_from_Redis()
         
 
 if __name__ == "__main__":
