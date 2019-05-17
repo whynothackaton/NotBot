@@ -103,8 +103,8 @@ class Bot():
             ya_id = '3ee652c711e9455c98afa34a2807e4f3'
             ya_link = 'https://oauth.yandex.ru/authorize?' + \
                 'response_type=token' + \
-                'client_id={id}' + \
-                'login_hint={email}'.format(id=ya_id, email=email) 
+                'client_id={0}' + \
+                'login_hint={1}'.format(ya_id, email) 
 
             resp1 = self.PAI.get_response(8)
             self.VK.messages.send(
