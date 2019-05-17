@@ -17,6 +17,11 @@ def logauth(token):
     bot.auth(token)
     return "OK"
 
+@app.route('/emails',methods=['GET','POST'])
+def getmails():
+    
+    return bot.get_emails_from_Redis()
+
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
     mb.connection(token)

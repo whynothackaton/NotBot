@@ -25,9 +25,17 @@ class Bot():
         self.token= self.Redis.get("VK_token")
         if self.token!=None:
             self.VK = VK(token=self.token.decode(), api_version=self.api_version)
+    
     def auth(self,token):
+        """[summary]
+        
+        Arguments:
+            token {str} -- [description]
+        """
         self.VK = VK(token=token, api_version=self.api_version)
         self.Redis.set('VK_token',token)
+    
+
     def search_email(self, message):
         """Search email address in a message from the user VK
 
@@ -72,9 +80,8 @@ class Bot():
 
         Returns:
             [str] -- List of e-mail addresses
-        """
-
-        return self.Redis.keys()
+        """       
+        return self.Redis.keys(pattern="[a-z0-9]*@[a-z0-9]*\.[a-z0-9]*")
 
     def dialog(self, message, peer_id, from_id):
         """[summary]
@@ -141,28 +148,7 @@ class Bot():
             resp1 = self.PAI.get_response(category)
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1+" "+self.Name)
-
-    def testLP(self):
-        self.r = self.VK.groups.getLongPollServer(group_id=self.group_id)
-        self.ts = self.r['ts']
-
-        while True:
-            self.longPoll = requests.post(
-                '%s' % self.r['server'],
-                data={
-                    'act': 'a_check',
-                    'key': self.r['key'],
-                    'ts': self.ts,
-                    'wait': 25
-                }).json()
-
-            for update in self.longPoll['updates']:
-                if update['type'] == 'message_new':
-                    id = update['object']['from_id']
-                    self.dialog(update['object']['text'], update['object']
-                                ['from_id'], update['object']['peer_id'])
-
-            self.ts = self.longPoll['ts']
+    
 
 
 
