@@ -101,7 +101,7 @@ class Bot():
 
         if code == 1:
             ya_id = '3ee652c711e9455c98afa34a2807e4f3'
-            ya_link = 'oauth.yandex.ru/authorize?' + \
+            ya_link = 'https://oauth.yandex.ru/authorize?' + \
                 'response_type=token&' + \
                 'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
                 'login_hint={0}'.format(email) 
@@ -138,7 +138,7 @@ class Bot():
             resp4 = self.PAI.get_response(7)
             resp5 = self.PAI.get_response(11)
             self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1+" "+UserName+"!"+resp5+self.Name+"."+resp2+resp3+resp4)
+                peer_id=peer_id, random_id=0, message=resp1+" "+UserName+"! "+resp5+self.Name+"."+resp2+resp3+resp4)
 
         elif category == "2":
             resp1 = self.PAI.get_response(category)
