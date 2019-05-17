@@ -101,13 +101,10 @@ class Bot():
 
         if code == 1:
             ya_id = '3ee652c711e9455c98afa34a2807e4f3'
-            '''
             ya_link = 'oauth.yandex.ru/authorize?' + \
                 'response_type=token&' + \
                 'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
                 'login_hint={0}'.format(email) 
-            '''
-            ya_link = 'vk.cc/9oWJ4T'
 
             resp1 = self.PAI.get_response(8)
             self.VK.messages.send(
