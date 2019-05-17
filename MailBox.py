@@ -66,8 +66,3 @@ class MailBox:
     def close_connection(self):
         self.imap.close()
 
-mb = MailBox('rollabushka@yandex.ru') 
-mb.connection('')
-new_message = mb.get_new_letter()
-print(new_message)
-mb.close_connection()
