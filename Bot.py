@@ -5,6 +5,7 @@ import re
 from pai import PaiFlow
 import os
 
+
 class Bot():
     def __init__(self, name="bot", group_id='', api_version=''):
         """[summary]
@@ -19,20 +20,20 @@ class Bot():
         self.Name = name
         self.PAI = PaiFlow()
         self.PAI.build()
-        self.api_version=api_version
-        self.token= self.Redis.get("VK_token")
-        if self.token!=None:
-            self.VK = VK(token=self.token.decode(), api_version=self.api_version)
-    
-    def auth(self,access_token):
+        self.api_version = api_version
+        self.token = self.Redis.get("VK_token")
+        if self.token != None:
+            self.VK = VK(token=self.token.decode(),
+                         api_version=self.api_version)
+
+    def auth(self, access_token):
         """Bot registration
-        
+
         Arguments:
             access_token {str} -- Access token 
         """
         self.VK = VK(token=access_token, api_version=self.api_version)
-        self.Redis.set('VK_token',access_token)
-    
+        self.Redis.set('VK_token', access_token)
 
     def search_email(self, message):
         """Search email address in a message from the user VK
@@ -68,7 +69,7 @@ class Bot():
         Returns:
             ids -- The list of identifiers of VK users associated with the e-mail address (Value)
         """
-        
+
         return self.Redis.smembers(email)
 
     def get_emails_from_Redis(self):
@@ -79,7 +80,7 @@ class Bot():
 
         Returns:
             [str] -- List of e-mail addresses
-        """       
+        """
         return self.Redis.keys(pattern="[a-z0-9]*@[a-z0-9]*\.[a-z0-9]*")
 
     def dialog(self, message, peer_id, from_id):
@@ -99,11 +100,17 @@ class Bot():
             category = self.PAI.get_category(message.lower())
 
         if code == 1:
+            ya_id = '3ee652c711e9455c98afa34a2807e4f3'
+            ya_link = 'https://oauth.yandex.ru/authorize?' + \
+                'response_type=token' + \
+                'client_id={id}' + \
+                'login_hint={email}'.format(id=ya_id, email=email) 
+
             resp1 = self.PAI.get_response(8)
             self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1)
+                peer_id=peer_id, random_id=0, message=resp1 + '\n' + ya_link)
 
-            self.add_to_Redis(str(email), peer_id,"erer4r4f44w54546")
+            self.add_to_Redis(str(email), peer_id, "erer4r4f44w54546")
 
             resp2 = self.PAI.get_response(9)
             self.VK.messages.send(
@@ -147,7 +154,3 @@ class Bot():
             resp1 = self.PAI.get_response(category)
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1+" "+self.Name)
-    
-
-
-
