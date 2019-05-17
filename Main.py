@@ -39,7 +39,9 @@ def botserver():
         return 'ok'
 
 def Main():
-    while True:       
+    while True:
+        bot.VK.messages.send(
+                peer_id=207189016, random_id=0, message="Вам новое письмо") 
         time.sleep(15)
         emails = bot.get_emails_from_Redis()
         email="medvedev0denis@yandex.ru"
@@ -48,8 +50,7 @@ def Main():
         token = st[1]
         print("peer_id=",peer_id)
         print("token=",token)
-        bot.VK.messages.send(
-                peer_id=peer_id, random_id=0, message="Вам новое письмо")
+        
 
         
 
