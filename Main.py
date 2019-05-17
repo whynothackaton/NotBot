@@ -46,6 +46,7 @@ def Main():
         emails = bot.get_emails_from_Redis()
         email="medvedev0denis@yandex.ru"
         s=bot.get_id_from_Redis(email)
+        print(s)
         st=list(s)[0].split('|')
         peer_id =st[0]
         token = st[1]
