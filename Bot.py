@@ -94,7 +94,7 @@ class Bot():
                 'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
                 'login_hint={0}'.format(email)
 
-        return self.VK.utils.getShortLink(url= ya_link)
+        return self.VK.utils.getShortLink(url= ya_link)['short_url']
 
     def dialog(self, message, peer_id, from_id):
         """[summary]
