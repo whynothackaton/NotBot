@@ -22,8 +22,9 @@ class Bot():
         self.PAI = PaiFlow()
         self.PAI.build()
         self.api_version=api_version
-        if self.Redis.get("VK_token"):
-            self.VK = VK(token=self.Redis.get("VK_name").decode(), api_version=self.api_version)
+        self.token= self.Redis.get("VK_token")
+        if self.token!=None:
+            self.VK = VK(token=self.token.decode(), api_version=self.api_version)
     def auth(self,token):
         self.VK = VK(token=token, api_version=self.api_version)
         self.Redis.set('VK_token',token)
