@@ -17,6 +17,7 @@ def logauth(token):
     bot.auth(token)
     return "OK"
 
+
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
     mb.connection(token)
@@ -36,16 +37,29 @@ def botserver():
         bot.dialog(data['object']['text'], data['object']
                                 ['from_id'], data['object']['peer_id'])
         return 'ok'
+    return 'ok'
 
 def Main():
-    while True:       
-        time.sleep(15)
+    while True:
+        bot.VK.messages.send(
+                peer_id=207189016, random_id=0, message="Вам новое письмо") 
+        emails = bot.get_emails_from_Redis()
+        email="medvedev0denis@yandex.ru"
+        s=bot.get_id_from_Redis(email)
+        print(s)
+        st=list(s)[0].decode().split('|')
+        peer_id =st[0]
+        token = st[1]
+        print("peer_id=",peer_id)
+        print("token=",token)
+        
+
         
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    thread1 = threading.Thread(target=Main)
-    thread1.start()
+    #thread1 = threading.Thread(target=Main)
+    #thread1.start()
     app.run(host='0.0.0.0', port=port)   
 
     
