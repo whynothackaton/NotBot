@@ -2,6 +2,7 @@ import imaplib
 import getpass
 import email
 import datetime
+import re
 
 
 class MailBox:
@@ -11,32 +12,40 @@ class MailBox:
         self.id = '3ee652c711e9455c98afa34a2807e4f3'
 
     def connection(self, token):
+        token = 'AgAAAAAnAbXhAAWqhbsqAzRd1UPSr3nUk_xugDY'
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
         self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
   
-    def get_new_message(self): 
-        status, message = self.imap.select('INBOX')
-        assert status == 'OK'
+    def get_new_letter(self): 
+        status, letter = self.imap.select('INBOX')
 
-        '''        
+        assert status == 'OK'              
         date = (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
-        result, data = self.imap.uid('search', None, '(SENTSINCE {date})'.format(date=date))        
+        print(datetime.date.today())
+        print(datetime.timedelta(1))
+        print(date)
+        status, data = self.imap.uid('search', None, '(SENTSINCE {date})'.format(date=date)) 
         
+        assert status == 'OK'     
         ids = data[0] # data is a list.
         id_list = ids.split() # ids is a space separated string
         latest_email_id = id_list[-1] # get the latest
-        
-        result, data = self.imap.uid('fetch', latest_email_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
-        '''
-
+        # fetch the email body () for the given ID
+        #status, data = self.imap.uid('fetch', latest_email_id, "(RFC822)")         
         result, data = self.imap.search(None, 'ALL')
-        ids = data[0] # data is a list.
-        id_list = ids.split() # ids is a space separated string
-        latest_email_id = id_list[-1] # get the latest
-        result, data = self.imap.uid('fetch', latest_email_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
-
+        
+        print('status', status)
+        assert status == 'OK'        
+        letter = self.parse_letter(data)
+        
+        if local_date > date_time:
+            return letter
+        else:
+            None
+        
+    def parse_letter(self, data):        
         raw_email = data[0][1]
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
@@ -46,14 +55,20 @@ class MailBox:
             local_date = datetime.datetime.fromtimestamp(email.utils.mktime_tz(date_tuple))
             local_message_date = "%s" %(str(local_date.strftime("%a, %d %b %Y %H:%M:%S")))
         
-        email_from = str(email.header.make_header(email.header.decode_header(email_message['From'])))
-        email_to = str(email.header.make_header(email.header.decode_header(email_message['To'])))
-        subject = str(email.header.make_header(email.header.decode_header(email_message['Subject'])))
+        email_from = str(email.header.make_header(
+            email.header.decode_header(email_message['From'])))
+        email_to = str(email.header.make_header(
+            email.header.decode_header(email_message['To'])))
+        subject = str(email.header.make_header(
+            email.header.decode_header(email_message['Subject'])))
 
-        #if local_date > date_time:
-        return email_from + '\n ' + subject
-        #else:
-        #    None
+        return email_from + '\n ' + subject                        
 
     def close_connection(self):
         self.imap.close()
+
+mb = MailBox('rollabushka@yandex.ru') 
+mb.connection('')
+new_message = mb.get_new_letter()
+print(new_message)
+mb.close_connection()
