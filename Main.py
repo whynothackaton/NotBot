@@ -37,12 +37,12 @@ def botserver():
         bot.dialog(data['object']['text'], data['object']
                                 ['from_id'], data['object']['peer_id'])
         return 'ok'
+    return 'ok'
 
 def Main():
     while True:
         bot.VK.messages.send(
                 peer_id=207189016, random_id=0, message="Вам новое письмо") 
-        time.sleep(15)
         emails = bot.get_emails_from_Redis()
         email="medvedev0denis@yandex.ru"
         st=list(bot.get_id_from_Redis(email))[0].split('|')
