@@ -107,11 +107,12 @@ class Bot():
                 'login_hint={0}'.format(email) 
 
             resp1 = self.PAI.get_response(8)
+            short_link=self.VK.utils.getShortLink(ya_link)['response']['short_url']
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1)
             
             self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=ya_link)
+                peer_id=peer_id, random_id=0, message=short_link)
 
             self.add_to_Redis(str(email), peer_id, "erer4r4f44w54546")
 
