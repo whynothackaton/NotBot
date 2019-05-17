@@ -6,6 +6,8 @@ import time
 import datetime
 from Bot import Bot
 from MailBox import MailBox
+import threading
+
 app = Flask(__name__)
 bot = Bot(name="bot",group_id="179748337", api_version="5.95")
 mb = MailBox('rollabushka@yandex.ru') 
@@ -34,9 +36,16 @@ def botserver():
         bot.dialog(data['object']['text'], data['object']
                                 ['from_id'], data['object']['peer_id'])
         return 'ok'
+
+def Main():
+    while True:       
+        time.sleep(15)
+        
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    
+    thread1 = threading.Thread(target=Main)
+    thread1.start()
     app.run(host='0.0.0.0', port=port)   
 
     
