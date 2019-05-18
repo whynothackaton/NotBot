@@ -24,7 +24,7 @@ def logauth(token):
     return "OK"
 
 @app.route('/', methods=['GET', 'POST'])
-def index(token):
+def index():
     return render_template("index.html")
 
 
