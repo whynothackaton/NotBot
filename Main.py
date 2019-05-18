@@ -14,7 +14,7 @@ bot = Bot(name="bot",group_id="179748337", api_version="5.95")
 
 @app.route('/paiflow',methods=['GET','POST'])
 def paiflow():
-    print("data=",request.form)
+    print("data=",request.get_json(forced=True))
     return render_template("paiflow.html")
 
 @app.route('/log=<token>',methods=['GET','POST'])
