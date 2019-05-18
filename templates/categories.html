@@ -28,8 +28,14 @@
                 </ul>
             </div>
             <div class="col">
-                <h1>Доступные категории</h1>
-
+                <h1>Доступные ответы</h1>
+                <ul class="list-group">
+                    {% for response in responses %}
+                    <li class="list-group-item">
+                        {{response}}
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>

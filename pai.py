@@ -40,10 +40,15 @@ class PaiFlow():
         category_questions = []
         for question in questions:
             cat = list(self.Redis.smembers(question.decode()))[0].decode()
-            print("CATEGOR",cat,category,type(category),type(cat))
-            if cat==category:
+            print("CATEGOR", cat, category, type(category), type(cat))
+            if cat == category:
                 category_questions.append(question.decode())
         return category_questions
+
+    def get_responses(self, category):
+        responses = list(self.Redis.smembers(category))
+        return [r.decode() for r in responses]
+
     def get_category(self, word):
         max_sim = 0.5
         word = word.lower()

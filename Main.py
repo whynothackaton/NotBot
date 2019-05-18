@@ -28,8 +28,8 @@ def paiflow():
 @app.route('/paiflow/<category>', methods=['GET', 'POST'])
 def paiflow_categories(category):
     questions=bot.PAI.get_questions(category=category)
-    responses=""
-    return render_template("categories.html",category=category,questions=questions)
+    responses=bot.PAI.get_responses(category=category)
+    return render_template("categories.html",category=category,questions=questions,responses=responses)
 
 @app.route('/login', methods=['GET', 'POST'])
 def logauth():
