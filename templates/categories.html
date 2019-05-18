@@ -23,11 +23,11 @@
                     {% for question in questions %}
                     <li class="list-group-item">
                         {{question}}
-                        <a class="btn btn-primary" data-toggle="collapse" href="collapse{{forloop.counter}}"
-                            role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a class="btn btn-primary" data-toggle="collapse" href="collapseQ{{loop.counter}}" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
                             Изменить
                         </a>
-                        <div class="collapse" id="collapse{{forloop.counter}}">
+                        <div class="collapse" id="collapseQ{{loop.counter}}">
                             <form method="POST">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="question" id="InputQuestion" required>
@@ -45,6 +45,18 @@
                     {% for response in responses %}
                     <li class="list-group-item">
                         {{response}}
+                        <a class="btn btn-primary" data-toggle="collapse" href="collapseR{{loop.counter}}" role="button"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            Изменить
+                        </a>
+                        <div class="collapse" id="collapseR{{loop.counter}}">
+                            <form method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="response" id="InputResponse" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Принять</button>
+                            </form>
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
