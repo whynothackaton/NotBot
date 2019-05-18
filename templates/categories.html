@@ -60,15 +60,15 @@
                             aria-controls="collapseR{{loop.index}}">
                             Изменить
                         </a>
-                    </li>
-                    <div class="collapse" id="collapseR{{loop.index}}">
-                        <form method="POST">
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="response" id="InputResponse" required>
+                        <div class="collapse" id="collapseR{{loop.index}}">
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="response" id="InputResponse" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Принять</button>
+                                </form>
                             </div>
-                            <button type="submit" class="btn btn-primary">Принять</button>
-                        </form>
-                    </div>
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
