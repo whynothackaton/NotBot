@@ -4,7 +4,7 @@ import redis
 import re
 from pai import PaiFlow
 import os
-
+import random
 
 class Bot():
     def __init__(self, name="bot", group_id='', api_version=''):
@@ -22,7 +22,8 @@ class Bot():
         self.api_version = api_version
         self.token = self.Redis.get("VK_token")
         if self.token != None:
-            self.VK = VK(token=self.token.decode(), api_version=self.api_version)
+            self.VK = VK(token=self.token.decode(),
+                         api_version=self.api_version)
 
     def auth(self, access_token):
         """Bot registration
@@ -94,6 +95,16 @@ class Bot():
             'login_hint={0}'.format(email)
 
         return self.VK.utils.getShortLink(url=ya_link)['short_url']
+
+    def send_message(self, id, message):
+        """[summary]
+        
+        Arguments:
+            id {[type]} -- vk user id
+            message {[type]} -- message
+        """
+        self.VK.messages.send(
+            peer_id=id, random_id=random.randint(0,int(id)), message=message)
 
     def dialog(self, message, peer_id, from_id):
         """[summary]
