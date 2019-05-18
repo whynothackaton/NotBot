@@ -18,17 +18,29 @@
         style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
         <div class="row">
             <div class="col">
-                <h1>Доступные вопросы</h1>
+                <h1>Вопросы</h1>
                 <ul class="list-group">
                     {% for question in questions %}
                     <li class="list-group-item">
                         {{question}}
+                        <a class="btn btn-primary" data-toggle="collapse" href="collapse{{forloop.counter}}"
+                            role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Изменить
+                        </a>
+                        <div class="collapse" id="collapse{{forloop.counter}}">
+                            <form method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="question" id="InputQuestion" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Принять</button>
+                            </form>
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="col">
-                <h1>Доступные ответы</h1>
+                <h1>Ответы</h1>
                 <ul class="list-group">
                     {% for response in responses %}
                     <li class="list-group-item">
