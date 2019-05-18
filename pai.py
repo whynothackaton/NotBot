@@ -3,6 +3,7 @@ import secrets
 from difflib import SequenceMatcher
 import os
 
+
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
@@ -51,12 +52,15 @@ class PaiFlow():
         self.RedisRes.sadd(2, "Извините, но я Вас не понимаю ")
         self.RedisRes.sadd(2, "Пожалуйста, напишите что Вы хотите ")
         self.RedisRes.sadd(2, "Пожалуйста, напишите что Вам нужно ")
+
     def build_cat3(self):
         self.RedisPh.set("что ты можешь", 3)
         self.RedisPh.set("что ты умеешь", 3)
 
-        self.RedisRes.sadd(3, "Я могу отправлять Вам уведомления о новый письмах на электронной почте. ")
-        self.RedisRes.sadd(3, "Вы будете получать сообщение с уведомлением о новом письме. ")
+        self.RedisRes.sadd(
+            3, "Я могу отправлять Вам уведомления о новый письмах на электронной почте. ")
+        self.RedisRes.sadd(
+            3, "Вы будете получать сообщение с уведомлением о новом письме. ")
 
     def build_cat4(self):
         self.RedisRes.sadd(4, "Я не знаю такой сервис. ")
@@ -64,8 +68,9 @@ class PaiFlow():
         self.RedisRes.sadd(4, "К сожалению я не работаю с этим сервисом. ")
 
     def build_cat5(self):
-        self.RedisRes.sadd(5, "\n Я могу работать с почтовыми сервисами \n\t 1) yandex.ru \n\t 2) mail.ru \n\t 3) gmail.com \n")
-        
+        self.RedisRes.sadd(
+            5, "\n Я могу работать с почтовыми сервисами \n\t 1) yandex.ru \n\t 2) mail.ru \n\t 3) gmail.com \n")
+
     def build_cat6(self):
         self.RedisPh.set("помощь", 6)
         self.RedisPh.set("помоги", 6)
@@ -78,7 +83,8 @@ class PaiFlow():
         self.RedisPh.set("Начать", 7)
         self.RedisPh.set("Получать", 7)
 
-        self.RedisRes.sadd(7, "\n Для авторизации напишите комманду: \n <<Авторизация + Ваш e-mail>. ")
+        self.RedisRes.sadd(
+            7, "\n Для авторизации напишите комманду: \n <<Авторизация + Ваш e-mail>. ")
 
     def build_cat8(self):
         self.RedisRes.sadd(8, "Держите ссылку для авторизации. ")
@@ -88,7 +94,7 @@ class PaiFlow():
         self.RedisRes.sadd(9, "Спасибо. ")
         self.RedisRes.sadd(9, "Благодарю. ")
         self.RedisRes.sadd(9, "Авторизация успешна. ")
-    
+
     def build_cat10(self):
         self.RedisRes.sadd(10, "Что-то пошло не так. ")
 
@@ -102,37 +108,30 @@ class PaiFlow():
         self.RedisRes.sadd(11, "Я чат-бот ")
         self.RedisRes.sadd(11, "Я ваш помошник ")
 
-      
-        
-        
-
-    
-
     def get_category(self, word):
-        max_sim=0.5
-        best=""
+        max_sim = 0.5
+        best = ""
         for key in self.RedisPh.keys():
-            s=key.decode()
-            sim=similar(word,s)
-            if sim>max_sim:
-                best=s
-                max_sim=sim
-        
-        resp=self.RedisPh.get(best)
+            s = key.decode()
+            sim = similar(word, s)
+            if sim > max_sim:
+                best = s
+                max_sim = sim
+
+        resp = self.RedisPh.get(best)
         if resp != None:
-                return resp.decode()
+            return resp.decode()
         return '2'
-        
 
     def get_response(self, category):
         resp = list(self.RedisRes.smembers(category))
-        if resp !=  None:
+        if resp != None:
             return secrets.choice(resp).decode()
 
     def help(self):
-        helpstr="Я понимаю следующие команды:"
-        i=0
+        helpstr = "Я понимаю следующие команды:"
+        i = 0
         for key in self.RedisPh.keys():
-            helpstr=helpstr+"\n"+str(i)+")"+key.decode()
-            i=i+1
+            helpstr = helpstr+"\n"+str(i)+")"+key.decode()
+            i = i+1
         return helpstr

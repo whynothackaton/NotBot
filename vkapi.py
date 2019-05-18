@@ -5,7 +5,7 @@ class VK(object):
 
     def __init__(self, token, api_version):
         '''[summary]
-        
+
         Arguments:
             token {str} -- Access token.
             api_version {str} -- The version of the API.

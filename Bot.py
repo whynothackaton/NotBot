@@ -82,19 +82,20 @@ class Bot():
             [str] -- List of e-mail addresses
         """
         return self.Redis.keys(pattern="[a-z0-9]*@[a-z0-9]*\.[a-z0-9]*")
-    def get_link(self,email):
+
+    def get_link(self, email):
         """
-        
+
         Arguments:
             email {[type]} -- [description]
         """
         ya_id = '3ee652c711e9455c98afa34a2807e4f3'
         ya_link = 'https://oauth.yandex.ru/authorize?' + \
-                'response_type=token&' + \
-                'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
-                'login_hint={0}'.format(email)
+            'response_type=token&' + \
+            'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
+            'login_hint={0}'.format(email)
 
-        return self.VK.utils.getShortLink(url= ya_link)['short_url']
+        return self.VK.utils.getShortLink(url=ya_link)['short_url']
 
     def dialog(self, message, peer_id, from_id):
         """[summary]
@@ -113,14 +114,14 @@ class Bot():
             category = self.PAI.get_category(message.lower())
 
         if code == 1:
-            
-            short_link=self.get_link(email)
+
+            short_link = self.get_link(email)
             print(short_link)
             resp1 = self.PAI.get_response(8)
-            
+
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1)
-            
+
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=short_link)
 
