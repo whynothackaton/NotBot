@@ -24,7 +24,7 @@ def paiflow():
     return render_template("paiflow.html")
 
 @app.route('/login', methods=['GET', 'POST'])
-def logauth(token):
+def logauth():
     if request.method=='POST':
         data=request.form
         bot.auth(data['token'])
