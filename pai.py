@@ -43,14 +43,15 @@ class PaiFlow():
                 best = s
                 max_sim = sim
         print("best=",best)
-        resp = list(self.Redis.smembers(best))
+        resp = list(self.Redis.smembers(best))[0]
         if resp != None:
             print(resp,best)
-            return resp[0].decode()
+            return resp.decode()
         return '2'
 
     def get_response(self, category):
         resp = list(self.Redis.smembers(category))
+        print("Категория=",category,resp)
         if resp != None:
             return secrets.choice(resp).decode()
 

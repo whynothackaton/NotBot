@@ -109,7 +109,7 @@ class Bot():
         if 'авторизация' in message.lower():
             code, email = self.search_email(message)
         else:
-            category = self.PAI.get_category(message.lower())
+            category = self.PAI.get_category(message)
 
         if code == 1:
 
