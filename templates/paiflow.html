@@ -31,10 +31,13 @@
             </div>
             <button type="submit" class="btn btn-primary">Принять</button>
         </form>
-        <h1>Доступные категория</h1>
-        {% for category in categories %}
-        <p>{{category}}</b></p>
-        {% endfor %}
+        <h1>Доступные категории</h1>
+        <ul class="list-group">
+                {% for category in categories %}
+                <li class="list-group-item">{{category}}</li>
+                {% endfor %}   
+        </ul>
+        
     </div>
 
 
