@@ -26,8 +26,11 @@
     <div class="container-fluid"
         style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
         <div class="row">
-            <h1>Категория:{{category}}</h1>
+            <div class="col">
+                <h1>Категория:{{category}}</h1>
+            </div>
         </div>
+
         <div class="row">
             <div class="col">
                 <h1>Вопросы</h1>
@@ -43,7 +46,7 @@
                                 aria-expanded="false" aria-controls="collapseQ{{loop.index}}">
                                 Изменить
                             </a>
-                            <a href="paiflow/delete/category={{category}}&question={{question}}">
+                            <a href="paiflow/delete/category={{category}}&value={{question}}">
                                 Удалить
                             </a>
                             <div class="collapse" id="collapseQ{{loop.index}}">
@@ -69,18 +72,26 @@
                 <ul class="list-group">
                     {% for response in responses %}
                     <li class="list-group-item">
-                        {{response}}
-                        <a data-toggle="collapse" href="#collapseR{{loop.index}}" role="button" aria-expanded="false"
-                            aria-controls="collapseR{{loop.index}}">
-                            Изменить
-                        </a>
-                        <div class="collapse" id="collapseR{{loop.index}}">
-                            <form method="POST">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="response" id="InputResponse" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Принять</button>
-                            </form>
+                        <div class="card-body">
+                            {{response}}
+                        </div>
+                        <div class=" card-footer">
+                            <a data-toggle="collapse" href="#collapseR{{loop.index}}" role="button"
+                                aria-expanded="false" aria-controls="collapseR{{loop.index}}">
+                                Изменить
+                            </a>
+                            <a href="paiflow/delete/category={{category}}&value={{response}}">
+                                Удалить
+                            </a>
+                            <div class="collapse" id="collapseR{{loop.index}}">
+                                <form method="POST">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="response" id="InputResponse"
+                                            required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Принять</button>
+                                </form>
+                            </div>
                         </div>
                     </li>
                     {% endfor %}
