@@ -19,7 +19,6 @@ class Bot():
         self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
         self.Name = name
         self.PAI = PaiFlow()
-        self.PAI.build()
         self.api_version = api_version
         self.token = self.Redis.get("VK_token")
         if self.token != None:
