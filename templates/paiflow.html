@@ -16,44 +16,23 @@
     </header>
 
 
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="InputPhrase">Фраза</label>
-                            <input type="text" class="form-control" name="T1" id="InputPhrase" placeholder="Введите фразу" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="InputCategory">Категория</label>
-                            <input type="text" class="form-control" name="T2" id="InputCategory" placeholder="Введите категорию" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Принять</button>
-                    </form>
-                </div>
+    <div class="container-fluid"
+        style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
+        <form method="POST">
+            <div class="form-group">
+                <label for="InputQuestion">Вопрос/Категория</label>
+                <input type="text" class="form-control" name="T1" id="InputQuestion" placeholder="Введите вопрос/категорию" required>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="InputCategory">Категория</label>
-                            <input type="text" class="form-control" name="T3" id="InputCategory" placeholder="Введите категорию">
-                        </div>
-                        <div class="form-group">
-                            <label for="InputResponse">Ответ</label>
-                            <input type="text" class="form-control" name="T4" id="InputResponse" placeholder="Введите ответ">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Принять</button>
-                    </form>
-                </div>
+            <div class="form-group">
+                <label for="InputCategory">Категория/Ответ</label>
+                <input type="text" class="form-control" name="T2" id="InputCategory" placeholder="Введите категорию/ответ"
+                    required>
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Принять</button>
+        </form>
     </div>
+
+
 </body>
 
 </html>
