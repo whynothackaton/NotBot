@@ -17,6 +17,7 @@ class Bot():
         """
         self.group_id = group_id
         self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
+        self.Redis.flushall()
         self.Name = name
         self.PAI = PaiFlow()
         self.PAI.build()
