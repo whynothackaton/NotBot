@@ -45,6 +45,9 @@ class PaiFlow():
                 category_questions.append(question.decode())
         return category_questions
 
+    def delete(self, key, value):
+        self.Redis.srem(key, value)
+
     def get_responses(self, category):
         responses = list(self.Redis.smembers(category))
         return [r.decode() for r in responses]

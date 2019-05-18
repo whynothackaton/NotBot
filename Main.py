@@ -15,7 +15,6 @@ bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 
 @app.route('/paiflow', methods=['GET', 'POST'])
 def paiflow():
-
     if request.method == 'POST':
         data = request.form
         print('T1=', data['T1'])
@@ -25,13 +24,22 @@ def paiflow():
     print('****', categories)
     return render_template('paiflow.html', categories=[c.decode() for c in categories])
 
+
 @app.route('/paiflow/<category>', methods=['GET', 'POST'])
 def paiflow_categories(category):
-    questions=bot.PAI.get_questions(category=category)
-    responses=bot.PAI.get_responses(category=category)
+    questions = bot.PAI.get_questions(category=category)
+    responses = bot.PAI.get_responses(category=category)
     if request.method == 'POST':
-        print(category,request.form)
-    return render_template('categories.html',category=category,questions=questions,responses=responses)
+        print(category, request.form)
+    return render_template('categories.html', category=category, questions=questions, responses=responses)
+
+
+@app.route('/paiflow/delete/key=<key>&value=<value>', methods=['GET', 'POST'])
+def paiflow_delete(key, value):
+    print("KEY__", key, value)
+    bot.PAI.delete(key, value)
+    return paiflow()
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def logauth():

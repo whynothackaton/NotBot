@@ -6,6 +6,7 @@ from pai import PaiFlow
 import os
 import random
 
+
 class Bot():
     def __init__(self, name='bot', group_id='', api_version=''):
         '''[summary]
@@ -98,13 +99,13 @@ class Bot():
 
     def send_message(self, id, message):
         '''[summary]
-        
+
         Arguments:
             id {[type]} -- vk user id
             message {[type]} -- message
         '''
         self.VK.messages.send(
-            peer_id=id, random_id=random.randint(0,int(id)), message=message)
+            peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
     def dialog(self, message, peer_id, from_id):
         '''[summary]
