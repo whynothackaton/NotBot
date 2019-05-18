@@ -24,7 +24,7 @@
                     <li class="list-group-item">
                         {{question}}
                         <a   data-toggle="collapse" href="#collapseQ{{loop.index}}" role="button"
-                            aria-expanded="false" aria-controls="collapseExample">
+                            aria-expanded="false" aria-controls="collapseQ{{loop.index}}">
                             Изменить
                         </a>
                         <div class="collapse" id="collapseQ{{loop.index}}">
@@ -46,7 +46,7 @@
                     <li class="list-group-item">
                         {{response}}
                         <a  data-toggle="collapse" href="#collapseR{{loop.index}}" role="button"
-                            aria-expanded="false" aria-controls="collapseExample">
+                            aria-expanded="false" aria-controls="collapseQ{{loop.index}}">
                             Изменить
                         </a>
                         <div class="collapse" id="collapseR{{loop.index}}">
