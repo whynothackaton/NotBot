@@ -40,7 +40,7 @@ class PaiFlow():
         category_questions = []
         for question in questions:
             cat = list(self.Redis.smembers(question.decode()))[0].decode()
-            print(cat,category,type(category),type(cat))
+            print("CATEGOR",cat,category,type(category),type(cat))
             if cat==category:
                 category_questions.append(question.decode())
         return category_questions
