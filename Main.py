@@ -15,10 +15,10 @@ bot = Bot(name="bot", group_id="179748337", api_version="5.95")
 
 @app.route('/paiflow', methods=['GET', 'POST'])
 def paiflow():
-    print("data=", request.get_json()
+    print("data=", request.get_json())
     return render_template("paiflow.html")
 
-@app.route('/log=<token>', methods=['GET', 'POST'])
+@app.route('/login=<token>', methods=['GET', 'POST'])
 def logauth(token):
     bot.auth(token)
     return "OK"
