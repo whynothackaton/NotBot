@@ -141,7 +141,7 @@ class Bot():
             self.VK.messages.send(
                 peer_id=peer_id, random_id=0, message=resp1)
 
-        elif category == "1":
+        elif category == "hello":
             resp1 = self.PAI.get_response(category)
             resp2 = self.PAI.get_response(5)
             resp3 = self.PAI.get_response(3)

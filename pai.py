@@ -29,10 +29,12 @@ class PaiFlow():
             T2 {str} -- value
         """
         self.Redis.sadd(T1,T2)
+    def get_categories(self):
+        return self.Redis.keys("[a-z][^@]")
     def get_category(self, word):
         max_sim = 0.5
         best = ""
-        for key in self.Redis.keys():
+        for key in self.get_categories():
             s = key.decode()
             sim = similar(word, s)
             if sim > max_sim:

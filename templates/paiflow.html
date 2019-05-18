@@ -21,15 +21,20 @@
         <form method="POST">
             <div class="form-group">
                 <label for="InputQuestion">Вопрос/Категория</label>
-                <input type="text" class="form-control" name="T1" id="InputQuestion" placeholder="Введите вопрос/категорию" required>
+                <input type="text" class="form-control" name="T1" id="InputQuestion"
+                    placeholder="Введите вопрос/категорию" required>
             </div>
             <div class="form-group">
                 <label for="InputCategory">Категория/Ответ</label>
-                <input type="text" class="form-control" name="T2" id="InputCategory" placeholder="Введите категорию/ответ"
-                    required>
+                <input type="text" class="form-control" name="T2" id="InputCategory"
+                    placeholder="Введите категорию/ответ" required>
             </div>
             <button type="submit" class="btn btn-primary">Принять</button>
         </form>
+        <h1>Доступные категория</h1>
+        {% for category in categories %}
+        <p></b></p>
+        {% endfor %}
     </div>
 
 

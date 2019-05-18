@@ -21,7 +21,9 @@ def paiflow():
         print("T1=",data['T1'])
         print("T2=",data['T2'])
         bot.PAI.add(data['T1'],data['T2'])
-    return render_template("paiflow.html")
+    categories=bot.PAI.get_categories()
+    print("****",categories)
+    return render_template("paiflow.html",categories=categories)
 
 @app.route('/login', methods=['GET', 'POST'])
 def logauth():
