@@ -36,11 +36,12 @@ class PaiFlow():
         best = ""
         for key in self.get_categories():
             s = key.decode()
+            print("s=",s)
             sim = similar(word, s)
             if sim > max_sim:
                 best = s
                 max_sim = sim
-
+        print("best=",best)
         resp = list(self.Redis.smembers(best))
         if resp != None:
             print(resp,best)
