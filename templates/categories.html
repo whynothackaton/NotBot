@@ -36,30 +36,18 @@
                             aria-controls="collapseQ{{loop.index}}">
                             Изменить
                         </a>
+                        <div class="collapse" id="collapseQ{{loop.index}}">
+                            <form method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="question" id="InputQuestion" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Принять</button>
+                            </form>
+                        </div>
                     </li>
                     {% endfor %}
                 </ul>
-                {% for question in questions %}
-                <div class="collapse" id="collapseQ{{loop.index}}">
-                    <form method="POST">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="question" id="InputQuestion" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Принять</button>
-                    </form>
-                </div>
-                {% endfor %}
             </div>
-
-
-
-
-
-
-
-
-
-
 
 
             <div class="col">
@@ -73,18 +61,16 @@
                             Изменить
                         </a>
                     </li>
+                    <div class="collapse" id="collapseR{{loop.index}}">
+                        <form method="POST">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="response" id="InputResponse" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Принять</button>
+                        </form>
+                    </div>
                     {% endfor %}
                 </ul>
-                {% for response in responses %}
-                <div class="collapse" id="collapseR{{loop.index}}">
-                    <form method="POST">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="response" id="InputResponse" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Принять</button>
-                    </form>
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>
