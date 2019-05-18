@@ -23,7 +23,7 @@
                     {% for question in questions %}
                     <li class="list-group-item">
                         {{question}}
-                        <a class="btn btn-primary" data-toggle="collapse" href="collapseQ{{loop.counter}}" role="button"
+                        <a   data-toggle="collapse" href="#collapseQ{{loop.counter}}" role="button"
                             aria-expanded="false" aria-controls="collapseExample">
                             Изменить
                         </a>
@@ -45,7 +45,7 @@
                     {% for response in responses %}
                     <li class="list-group-item">
                         {{response}}
-                        <a class="btn btn-primary" data-toggle="collapse" href="collapseR{{loop.counter}}" role="button"
+                        <a  data-toggle="collapse" href="#collapseR{{loop.counter}}" role="button"
                             aria-expanded="false" aria-controls="collapseExample">
                             Изменить
                         </a>
