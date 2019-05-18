@@ -30,7 +30,7 @@ class PaiFlow():
         """
         self.Redis.sadd(T1,T2)
     def get_categories(self):
-        return self.Redis.keys("[a-z][^@]")
+        return self.Redis.keys("[a-z]*[^@]")
     def get_category(self, word):
         max_sim = 0.5
         best = ""
