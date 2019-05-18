@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>NotBot</title>
+    <title>Авторизация</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
@@ -17,11 +17,14 @@
 
     <div class="container-fluid"
         style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
-        <div class="btn-group-vertical" align="center">
-            <a class="btn btn-primary" href="login" role="button">Авторизация</a>
-
-            <a class="btn btn-primary" href="paiflow" role="button">PAIflow</a>
-        </div>
+        <form method="POST">
+            <div class="form-group">
+                <label for="InputToken">Токен сообщества ВК</label>
+                <input type="text" class="form-control" name="token" id="InputToken"
+                    placeholder="Введите токен" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Принять</button>
+        </form>
     </div>
 </body>
 

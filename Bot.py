@@ -17,15 +17,13 @@ class Bot():
         """
         self.group_id = group_id
         self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
-        self.Redis.flushall()
         self.Name = name
         self.PAI = PaiFlow()
         self.PAI.build()
         self.api_version = api_version
         self.token = self.Redis.get("VK_token")
         if self.token != None:
-            self.VK = VK(token=self.token.decode(),
-                         api_version=self.api_version)
+            self.VK = VK(token=self.token.decode(), api_version=self.api_version)
 
     def auth(self, access_token):
         """Bot registration

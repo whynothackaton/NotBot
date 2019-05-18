@@ -20,12 +20,16 @@ def paiflow():
         data=request.form
         print("T1=",data['T1'])
         print("T2=",data['T2'])
+        bot.PAI.add(data['T1'],data['T2'])
     return render_template("paiflow.html")
 
-@app.route('/login=<token>', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def logauth(token):
-    bot.auth(token)
-    return "OK"
+    if request.method=='POST':
+        data=request.form
+        bot.auth(data['token'])
+        return "OK"
+    return render_template("login.html")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
