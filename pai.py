@@ -43,6 +43,7 @@ class PaiFlow():
 
         resp = list(self.Redis.smembers(best))
         if resp != None:
+            print(resp)
             return resp[0].decode()
         return '2'
 
