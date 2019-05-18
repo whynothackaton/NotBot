@@ -9,7 +9,7 @@ from MailBox import MailBox
 import threading
 
 app = Flask(__name__)
-bot = Bot(name="bot", group_id="179748337", api_version="5.95")
+bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 # mb = MailBox('rollabushka@yandex.ru')
 
 
@@ -18,31 +18,33 @@ def paiflow():
 
     if request.method == 'POST':
         data = request.form
-        print("T1=", data['T1'])
-        print("T2=", data['T2'])
+        print('T1=', data['T1'])
+        print('T2=', data['T2'])
         bot.PAI.add(data['T1'], data['T2'])
     categories = bot.PAI.get_categories()
-    print("****", categories)
-    return render_template("paiflow.html", categories=[c.decode() for c in categories])
+    print('****', categories)
+    return render_template('paiflow.html', categories=[c.decode() for c in categories])
 
 @app.route('/paiflow/<category>', methods=['GET', 'POST'])
 def paiflow_categories(category):
     questions=bot.PAI.get_questions(category=category)
     responses=bot.PAI.get_responses(category=category)
-    return render_template("categories.html",category=category,questions=questions,responses=responses)
+    if request.method == 'POST':
+        print(category,request.form)
+    return render_template('categories.html',category=category,questions=questions,responses=responses)
 
 @app.route('/login', methods=['GET', 'POST'])
 def logauth():
     if request.method == 'POST':
         data = request.form
         bot.auth(data['token'])
-        return "OK"
-    return render_template("login.html")
+        return 'OK'
+    return render_template('login.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
 
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
@@ -71,20 +73,20 @@ def botserver():
 def Main():
     while True:
         bot.VK.messages.send(
-            peer_id=207189016, random_id=0, message="Вам новое письмо")
+            peer_id=207189016, random_id=0, message='Вам новое письмо')
         emails = bot.get_emails_from_Redis()
-        email = "medvedev0denis@yandex.ru"
+        email = 'medvedev0denis@yandex.ru'
         s = bot.get_id_from_Redis(email)
         print(s)
         st = list(s)[0].decode().split('|')
         peer_id = st[0]
         token = st[1]
-        print("peer_id=", peer_id)
-        print("token=", token)
+        print('peer_id=', peer_id)
+        print('token=', token)
 
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
     # thread1 = threading.Thread(target=Main)
     # thread1.start()
     app.run(host='0.0.0.0', port=port)

@@ -23,11 +23,11 @@
                     {% for question in questions %}
                     <li class="list-group-item">
                         {{question}}
-                        <a   data-toggle="collapse" href="#collapseQ{{loop.counter}}" role="button"
+                        <a   data-toggle="collapse" href="#collapseQ{{loop.index}}" role="button"
                             aria-expanded="false" aria-controls="collapseExample">
                             Изменить
                         </a>
-                        <div class="collapse" id="collapseQ{{loop.counter}}">
+                        <div class="collapse" id="collapseQ{{loop.index}}">
                             <form method="POST">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="question" id="InputQuestion" required>
@@ -45,11 +45,11 @@
                     {% for response in responses %}
                     <li class="list-group-item">
                         {{response}}
-                        <a  data-toggle="collapse" href="#collapseR{{loop.counter}}" role="button"
+                        <a  data-toggle="collapse" href="#collapseR{{loop.index}}" role="button"
                             aria-expanded="false" aria-controls="collapseExample">
                             Изменить
                         </a>
-                        <div class="collapse" id="collapseR{{loop.counter}}">
+                        <div class="collapse" id="collapseR{{loop.index}}">
                             <form method="POST">
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="response" id="InputResponse" required>

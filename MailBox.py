@@ -21,7 +21,7 @@ class MailBox:
         status, letter = self.imap.select('INBOX')
 
         #assert status == 'OK'
-        #date = (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+        #date = (datetime.date.today() - datetime.timedelta(1)).strftime('%d-%b-%Y')
         # print(datetime.date.today())
         # print(datetime.timedelta(1))
         # print(date)
@@ -32,7 +32,7 @@ class MailBox:
         id_list = ids.split()  # ids is a space separated string
         latest_email_id = id_list[-1]  # get the latest
         # fetch the email body () for the given ID
-        status, data = self.imap.uid('fetch', latest_email_id, "(RFC822)")
+        status, data = self.imap.uid('fetch', latest_email_id, '(RFC822)')
         #result, data = self.imap.search(None, 'ALL')
 
         #print('status', status)
@@ -53,8 +53,8 @@ class MailBox:
         if date_tuple:
             local_date = datetime.datetime.fromtimestamp(
                 email.utils.mktime_tz(date_tuple))
-            local_message_date = "%s" % (
-                str(local_date.strftime("%a, %d %b %Y %H:%M:%S")))
+            local_message_date = '%s' % (
+                str(local_date.strftime('%a, %d %b %Y %H:%M:%S')))
 
         email_from = str(email.header.make_header(
             email.header.decode_header(email_message['From'])))

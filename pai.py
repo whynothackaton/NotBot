@@ -19,19 +19,19 @@ def similar(a, b):
 
 class PaiFlow():
     def __init__(self):
-        self.Redis = redis.from_url(os.environ.get("REDIS_URL"), db=0)
+        self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
     def add(self, T1, T2):
-        """[summary]
+        '''[summary]
 
         Arguments:
             T1 {str} -- key
             T2 {str} -- value
-        """
+        '''
         self.Redis.sadd(T1.lower(), T2.lower())
 
     def get_categories(self):
-        return self.Redis.keys("[a-z]*[^@]")
+        return self.Redis.keys('[a-z]*[^@]')
 
     def get_questions(self, category=None):
         questions = self.Redis.keys('[а-я0-9]*')
@@ -40,7 +40,7 @@ class PaiFlow():
         category_questions = []
         for question in questions:
             cat = list(self.Redis.smembers(question.decode()))[0].decode()
-            print("CATEGOR", cat, category, type(category), type(cat))
+            print('CATEGOR', cat, category, type(category), type(cat))
             if cat == category:
                 category_questions.append(question.decode())
         return category_questions
@@ -52,15 +52,15 @@ class PaiFlow():
     def get_category(self, word):
         max_sim = 0.5
         word = word.lower()
-        best = ""
-        for key in self.Redis.keys("[а-я0-9]*"):
+        best = ''
+        for key in self.Redis.keys('[а-я0-9]*'):
             s = key.decode()
-            print("s=", s)
+            print('s=', s)
             sim = similar(word, s)
             if sim > max_sim:
                 best = s
                 max_sim = sim
-        print("best=", best)
+        print('best=', best)
         resp = list(self.Redis.smembers(best))[0]
         if resp != None:
             print(resp, best)
@@ -69,14 +69,14 @@ class PaiFlow():
 
     def get_response(self, category):
         resp = list(self.Redis.smembers(category))
-        print("Категория=", category, resp)
+        print('Категория=', category, resp)
         if resp != None:
             return secrets.choice(resp).decode()
 
     def help(self):
-        helpstr = "Я понимаю следующие команды:"
+        helpstr = 'Я понимаю следующие команды:'
         i = 0
         for key in self.Redis.keys():
-            helpstr = helpstr+"\n"+str(i)+")"+key.decode()
+            helpstr = helpstr+'\n'+str(i)+')'+key.decode()
             i = i+1
         return helpstr
