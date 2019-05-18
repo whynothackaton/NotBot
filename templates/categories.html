@@ -23,21 +23,23 @@
                     {% for question in questions %}
                     <li class="list-group-item">
                         {{question}}
-                        <a   data-toggle="collapse" href="paiflow/{{category}}/#collapseQ{{loop.index}}" role="button"
-                            aria-expanded="false" aria-controls="collapseQ{{loop.index}}">
+                        <a data-toggle="collapse" href="#collapseQ{{loop.index}}" role="button" aria-expanded="false"
+                            aria-controls="collapseQ{{loop.index}}">
                             Изменить
                         </a>
-                        <div class="collapse" id="collapseQ{{loop.index}}">
-                            <form method="POST">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="question" id="InputQuestion" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Принять</button>
-                            </form>
-                        </div>
                     </li>
                     {% endfor %}
                 </ul>
+                {% for question in questions %}
+                <div class="collapse" id="collapseQ{{loop.index}}">
+                    <form method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="question" id="InputQuestion" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Принять</button>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
             <div class="col">
                 <h1>Ответы</h1>
@@ -45,21 +47,23 @@
                     {% for response in responses %}
                     <li class="list-group-item">
                         {{response}}
-                        <a  data-toggle="collapse" href="paiflow/{{category}}/#collapseR{{loop.index}}" role="button"
-                            aria-expanded="false" aria-controls="collapseQ{{loop.index}}">
+                        <a data-toggle="collapse" href="#collapseR{{loop.index}}" role="button" aria-expanded="false"
+                            aria-controls="collapseQ{{loop.index}}">
                             Изменить
                         </a>
-                        <div class="collapse" id="collapseR{{loop.index}}">
-                            <form method="POST">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="response" id="InputResponse" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Принять</button>
-                            </form>
-                        </div>
                     </li>
                     {% endfor %}
                 </ul>
+                {% for response in responses %}
+                <div class="collapse" id="collapseR{{loop.index}}">
+                    <form method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="response" id="InputResponse" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Принять</button>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
