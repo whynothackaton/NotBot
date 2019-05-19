@@ -28,7 +28,8 @@ def paiflow_categories(category):
     questions = bot.PAI.get_questions(category=category)
     responses = bot.PAI.get_responses(category=category)
     if request.method == 'POST':
-        print(category, request.form)
+        data = request.form
+        bot.PAI.add(data['T1'], data['T2'])
     return render_template('categories.html', category=category, questions=questions, responses=responses)
 
 

@@ -31,7 +31,8 @@ class PaiFlow():
         self.Redis.sadd(T1, T2)
 
     def get_categories(self):
-        return self.Redis.keys('[a-z]*[^@]')
+        categories = list(self.Redis.smembers("CATEGORY"))
+        return categories
 
     def get_questions(self, category=None):
         questions = self.Redis.keys('[а-я0-9]*')
