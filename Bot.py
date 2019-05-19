@@ -89,10 +89,10 @@ class Bot():
         Arguments:
             email {[type]} -- [description]
         '''
-        ya_id = '3ee652c711e9455c98afa34a2807e4f3'
+        ya_id = '5527ae60585949ba84b217997034aa06'
         ya_link = 'https://oauth.yandex.ru/authorize?' + \
             'response_type=token&' + \
-            'client_id=3ee652c711e9455c98afa34a2807e4f3&' + \
+            'client_id=5527ae60585949ba84b217997034aa06&' + \
             'login_hint={0}'.format(email)
 
         return self.VK.utils.getShortLink(url=ya_link)['short_url']
