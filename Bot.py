@@ -126,56 +126,37 @@ class Bot():
         if code == 1:
 
             short_link = self.get_link(email)
-            print(short_link)
-            resp1 = self.PAI.get_response(8)
-
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1)
-
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=short_link)
-
+            resp1 = self.PAI.get_response('link')
+            resp2 = self.PAI.get_response('thanks')
+            self.send_message(id=peer_id, message=resp1)
+            self.send_message(id=peer_id, message=short_link)
             self.add_to_Redis(str(email), peer_id, 'erer4r4f44w54546')
-
-            resp2 = self.PAI.get_response(9)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp2)
+            self.send_message(id=peer_id, message=resp2)
 
         elif code == 0:
 
-            resp1 = self.PAI.get_response(4)
-            resp2 = self.PAI.get_response(5)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1+resp2)
+            resp1 = self.PAI.get_response('unknown')
+            resp2 = self.PAI.get_response('can')
+            self.send_message(id=peer_id, message=resp1+resp2)
+
         elif code == -1:
             category = self.PAI.get_category(message.lower())
-            resp1 = self.PAI.get_response(category)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1)
+            resp = self.PAI.get_response(category)
+            self.send_message(id=peer_id, message=resp)
 
         elif category == 'hello':
             resp1 = self.PAI.get_response(category)
-            resp2 = self.PAI.get_response(5)
-            resp3 = self.PAI.get_response(3)
-            resp4 = self.PAI.get_response(7)
-            resp5 = self.PAI.get_response(11)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1+' '+UserName+'! '+resp5+self.Name+'.'+resp2+resp3+resp4)
+            resp2 = self.PAI.get_response('name')
+            resp3 = self.PAI.get_response('affairs')
+            resp4 = self.PAI.get_response('can')
+            resp5 = self.PAI.get_response('auth')
+            self.send_message(id=peer_id, message=resp1+' ' +
+                              UserName+'! '+resp2+self.Name+'.'+resp3+resp4+resp5)
 
-        elif category == '2':
-            resp1 = self.PAI.get_response(category)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1)
+        elif category == 'name':
+            resp = self.PAI.get_response(category)
+            self.send_message(id=peer_id, message=resp+' '+self.Name)
 
-        elif category == '3':
-            resp1 = self.PAI.get_response(category)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1)
-
-        elif category == '6':
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=self.PAI.help())
-        elif category == '11':
-            resp1 = self.PAI.get_response(category)
-            self.VK.messages.send(
-                peer_id=peer_id, random_id=0, message=resp1+' '+self.Name)
+        else:
+            resp = self.PAI.get_response(category)
+            self.send_message(id=peer_id, message=resp)
