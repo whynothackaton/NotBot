@@ -8,10 +8,11 @@ from Bot import Bot
 from MailBox import MailBox
 import threading
 
-
+# достаем email из базы
+email = 'rollabushka@yandex.ru'
+mb = MailBox(email)
 app = Flask(__name__)
-bot = Bot(name='bot', group_id='179748337', api_version='5.95')
-# mb = MailBox('rollabushka@yandex.ru')
+bot = Bot(name='bot', group_id='179748337', api_version='5.95'
 
 
 @app.route('/paiflow', methods=['GET', 'POST'])
@@ -65,11 +66,8 @@ def resetRedis():
 
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
-    mb.connection(token)
-    new_message = mb.get_new_message()
-    if new_message is not None:
-        pass  # отправляем new_message в вк
-    mb.close_connection()
+    # пишем токен в базу
+    pass
 
 
 @app.route('/bot', methods=['POST'])
@@ -104,5 +102,12 @@ def Main():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     # thread1 = threading.Thread(target=Main)
-    # thread1.start()
+    # thread1.start()        
     app.run(host='0.0.0.0', port=port)
+    
+    # достали токен из базы 
+    token = ''
+    mb.connection(token) 
+    new_message = mb.get_new_message()
+    if new_message is not None:
+        pass  # отправляем new_message в вк
