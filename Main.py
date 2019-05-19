@@ -9,10 +9,10 @@ from MailBox import MailBox
 import threading
 
 # достаем email из базы
-email = 'rollabushka@yandex.ru'
-mb = MailBox(email)
+#email = 'rollabushka@yandex.ru'
+#mb = MailBox(email)
 app = Flask(__name__)
-bot = Bot(name='bot', group_id='179748337', api_version='5.95'
+bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 
 
 @app.route('/paiflow', methods=['GET', 'POST'])
@@ -106,8 +106,8 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
     
     # достали токен из базы 
-    token = ''
-    mb.connection(token) 
-    new_message = mb.get_new_message()
-    if new_message is not None:
-        pass  # отправляем new_message в вк
+    #token = ''
+    #mb.connection(token) 
+    #new_message = mb.get_new_message()
+    #if new_message is not None:
+    #    pass  # отправляем new_message в вк
