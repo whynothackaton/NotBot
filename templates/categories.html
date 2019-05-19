@@ -35,14 +35,14 @@
             <div class="col">
                 <form method="POST">
                     <div class="form-group">
-                        <label for="InputQuestion">Вопрос/Категория</label>
-                        <input type="text" class="form-control" name="T1" id="InputQuestion"
+                        <label for="InputQuestion">Вопрос</label>
+                        <input type="text" class="form-control" name="T1" id="InputQuestionVal"
                             placeholder="Введите вопрос/категорию" required>
                     </div>
                     <div class="form-group">
-                        <label for="InputCategory">Категория/Ответ</label>
+                        <label for="InputCategory">Категория</label>
                         <input type="text" class="form-control" name="T2" id="InputCategory"
-                            placeholder="Введите категорию/ответ" required>
+                            placeholder="Введите категорию" value="{{category}}" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Принять</button>
                 </form>
@@ -115,14 +115,14 @@
             <div class="col">
                 <form method="POST">
                     <div class="form-group">
-                        <label for="InputQuestion">Вопрос/Категория</label>
-                        <input type="text" class="form-control" name="T1" id="InputQuestion"
-                            placeholder="Введите вопрос/категорию" required>
+                        <label for="InputQuestion">Категория</label>
+                        <input type="text" class="form-control" name="T1" id="InputCategory"
+                            placeholder="Введите категорию" value="{{category}}" required>
                     </div>
                     <div class="form-group">
-                        <label for="InputCategory">Категория/Ответ</label>
-                        <input type="text" class="form-control" name="T2" id="InputCategory"
-                            placeholder="Введите категорию/ответ" required>
+                        <label for="InputCategory">Ответ</label>
+                        <input type="text" class="form-control" name="T2" id="InputResponseVal"
+                            placeholder="Введите ответ" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Принять</button>
                 </form>
