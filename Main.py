@@ -65,9 +65,9 @@ def resetRedis():
 
 
 @app.route('/auth', methods=['GET', 'POST'])
-def incoming(token):
-    print(request.args)
-    pass
+def incoming():
+    print("TOKEN FROM YAN",request.args)
+    return Response(200)
 
 
 @app.route('/bot', methods=['POST'])
