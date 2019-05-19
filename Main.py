@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, render_template
+from flask import Flask, request, Response, render_template,redirect
 import json
 import os
 import threading
@@ -7,6 +7,7 @@ import datetime
 from Bot import Bot
 from MailBox import MailBox
 import threading
+
 
 app = Flask(__name__)
 bot = Bot(name='bot', group_id='179748337', api_version='5.95')
@@ -37,7 +38,7 @@ def paiflow_categories(category):
 def paiflow_delete(key, value):
     print("KEY__", key, value)
     bot.PAI.delete(key, value)
-    return paiflow()
+    return redirect("/paiflow")
 
 
 @app.route('/login', methods=['GET', 'POST'])
