@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, render_template,redirect
+from flask import Flask, request, Response, render_template, redirect
 import json
 import os
 import threading
@@ -30,12 +30,14 @@ def paiflow_categories(category):
     responses = bot.PAI.get_responses(category=category)
     if request.method == 'POST':
         data = request.form
-        bot.PAI.add(data['T1'], data['T2'])
+        if 'T1' in data and 'T2' in data:
+            bot.PAI.add(data['T1'], data['T2'])
+        return redirect("/paiflow/"+category)
     return render_template('categories.html', category=category, questions=questions, responses=responses)
 
 
 @app.route('/paiflow/delete_val/category=<category>&key=<key>&value=<value>', methods=['GET', 'POST'])
-def paiflow_delete(category,key, value):
+def paiflow_delete(category, key, value):
     print("KEY__", key, value)
     bot.PAI.delete(key, value)
     return redirect("/paiflow/"+category)
@@ -59,6 +61,7 @@ def index():
 def resetRedis():
     bot.Redis.flushall()
     return redirect('/')
+
 
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
