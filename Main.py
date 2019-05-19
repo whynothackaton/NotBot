@@ -64,9 +64,9 @@ def resetRedis():
     return redirect('/')
 
 
-@app.route('/access_token/=<token>', methods=['GET', 'POST'])
+@app.route('/auth', methods=['GET', 'POST'])
 def incoming(token):
-    # пишем токен в базу
+    print(request.args)
     pass
 
 
