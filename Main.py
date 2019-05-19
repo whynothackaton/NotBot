@@ -55,6 +55,11 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/reset', methods=['GET', 'POST'])
+def resetRedis():
+    bot.Redis.flushall()
+    return redirect('/')
+
 @app.route('/access_token/=<token>', methods=['GET', 'POST'])
 def incoming(token):
     mb.connection(token)
