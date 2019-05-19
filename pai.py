@@ -5,7 +5,7 @@ import os
 
 
 def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
+    return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 #  Categories
 #  1 --- hello
@@ -28,7 +28,7 @@ class PaiFlow():
             T1 {str} -- key
             T2 {str} -- value
         '''
-        self.Redis.sadd(T1.lower(), T2.lower())
+        self.Redis.sadd(T1, T2)
 
     def get_categories(self):
         return self.Redis.keys('[a-z]*[^@]')
@@ -40,7 +40,6 @@ class PaiFlow():
         category_questions = []
         for question in questions:
             cat = list(self.Redis.smembers(question.decode()))[0].decode()
-            print('CATEGOR', cat, category, type(category), type(cat))
             if cat == category:
                 category_questions.append(question.decode())
         return category_questions
@@ -54,16 +53,13 @@ class PaiFlow():
 
     def get_category(self, word):
         max_sim = 0.5
-        word = word.lower()
         best = ''
         for key in self.Redis.keys('[а-я0-9]*'):
             s = key.decode()
-            print('s=', s)
             sim = similar(word, s)
             if sim > max_sim:
                 best = s
                 max_sim = sim
-        print('best=', best)
         resp = list(self.Redis.smembers(best))[0]
         if resp != None:
             print(resp, best)
@@ -72,7 +68,6 @@ class PaiFlow():
 
     def get_response(self, category):
         resp = list(self.Redis.smembers(category))
-        print('Категория=', category, resp)
         if resp != None:
             return secrets.choice(resp).decode()
 

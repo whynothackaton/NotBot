@@ -17,9 +17,7 @@ bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 def paiflow():
     if request.method == 'POST':
         data = request.form
-        print('T1=', data['T1'])
-        print('T2=', data['T2'])
-        bot.PAI.add(data['T1'], data['T2'])
+        bot.PAI.add("CATEGORY", data['category'])
     categories = bot.PAI.get_categories()
     print('****', categories)
     return render_template('paiflow.html', categories=[c.decode() for c in categories])

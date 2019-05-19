@@ -20,14 +20,9 @@
             <div class="col">
                 <form method="POST">
                     <div class="form-group">
-                        <label for="InputQuestion">Вопрос/Категория</label>
-                        <input type="text" class="form-control" name="T1" id="InputQuestion"
-                            placeholder="Введите вопрос/категорию" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="InputCategory">Категория/Ответ</label>
-                        <input type="text" class="form-control" name="T2" id="InputCategory"
-                            placeholder="Введите категорию/ответ" required>
+                        <label for="InputQuestion">Добавление категории</label>
+                        <input type="text" class="form-control" name="category" id="InputCategory"
+                            placeholder="Введите категорию" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Принять</button>
                 </form>
@@ -37,9 +32,9 @@
                 <ul class="list-group">
                     {% for category in categories %}
                     <li class="list-group-item">
-                        
-                       <a href="paiflow/{{category}}">{{category}} </a> 
-                    
+
+                        <a href="paiflow/{{category}}">{{category}} </a>
+
                     </li>
                     {% endfor %}
                 </ul>
