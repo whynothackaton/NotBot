@@ -34,11 +34,11 @@ def paiflow_categories(category):
     return render_template('categories.html', category=category, questions=questions, responses=responses)
 
 
-@app.route('/paiflow/delete_val/key=<key>&value=<value>', methods=['GET', 'POST'])
-def paiflow_delete(key, value):
+@app.route('/paiflow/delete_val/category=<category>&key=<key>&value=<value>', methods=['GET', 'POST'])
+def paiflow_delete(category,key, value):
     print("KEY__", key, value)
     bot.PAI.delete(key, value)
-    return redirect("/paiflow")
+    return redirect("/paiflow/"+category)
 
 
 @app.route('/login', methods=['GET', 'POST'])
