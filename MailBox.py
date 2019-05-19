@@ -34,6 +34,7 @@ class MailBox:
         Returns:
             [type] -- [description]
         """
+        messages = '' 
         status, self.amount_message = self.imap.select('INBOX')        
 
         assert status == 'OK'
@@ -44,8 +45,7 @@ class MailBox:
         if len(data[0]) != 0:   
             assert status == 'OK'
             ids = data[0]  # data is a list.
-            id_list = ids.split()  # ids is a space separated string
-            messages = '' 
+            id_list = ids.split()  # ids is a space separated string            
             for id in id_list:           
                 
                 status, data = self.imap.uid( # fetch the email body () for the given ID
@@ -55,18 +55,13 @@ class MailBox:
                 time_message, message = self.parse_message(data)
 
                 now_delta_datetime = datetime.datetime.now() - \
-                    datetime.timedelta(seconds=30) - datetime.timedelta(hours=1)
+                    datetime.timedelta(seconds=30) - \
+                    datetime.timedelta(hours=20)
                 message_datetime = datetime.datetime.strptime(
                     date + ' ' + time_message, '%d-%b-%Y %H:%M:%S')                
 
-                print(message_datetime)
-                print(now_delta_datetime)
-                print(message_datetime >= now_delta_datetime)
-                print()
-
                 if message_datetime >= now_delta_datetime:
                     messages += message
-                    print('messages:\n', messages)
 
         if len(messages) != 0:
             return messages
@@ -85,19 +80,7 @@ class MailBox:
         raw_email = data[0][1]
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
-        
-        '''
-        body = None
-        for part in email_message.walk():
-            if part.get_content_type() == "text/plain":
-                body = part.get_payload(decode=True)
-            else:
-                continue
-        
-        status, data = self.imap.fetch(self.amount_letters[0], '(UID BODY[TEXT])')
-        import base64
-        #print(base64.b64encode(data[0][0]))
-        '''        
+                        
         time = str(email.header.make_header(
             email.header.decode_header(
             email_message['Date']))).split()[4]
@@ -106,7 +89,14 @@ class MailBox:
         subject = 'Тема: ' + str(email.header.make_header(
             email.header.decode_header(email_message['Subject'])))
 
-        return time, email_from + '\n ' + subject + '\n'
+        # this will loop through all the available multiparts in mail
+        for part in email_message.walk():
+            # ignore attachments/html
+            if part.get_content_type() == "text/plain": 
+                body = part.get_payload(decode=True)
+                text = body.decode().split()[0]
+
+        return time, email_from + '\n' + subject + '\n\n' + text + '\n'
 
     def close_connection(self):
         """[summary]
