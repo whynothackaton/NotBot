@@ -8,37 +8,37 @@ import time
 
 class MailBox:
     def __init__(self, email):
-        """[summary]
+        '''[summary]
         
         Arguments:
             email {[type]} -- [description]
-        """
+        '''
         self.email = email
         self.imap = None
         self.id = '3ee652c711e9455c98afa34a2807e4f3'
 
     def connection(self, token):
-        """[summary]
+        '''[summary]
         
         Arguments:
             token {[type]} -- [description]
-        """        
+        '''        
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
         self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
 
     def get_new_message(self):
-        """[summary]
+        '''[summary]
         
         Returns:
             [type] -- [description]
-        """
+        '''
         messages = '' 
         status, self.amount_message = self.imap.select('INBOX')        
 
         assert status == 'OK'
-        date = datetime.date.today().strftime("%d-%b-%Y")            
+        date = datetime.date.today().strftime('%d-%b-%Y')            
         status, data = self.imap.uid(
             'search', None, '(ON {0})'.format(date))        
 
@@ -49,7 +49,7 @@ class MailBox:
             for id in id_list:           
                 
                 status, data = self.imap.uid( # fetch the email body () for the given ID
-                    'fetch', id, "(RFC822)")        
+                    'fetch', id, '(RFC822)')        
 
                 assert status == 'OK'
                 time_message, message = self.parse_message(data)
@@ -69,14 +69,14 @@ class MailBox:
             return None
 
     def parse_message(self, data):
-        """[summary]
+        '''[summary]
         
         Arguments:
             data {[type]} -- [description]
         
         Returns:
             [type] -- [description]
-        """
+        '''
         raw_email = data[0][1]
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
@@ -92,13 +92,13 @@ class MailBox:
         # this will loop through all the available multiparts in mail
         for part in email_message.walk():
             # ignore attachments/html
-            if part.get_content_type() == "text/plain": 
+            if part.get_content_type() == 'text/plain': 
                 body = part.get_payload(decode=True)
                 text = body.decode().split()[0]
 
         return time, email_from + '\n' + subject + '\n\n' + text + '\n'
 
     def close_connection(self):
-        """[summary]
-        """
+        '''[summary]
+        '''
         self.imap.close()

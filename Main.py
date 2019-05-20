@@ -19,7 +19,7 @@ bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 def paiflow():
     if request.method == 'POST':
         data = request.form
-        bot.PAI.add("CATEGORY", data['category'])
+        bot.PAI.add('CATEGORY', data['category'])
     categories = bot.PAI.get_categories()
     print('****', categories)
     return render_template('paiflow.html', categories=[c.decode() for c in categories])
@@ -33,15 +33,15 @@ def paiflow_categories(category):
         data = request.form
         if 'T1' in data and 'T2' in data:
             bot.PAI.add(data['T1'], data['T2'])
-        return redirect("/paiflow/"+category)
+        return redirect('/paiflow/'+category)
     return render_template('categories.html', category=category, questions=questions, responses=responses)
 
 
 @app.route('/paiflow/delete_val/category=<category>&key=<key>&value=<value>', methods=['GET', 'POST'])
 def paiflow_delete(category, key, value):
-    print("KEY__", key, value)
+    print('KEY__', key, value)
     bot.PAI.delete(key, value)
-    return redirect("/paiflow/"+category)
+    return redirect('/paiflow/'+category)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -66,8 +66,8 @@ def resetRedis():
 
 @app.route('/auth', methods=['GET', 'POST'])
 def incoming():
-    print("TOKEN FROM YAN",request.args)
-    return redirect("/")
+    print('TOKEN FROM YAN',request.args)
+    return redirect('/')
 
 
 @app.route('/bot', methods=['POST'])
