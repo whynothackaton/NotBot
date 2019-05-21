@@ -66,7 +66,7 @@ def resetRedis():
 
 @app.route('/auth', methods=['GET', 'POST'])
 def incoming():
-    print('TOKEN FROM YAN',request.args)
+    print('TOKEN FROM YAN',request.data,request.get_json())
     return redirect('/')
 
 
