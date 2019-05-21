@@ -19,19 +19,7 @@ class PaiFlow():
         Returns:
             [type] -- [description]
         '''
-        a = a.lower()
-        b = b.lower()
-
-        pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
-        a_re = re.search(pattern,a)
-        b_re = re.search(pattern,b)
-        if a_re:
-            a.replace(a_re.group(),'')
-        if b_re:
-            b.replace(b_re.group(),'')
-        print("SIMILAR=")
-        print(a,b)
-        return SequenceMatcher(None, a, b).ratio()
+        return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
     def add(self, T1, T2):
         '''[summary]
@@ -100,6 +88,11 @@ class PaiFlow():
         Returns:
             [str] -- [description]
         '''
+        pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
+        word_re = re.search(pattern, word)
+
+        if word_re:
+            word = word.replace(word_re.group(), '')
         max_sim = 0.5
         best = ''
         for key in self.Redis.keys('[а-я0-9]*'):
