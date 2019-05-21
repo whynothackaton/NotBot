@@ -8,7 +8,7 @@ class PaiFlow():
     def __init__(self):
         self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
-    def similar(a, b):
+    def similar(self,a, b):
         '''[summary]
         
         Arguments:
