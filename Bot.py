@@ -117,9 +117,12 @@ class Bot():
 
     @commands.add(category='hello')
     def hello(self, *args, **kwargs):
-        print("ARGS32=", self, args, kwargs)
+        
+        params=args[0]
+        self=args['self']
         peer_id = kwargs['peer_id']
         category = kwargs['category']
+        print("ARGS32=", self, args, kwargs)
         UserName = self.VK.users.get(user_ids=peer_id)
         UserNamFe = UserName[0]['first_name']+' '+UserName[0]['last_name']
         resp1 = self.PAI.get_response(category)
@@ -145,7 +148,7 @@ class Bot():
             code, email = self.search_email(message)
         else:
             category = self.PAI.get_category(message)
-        commands.execute(category=category, message=message, peer_id=peer_id)
+        commands.execute(self=self,category=category, message=message, peer_id=peer_id)
         if code == 1:
 
             short_link = self.get_link(email)
