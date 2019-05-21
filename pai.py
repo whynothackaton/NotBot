@@ -25,8 +25,10 @@ class PaiFlow():
         pattern = re.compile('<[a-z0-9]*>')
         a_re = re.search(pattern,a)
         b_re = re.search(pattern,b)
-        if a_re or b_re:
-            return SequenceMatcher(None, a_re.group(), b_re.group()).ratio()
+        if a_re:
+            a.replace(a_re.group,'')
+        if b_re:
+            b.replace(b_re.group,'')
         return SequenceMatcher(None, a, b).ratio()
 
     def add(self, T1, T2):
