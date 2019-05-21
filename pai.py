@@ -91,7 +91,7 @@ class PaiFlow():
         best = ''
         for key in self.Redis.keys('[а-я0-9]*'):
             s = key.decode()
-            sim = similar(word, s)
+            sim = self.similar(word, s)
             if sim > max_sim:
                 best = s
                 max_sim = sim
