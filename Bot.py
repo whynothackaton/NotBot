@@ -5,13 +5,14 @@ import re
 from pai import PaiFlow
 import os
 import random
-from Registrar import Registrar
+from functools import wraps
 
-commands = Registrar()
+
+commands = {}
 
 
 class Bot():
-    def __init__(self, name='bot', group_id='', api_version=''):
+    def __init__(self, name='bot', group_id='', api_version='', debug=False):
         '''[summary]
 
         Keyword Arguments:
@@ -21,15 +22,32 @@ class Bot():
         '''
         print("SELF=", self)
         self.group_id = group_id
-        self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
         self.Name = name
-        self.PAI = PaiFlow()
         self.api_version = api_version
-        self.token = self.Redis.get('VK_token')
-        if self.token != None:
-            self.VK = VK(token=self.token.decode(),
-                         api_version=self.api_version)
+
+        if not debug:
+            self.PAI = PaiFlow()
+            self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
+            self.token = self.Redis.get('VK_token')
+            if self.token != None:
+                self.VK = VK(token=self.token.decode(),
+                             api_version=self.api_version)
+
+    def __add__(category):
+        print("ARGS1=", category)
+        def add(command):
+            if category in commands:
+                commands[category].append(command)
+            else:
+                commands[category] = [command]
+        return add
         
+
+    def __execute__(self, *args, **kwargs):
+        print("ARGS2=", args, kwargs)
+        category = kwargs['category']
+        for command in commands[category]:
+            command(args[0], kwargs)
 
     def auth(self, access_token):
         '''Bot registration
@@ -115,14 +133,14 @@ class Bot():
         self.VK.messages.send(
             peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
-    @commands.add(category='hello')
+    @__add__(category='hello')
     def hello(self, *args, **kwargs):
         
-        params=args[0]
-        self=args['self']
-        peer_id = kwargs['peer_id']
-        category = kwargs['category']
-        print("ARGS32=", self, args, kwargs)
+        params = args[0]
+        
+        peer_id = params['peer_id']
+        category = params['category']
+        print("ARGS32=", self, peer_id, category)
         UserName = self.VK.users.get(user_ids=peer_id)
         UserNamFe = UserName[0]['first_name']+' '+UserName[0]['last_name']
         resp1 = self.PAI.get_response(category)
@@ -143,12 +161,12 @@ class Bot():
         code = None
         email = None
         category = None
-
+        self.__execute__(self,category="hello", message=message, peer_id=peer_id)
         if 'авторизация' in message.lower():
             code, email = self.search_email(message)
         else:
             category = self.PAI.get_category(message)
-        commands.execute(self=self,category=category, message=message, peer_id=peer_id)
+        
         if code == 1:
 
             short_link = self.get_link(email)
