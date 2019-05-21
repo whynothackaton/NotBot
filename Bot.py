@@ -141,7 +141,7 @@ class Bot():
         '''
         if network is 'VK':
             self.VK.messages.send(
-                peer_id=id, random_id=random.randint(0, int(id)**int(id)), message=message)
+                peer_id=id, random_id=random.randint(0,int(id)), message=message)
 
     @__add__(category='greeting')
     def __greeting(self, *args, **kwargs):
