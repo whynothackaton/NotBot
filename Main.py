@@ -8,9 +8,7 @@ from Bot import Bot
 from MailBox import MailBox
 import threading
 
-# достаем email из базы
-#email = 'rollabushka@yandex.ru'
-#mb = MailBox(email)
+
 app = Flask(__name__)
 bot = Bot(name='bot', group_id='179748337', api_version='5.95')
 
@@ -55,7 +53,7 @@ def logauth():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print("HELLO=",request.args)
+    print("HELLO=", request.args)
     return render_template('index.html')
 
 
@@ -67,22 +65,21 @@ def resetRedis():
 
 @app.route('/auth', methods=['GET', 'POST'])
 def incoming():
-    print('TOKEN FROM YAN',request.args, request.data, request.get_json())
+    print('TOKEN FROM YAN', request.args, request.data, request.get_json())
     return redirect('/')
 
 
 @app.route('/bot', methods=['POST'])
 def botserver():
-
     data = json.loads(request.data)
     if data['type'] == 'confirmation':
         return '18258778'
     elif data['type'] == 'message_new':
         id = data['object']['from_id']
-        bot.dialog(data['object']['text'], data['object']
-                   ['from_id'], data['object']['peer_id'])
+        bot.dialog(data['object']['text'], data['object']['from_id'], data['object']['peer_id'])
         return 'ok'
     return 'ok'
+
 
 def Main():
     while True:
