@@ -142,7 +142,7 @@ class Bot():
         category = params['category']
         print("ARGS32=", self, peer_id, category)
         UserName = self.VK.users.get(user_ids=peer_id)
-        UserNamFe = UserName[0]['first_name']+' '+UserName[0]['last_name']
+        UserName = UserName[0]['first_name']+' '+UserName[0]['last_name']
         resp1 = self.PAI.get_response(category)
         resp2 = self.PAI.get_response('name')
         resp3 = self.PAI.get_response('affairs')
@@ -161,12 +161,13 @@ class Bot():
         code = None
         email = None
         category = None
-        self.__execute__(self,category="hello", message=message, peer_id=peer_id)
+        
         if 'авторизация' in message.lower():
             code, email = self.search_email(message)
         else:
             category = self.PAI.get_category(message)
-        
+          
+        self.__execute__(self,category=category, message=message, peer_id=peer_id)
         if code == 1:
 
             short_link = self.get_link(email)
