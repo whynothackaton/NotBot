@@ -66,7 +66,7 @@ def resetRedis():
 
 @app.route('/auth', methods=['GET', 'POST'])
 def incoming():
-    print('TOKEN FROM YAN',request.data,request.get_json())
+    print('TOKEN FROM YAN', request.data, request.get_json())
     return redirect('/')
 
 
@@ -83,31 +83,30 @@ def botserver():
         return 'ok'
     return 'ok'
 
-
 def Main():
     while True:
-        bot.VK.messages.send(
-            peer_id=207189016, random_id=0, message='Вам новое письмо')
         emails = bot.get_emails_from_Redis()
-        email = 'medvedev0denis@yandex.ru'
-        s = bot.get_id_from_Redis(email)
-        print(s)
-        st = list(s)[0].decode().split('|')
-        peer_id = st[0]
-        token = st[1]
-        print('peer_id=', peer_id)
-        print('token=', token)
+        for email in emails:
+            mb = MailBox(email)
+            token_id = bot.get_id_from_Redis(email).split('|')
+            token = st[0]
+            id = st[1]
+            mb.connection(token)
+            if
+            print('peer_id=', id)
+            print('token=', token)
+        time.sleep(30)
 
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    # thread1 = threading.Thread(target=Main)
-    # thread1.start()        
+    thread1 = threading.Thread(target=Main)
+    thread1.start()
     app.run(host='0.0.0.0', port=port)
-    
-    # достали токен из базы 
+
+    # достали токен из базы
     #token = ''
-    #mb.connection(token) 
+    # mb.connection(token)
     #new_message = mb.get_new_message()
-    #if new_message is not None:
+    # if new_message is not None:
     #    pass  # отправляем new_message в вк
