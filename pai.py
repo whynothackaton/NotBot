@@ -22,7 +22,7 @@ class PaiFlow():
         a = a.lower()
         b = b.lower()
 
-        pattern = re.compile('<[a-z0-9]*>')
+        pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
         a_re = re.search(pattern,a)
         b_re = re.search(pattern,b)
         if a_re:
