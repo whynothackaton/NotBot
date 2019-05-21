@@ -55,6 +55,7 @@ def logauth():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    print("HELLO=",request.args)
     return render_template('index.html')
 
 
