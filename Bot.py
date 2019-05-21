@@ -19,6 +19,7 @@ class Bot():
             group_id {str} -- VK group identifier (default: {''})
             api_version {str} -- Version api VK (default: {''})
         '''
+        print("SELF=", self)
         self.group_id = group_id
         self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
         self.Name = name
@@ -28,7 +29,7 @@ class Bot():
         if self.token != None:
             self.VK = VK(token=self.token.decode(),
                          api_version=self.api_version)
-        print("SELF=", self)
+        
 
     def auth(self, access_token):
         '''Bot registration
@@ -116,7 +117,7 @@ class Bot():
 
     @commands.add(category='hello')
     def hello(self, *args, **kwargs):
-        print("ARGS2=", self, args, kwargs)
+        print("ARGS32=", self, args, kwargs)
         peer_id = kwargs['peer_id']
         category = kwargs['category']
         UserName = self.VK.users.get(user_ids=peer_id)
