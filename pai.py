@@ -2,23 +2,32 @@ import redis
 import secrets
 from difflib import SequenceMatcher
 import os
+import re
 
 
 class PaiFlow():
     def __init__(self):
         self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
-    def similar(self,a, b):
+    def similar(self, a, b):
         '''[summary]
-        
+
         Arguments:
             a {[type]} -- [description]
             b {[type]} -- [description]
-        
+
         Returns:
             [type] -- [description]
         '''
-        return SequenceMatcher(None, a.lower(), b.lower()).ratio()
+        a = a.lower()
+        b = b.lower()
+
+        pattern = re.compile('<[a-z0-9]*>')
+        a_re = re.search(pattern)
+        b_re = re.search(pattern)
+        if a_re or b_re:
+            return SequenceMatcher(None, a_re.group(), b_re.group()).ratio()
+        return SequenceMatcher(None, a.group(), b.group()).ratio()
 
     def add(self, T1, T2):
         '''[summary]
