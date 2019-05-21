@@ -101,10 +101,10 @@ class PaiFlow():
             if sim > max_sim:
                 best = s
                 max_sim = sim
-        resp = list(self.Redis.smembers(best))[0]
-        if resp != None:
+        resp = list(self.Redis.smembers(best))
+        if resp != None and len(resp)>0:
             print(resp, best)
-            return resp.decode()
+            return resp[0].decode()
         return 'misunderstanding'
 
     def get_response(self, category):

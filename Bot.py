@@ -123,9 +123,9 @@ class Bot():
             ya_id = '5527ae60585949ba84b217997034aa06'
             link = 'https://oauth.yandex.ru/authorize?' + \
                 'response_type=token&' + \
-                'client_id=5527ae60585949ba84b217997034aa06' + \
+                'client_id={0}&' + \
                 'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
-                'login_hint={0}&state={0}'.format(email)
+                'login_hint={1}&state={1}'.format(ya_id, email)
 
         return self.VK.utils.getShortLink(url=link)['short_url']
 
