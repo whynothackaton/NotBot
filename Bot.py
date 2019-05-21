@@ -35,8 +35,6 @@ class Bot():
                              api_version=self.api_version)
 
     def __add__(category):
-        print("ARGS1=", category)
-
         def add(command):
             if category is None:
                 default_commands.append(command)
@@ -48,7 +46,6 @@ class Bot():
         return add
 
     def __execute__(self, *args, **kwargs):
-        print("ARGS2=", args, kwargs)
         category = kwargs['category']
         if category not in commands:
             for command in default_commands:
@@ -141,16 +138,14 @@ class Bot():
         '''
         if network is 'VK':
             self.VK.messages.send(
-                peer_id=id, random_id=random.randint(0,int(id)), message=message)
+                peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
     @__add__(category='greeting')
     def __greeting(self, *args, **kwargs):
 
         params = args[0]
-
         peer_id = params['peer_id']
         category = params['category']
-        print("ARGS32=", self, peer_id, category)
         UserName = self.VK.users.get(user_ids=peer_id)
         UserName = UserName[0]['first_name']+' '+UserName[0]['last_name']
 
@@ -177,7 +172,7 @@ class Bot():
 
         elif code == 0:  # incorrect email
 
-            unknown = self.PAI.get_response('unknown')
+            unknown = self.PAI.get_response('unknown service')
             affairs = self.PAI.get_response('affairs')
             self.send_message(id=peer_id, message=unknown+affairs)
 
