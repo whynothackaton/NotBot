@@ -117,5 +117,6 @@ class PaiFlow():
             [str] -- [description]
         '''
         resp = list(self.Redis.smembers(category))
-        if resp != None:
+        if resp != None and len(resp) > 0:
             return secrets.choice(resp).decode()
+        return 'unkown'
