@@ -76,7 +76,7 @@ class Bot():
         service_regexes = 'yandex\.ru', 'mail\.ru', 'gmail\.com'
         service_pattern = re.compile(
             '|'.join('(?:{0})'.format(x) for x in regexes))
-        email = re.search(email_pattern, service_pattern)
+        email = re.search(email_pattern, message)
         if email:
 
             if re.search(service_pattern, email.group()):
