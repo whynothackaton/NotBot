@@ -26,9 +26,9 @@ class PaiFlow():
         a_re = re.search(pattern,a)
         b_re = re.search(pattern,b)
         if a_re:
-            a.replace(a_re.group,'')
+            a.replace(a_re.group(),'')
         if b_re:
-            b.replace(b_re.group,'')
+            b.replace(b_re.group(),'')
         print("SIMILAR=")
         print(a,b)
         return SequenceMatcher(None, a, b).ratio()
