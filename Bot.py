@@ -5,6 +5,9 @@ import re
 from pai import PaiFlow
 import os
 import random
+from Registrar import Registrar
+
+commands = Registrar()
 
 
 class Bot():
@@ -89,7 +92,7 @@ class Bot():
         Arguments:
             email {[type]} -- e-mail address
         '''
-        link=""
+        link = ''
         if 'yandex' in email:
             ya_id = '5527ae60585949ba84b217997034aa06'
             link = 'https://oauth.yandex.ru/authorize?' + \
@@ -110,13 +113,27 @@ class Bot():
         self.VK.messages.send(
             peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
+    @commands.add(category='hello')
+    def hello(self, *args, **kwargs):
+        peer_id = kwargs['peer_id']
+        category = kwargs['category']
+        UserName = self.VK.users.get(user_ids=peer_id)
+        UserNamFe = UserName[0]['first_name']+' '+UserName[0]['last_name']
+        resp1 = self.PAI.get_response(category)
+        resp2 = self.PAI.get_response('name')
+        resp3 = self.PAI.get_response('affairs')
+        resp4 = self.PAI.get_response('can')
+        resp5 = self.PAI.get_response('auth')
+        self.send_message(id=peer_id, message=resp1+' ' +
+                          UserName+'! '+resp2+self.Name+'.'+resp3+resp4+resp5)
+
     def dialog(self, message, peer_id, from_id):
         '''[summary]
         '''
+
         if peer_id != from_id:
             peer_id = from_id
-        UserName = self.VK.users.get(user_ids=peer_id)
-        UserName = UserName[0]['first_name']+' '+UserName[0]['last_name']
+
         code = None
         email = None
         category = None
@@ -125,7 +142,7 @@ class Bot():
             code, email = self.search_email(message)
         else:
             category = self.PAI.get_category(message)
-
+        commands.execute(category=category, message=message, peer_id=peer_id)
         if code == 1:
 
             short_link = self.get_link(email)
@@ -146,15 +163,6 @@ class Bot():
             category = self.PAI.get_category(message.lower())
             resp = self.PAI.get_response(category)
             self.send_message(id=peer_id, message=resp)
-
-        elif category == 'hello':
-            resp1 = self.PAI.get_response(category)
-            resp2 = self.PAI.get_response('name')
-            resp3 = self.PAI.get_response('affairs')
-            resp4 = self.PAI.get_response('can')
-            resp5 = self.PAI.get_response('auth')
-            self.send_message(id=peer_id, message=resp1+' ' +
-                              UserName+'! '+resp2+self.Name+'.'+resp3+resp4+resp5)
 
         elif category == 'name':
             resp = self.PAI.get_response(category)
