@@ -29,6 +29,8 @@ class PaiFlow():
             a.replace(a_re.group,'')
         if b_re:
             b.replace(b_re.group,'')
+        print("SIMILAR=")
+        print(a,b)
         return SequenceMatcher(None, a, b).ratio()
 
     def add(self, T1, T2):
