@@ -89,10 +89,9 @@ def Main():
         for email in emails:
             mb = MailBox(email)
             token_id = bot.get_id_from_Redis(email).split('|')
-            token = st[0]
-            id = st[1]
+            token = token_id[0]
+            id = token_id[1]
             mb.connection(token)
-            if
             print('peer_id=', id)
             print('token=', token)
         time.sleep(30)
