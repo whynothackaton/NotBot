@@ -27,7 +27,7 @@ class PaiFlow():
         b_re = re.search(pattern,b)
         if a_re or b_re:
             return SequenceMatcher(None, a_re.group(), b_re.group()).ratio()
-        return SequenceMatcher(None, a.group(), b.group()).ratio()
+        return SequenceMatcher(None, a, b).ratio()
 
     def add(self, T1, T2):
         '''[summary]
