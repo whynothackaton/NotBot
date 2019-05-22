@@ -46,6 +46,9 @@ def logauth():
     if request.method == 'POST':
         data = request.form
         print("LOGIN=", data)
+        if 'YANDEX_token' in data:
+            print(data['YANDEX_token'])
+        print("2=",data[0])
         # bot.bot_auth(data['token'])
         return 'OK'
     return render_template('login.html')
