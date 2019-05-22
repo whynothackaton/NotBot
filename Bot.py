@@ -70,7 +70,7 @@ class Bot():
 
         if provider.lower() is 'yandex':
             self.yandex_id = token
-
+        print("YANDEX_token=",self.yandex_id,provider)
         self.Redis.set(provider.upper()+'_token', token)
 
     def search_email(self, message):
