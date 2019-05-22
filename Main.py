@@ -65,7 +65,8 @@ def resetRedis():
 
 @app.route('/auth', methods=['GET', 'POST'])
 def incoming():
-    print('TOKEN =', request.args, request.data, request.get_json(),request.form)
+    print('TOKEN =', request.args, request.data,
+          request.get_json(), request.form)
     return redirect('/')
 
 
@@ -76,7 +77,8 @@ def botserver():
         return '18258778'
     elif data['type'] == 'message_new':
         id = data['object']['from_id']
-        bot.dialog(data['object']['text'], data['object']['from_id'], data['object']['peer_id'])
+        bot.dialog(data['object']['text'], data['object']
+                   ['from_id'], data['object']['peer_id'])
         return 'ok'
     return 'ok'
 
@@ -96,10 +98,10 @@ def Main():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    #port = int(os.environ.get('PORT', 5000))
     thread1 = threading.Thread(target=Main)
     thread1.start()
-    app.run(host='0.0.0.0', port=port)
+    app.run()
 
     # достали токен из базы
     #token = ''

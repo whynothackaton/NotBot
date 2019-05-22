@@ -121,11 +121,11 @@ class Bot():
         link = ''
         if 'yandex' in email:
             ya_id = '5527ae60585949ba84b217997034aa06'
-            link = 'https://oauth.yandex.ru/authorize?' + \
-                'response_type=token&' + \
-                'client_id={0}&' + \
-                'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
-                'login_hint={1}&state={1}'.format(ya_id, email)
+            link = f'https://oauth.yandex.ru/authorize?' + \
+                f'response_type=token&' + \
+                f'client_id={ya_id}&' + \
+                f'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
+                f'login_hint={email}&state={email}'
 
         return self.VK.utils.getShortLink(url=link)['short_url']
 
