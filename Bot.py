@@ -33,6 +33,7 @@ class Bot():
             if self.token != None:
                 self.VK = VK(token=self.token.decode(),
                              api_version=self.api_version)
+            self.yandex_id = self.Redis.get('YANDEX_token')
 
     def __add__(category):
         def add(command):
@@ -54,14 +55,17 @@ class Bot():
             for command in commands[category]:
                 command(args[0], kwargs)
 
-    def bot_auth(self, access_token):
+    def bot_auth(self, provider, token):
         '''Bot registration
 
         Arguments:
             access_token {str} -- Access token 
         '''
-        self.VK = VK(token=access_token, api_version=self.api_version)
-        self.Redis.set('VK_token', access_token)
+        if provider.lower() is 'vk':
+            self.VK = VK(token=token, api_version=self.api_version)
+
+
+        self.Redis.set(provider.upper()+'_token', token)
 
     def search_email(self, message):
         '''Search email address in a message from the user VK
@@ -120,10 +124,11 @@ class Bot():
         '''
         link = ''
         if 'yandex' in email:
+
             ya_id = '5527ae60585949ba84b217997034aa06'
             link = f'https://oauth.yandex.ru/authorize?' + \
                 f'response_type=token&' + \
-                f'client_id={ya_id}&' + \
+                f'client_id={self.ya_id}&' + \
                 f'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
                 f'login_hint={email}&state={email}'
 
@@ -184,7 +189,7 @@ class Bot():
         params = args[0]
         category = params['category']
         peer_id = params['category']
-        response = self.PAI.get_response('affairs')
+        response = self.PAI.get_response(category)
         self.send_message(id=peer_id, message=response)
 
     def dialog(self, message, peer_id, from_id):

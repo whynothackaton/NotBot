@@ -37,7 +37,6 @@ def paiflow_categories(category):
 
 @app.route('/paiflow/delete_val/category=<category>&key=<key>&value=<value>', methods=['GET', 'POST'])
 def paiflow_delete(category, key, value):
-    print('KEY__', key, value)
     bot.PAI.delete(key, value)
     return redirect('/paiflow/'+category)
 
@@ -46,14 +45,14 @@ def paiflow_delete(category, key, value):
 def logauth():
     if request.method == 'POST':
         data = request.form
-        bot.bot_auth(data['token'])
+        print("LOGIN=", data)
+        # bot.bot_auth(data['token'])
         return 'OK'
     return render_template('login.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print("HELLO=", request.args)
     return render_template('index.html')
 
 

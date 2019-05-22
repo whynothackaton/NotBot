@@ -17,14 +17,30 @@
 
     <div class="container-fluid"
         style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
-        <form method="POST">
-            <div class="form-group">
-                <label for="InputToken">Токен сообщества ВК</label>
-                <input type="text" class="form-control" name="token" id="InputToken"
-                    placeholder="Введите токен" required>
+
+        <div class="row">
+            <div class="col">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="InputToken">Токен сообщества ВК</label>
+                        <input type="text" class="form-control" name="VK_token" id="InputToken"
+                            placeholder="Введите токен" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Принять</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary">Принять</button>
-        </form>
+            <div class="w-100"></div>
+            <div class="col">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="InputToken">Токен приложения Yandex</label>
+                        <input type="text" class="form-control" name="YANDEX_token" id="InputToken"
+                            placeholder="Введите токен" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Принять</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 
