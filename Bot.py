@@ -29,11 +29,15 @@ class Bot():
         if not debug:
             self.PAI = PaiFlow()
             self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
-            self.token = self.Redis.get('VK_token')
-            if self.token != None:
-                self.VK = VK(token=self.token.decode(),
+
+            self.vk_token = self.Redis.get('VK_token')
+            if self.vk_token != None:
+                self.VK = VK(token=self.vk_token.decode(),
                              api_version=self.api_version)
+
             self.yandex_id = self.Redis.get('YANDEX_token')
+            if self.yandex_id != None:
+                self.yandex_id = self.yandex_id.decode()
 
     def __add__(category):
         def add(command):
@@ -64,6 +68,8 @@ class Bot():
         if provider.lower() is 'vk':
             self.VK = VK(token=token, api_version=self.api_version)
 
+        if provider.lower() is 'yandex':
+            self.yandex_id = token
 
         self.Redis.set(provider.upper()+'_token', token)
 
@@ -124,11 +130,9 @@ class Bot():
         '''
         link = ''
         if 'yandex' in email:
-
-            ya_id = '5527ae60585949ba84b217997034aa06'
             link = f'https://oauth.yandex.ru/authorize?' + \
                 f'response_type=token&' + \
-                f'client_id={self.ya_id}&' + \
+                f'client_id={self.yandex_id}&' + \
                 f'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
                 f'login_hint={email}&state={email}'
 
