@@ -40,24 +40,27 @@ class Bot():
                 self.yandex_id = self.yandex_id.decode()
 
     def __add__(category):
-        def add(command):
+        def decorator(command):
             if category is None:
-                default_commands.append(command)
+                default_commands.append(command.__name__)
             else:
                 if category in commands:
-                    commands[category].append(command)
+                    commands[category].append(command.__name__)
                 else:
-                    commands[category] = [command]
-        return add
+                    commands[category] = [command.__name__]
+            def wrapper():
+                return command
+
+        return decorator
 
     def __execute__(self, *args, **kwargs):
         category = kwargs['category']
         if category not in commands:
             for command in default_commands:
-                command(args[0], kwargs)
+                getattr(self,command)(args[0], kwargs)
         else:
             for command in commands[category]:
-                command(args[0], kwargs)
+                getattr(self,command)(args[0], kwargs)
 
     def bot_auth(self, provider, token):
         '''Bot registration
