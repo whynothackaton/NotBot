@@ -42,24 +42,22 @@ class Bot():
     def __add__(category):
         def add(command):
             if category is None:
-                default_commands.append(command.__name__)
+                default_commands.append(command)
             else:
                 if category in commands:
-                    commands[category].append(command.__name__)
+                    commands[category].append(command)
                 else:
-                    commands[category] = [command.__name__]
+                    commands[category] = [command]
         return add
 
     def __execute__(self, *args, **kwargs):
         category = kwargs['category']
         if category not in commands:
             for command in default_commands:
-                print("COMMAND1=",command)
-                getattr(self,command)(args[0], kwargs)
+                command(args[0], kwargs)
         else:
             for command in commands[category]:
-                print("COMMAND2=",command)
-                getattr(self,command)(args[0], kwargs)
+                command(args[0], kwargs)
 
     def bot_auth(self, provider, token):
         '''Bot registration
@@ -152,7 +150,7 @@ class Bot():
                 peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
     @__add__(category='greeting')
-    def cGreeting(self, *args, **kwargs):
+    def __greeting(self, *args, **kwargs):
 
         params = args[0]
         peer_id = params['peer_id']
@@ -169,7 +167,7 @@ class Bot():
                           UserName+'! '+acquaintance+self.Name+'.'+affairs+' '+authorization_help)
 
     @__add__(category='authorization')
-    def cAuthorization(self, *args, **kwargs):
+    def __authorization(self, *args, **kwargs):
         params = args[0]
         message = params['message']
         peer_id = params['peer_id']
