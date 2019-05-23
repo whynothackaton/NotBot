@@ -150,7 +150,7 @@ class Bot():
                 peer_id=id, random_id=random.randint(0, int(id)), message=message)
 
     @__add__(category='greeting')
-    def __greeting(self, *args, **kwargs):
+    def cGreeting(self, *args, **kwargs):
 
         params = args[0]
         peer_id = params['peer_id']
@@ -167,7 +167,7 @@ class Bot():
                           UserName+'! '+acquaintance+self.Name+'.'+affairs+' '+authorization_help)
 
     @__add__(category='authorization')
-    def __authorization(self, *args, **kwargs):
+    def cAuthorization(self, *args, **kwargs):
         params = args[0]
         message = params['message']
         peer_id = params['peer_id']
