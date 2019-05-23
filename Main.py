@@ -46,7 +46,7 @@ def logauth():
     if request.method == 'POST':
         data = request.form
         key = list(data.keys())[0]
-        bot.bot_auth(provider=key.split("_")[0], token=data['key'])
+        bot.bot_auth(provider=key.split('_')[0], token=data['key'])
         return 'OK'
     return render_template('login.html')
 
@@ -74,6 +74,7 @@ def botserver():
     data = json.loads(request.data)
     if data['type'] == 'confirmation':
         return '18258778'
+        
     elif data['type'] == 'message_new':
         id = data['object']['from_id']
         bot.dialog(data['object']['text'], data['object']

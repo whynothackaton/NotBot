@@ -9,114 +9,146 @@ class PaiFlow():
     def __init__(self):
         self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
-    def similar(self, a, b):
-        '''[summary]
+    def similar(self, a: str, b: str) -> float:
+        '''
+        Calculation of similarity measures between two strings.
+
+        A return value of 1 matches the equal strings.
+        A return value of 0 corresponds to strongly different strings.
 
         Arguments:
-            a {[type]} -- [description]
-            b {[type]} -- [description]
+            a {str} -- String A
+            b {str} -- String B
 
         Returns:
-            [type] -- [description]
+            [float] -- similarity
         '''
         return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
-    def add(self, T1, T2):
-        '''[summary]
+    def add(self, key: str, value: str):
+        '''
+        Adding {key: value} data to Redis.
 
         Arguments:
-            T1 {str} -- key
-            T2 {str} -- value
+            key {str} -- Key
+            value {str} -- Added value
         '''
-        self.Redis.sadd(T1, T2)
+        try:
+            self.Redis.sadd(key, value)
+        except Exception as e:
+            print(e)
 
-    def get_categories(self):
-        '''[summary]
+    def delete(self, key: str, value: str):
+        '''
+        Delete the value for a given key from Redis.
+
+        Arguments:
+            key {str} -- Key
+            value {str} -- Value to remove
+        '''
+        try:
+            self.Redis.srem(key, value)
+        except Exception as e:
+            print(e)
+
+    def get_categories(self) -> list:
+        '''
+        Getting a list of all categories from Redis.
 
         Returns:
-            [str] -- [description]
+            [str] -- List of all categories
         '''
-        categories = list(self.Redis.smembers('CATEGORY'))
-        return categories
+        try:
+            return list(self.Redis.smembers('CATEGORY'))
+        except Exception as e:
+            print(e)
 
-    def get_questions(self, category=None):
-        '''[summary]
+    def get_questions(self, category=None) -> list:
+        '''
+        Getting a list of all commands for a given category.
 
         Keyword Arguments:
-            category {[str]} -- [description] (default: {None})
+            category {str} -- Category (default: {None})
 
         Returns:
-            [str] -- [description]
+            {list} -- List of all commands
         '''
-        questions = self.Redis.keys('[а-я0-9]*')
-        if category is None:
-            return questions
-        category_questions = []
-        for question in questions:
-            cat = list(self.Redis.smembers(question.decode()))[0].decode()
-            if cat == category:
-                category_questions.append(question.decode())
-        return category_questions
+        try:
+            questions = self.Redis.keys('[а-я0-9]*')
+            if category is None:
+                return questions
+            category_questions = []
+            for question in questions:
+                cat = list(self.Redis.smembers(question.decode()))[0].decode()
+                if cat == category:
+                    category_questions.append(question.decode())
+            return category_questions
+        except Exception as e:
+            print(e)
 
-    def delete(self, key, value):
-        '''[summary]
+    def get_responses(self, category: str) -> list:
+        '''
+        Getting a list of all bot responses for a given category.
 
         Arguments:
-            key {[str]} -- [description]
-            value {[str]} -- [description]
-        '''
-        self.Redis.srem(key, value)
-
-    def get_responses(self, category):
-        '''[summary]
-
-        Arguments:
-            category {[str]} -- [description]
+            category {str} -- Category
 
         Returns:
-            [list] -- [description]
+            {list}-- List of all bot responses
         '''
-        responses = list(self.Redis.smembers(category))
-        return [r.decode() for r in responses]
+        try:
+            responses = list(self.Redis.smembers(category))
+            return [r.decode() for r in responses]
+        except Exception as e:
+            print(e)
 
-    def get_category(self, word):
-        '''[summary]
+    def get_category(self, sentence: str) -> str:
+        '''
+        Getting category by sentence.
+        Searches among all commands.
+        The category is selected from the most similar command.
 
         Arguments:
-            word {[str]} -- [description]
+            sentence {[str]} -- Sentence
 
         Returns:
-            [str] -- [description]
+            [str] -- Category
         '''
         pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
-        word_re = re.search(pattern, word)
+        sentence_re = re.search(pattern, sentence)
 
-        if word_re:
-            word = word.replace(word_re.group(), '')
+        if sentence_re:
+            sentence = sentence.replace(sentence_re.group(), '')
         max_sim = 0.5
         best = ''
-        for key in self.Redis.keys('[а-я0-9]*'):
-            s = key.decode()
-            sim = self.similar(word, s)
-            if sim > max_sim:
-                best = s
-                max_sim = sim
-        resp = list(self.Redis.smembers(best))
-        if resp != None and len(resp)>0:
-            print(resp, best)
-            return resp[0].decode()
+        try:
+            for key in self.Redis.keys('[а-я0-9]*'):
+                s = key.decode()
+                sim = self.similar(sentence, s)
+                if sim > max_sim:
+                    best = s
+                    max_sim = sim
+            resp = list(self.Redis.smembers(best))
+            if resp != None and len(resp) > 0:
+                print(resp, best)
+                return resp[0].decode()
+        except Exception as e:
+            print(e)
         return 'misunderstanding'
 
-    def get_response(self, category):
-        '''[summary]
+    def get_response(self, category: str) -> str:
+        '''
 
         Arguments:
-            category {[str]} -- [description]
+            category {str} -- Category
 
         Returns:
-            [str] -- [description]
+            [str] -- Getting a random bot response.
         '''
-        resp = list(self.Redis.smembers(category))
-        if resp != None and len(resp) > 0:
-            return secrets.choice(resp).decode()
+        try:
+            resp = list(self.Redis.smembers(category))
+            if resp != None and len(resp) > 0:
+                return secrets.choice(resp).decode()
+        except Exception as e:
+            print(e)
         return 'unkown'

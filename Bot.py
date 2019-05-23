@@ -21,7 +21,7 @@ class Bot():
             group_id {str} -- VK group identifier (default: {''})
             api_version {str} -- Version api VK (default: {''})
         '''
-        print("SELF=", self)
+        print('SELF=', self)
         self.group_id = group_id
         self.Name = name
         self.api_version = api_version
@@ -39,8 +39,16 @@ class Bot():
             if self.yandex_id != None:
                 self.yandex_id = self.yandex_id.decode()
 
-    def __add__(category):
-        def add(command):
+    def __add__(category: str):
+        '''[summary]
+
+        Arguments:
+            category {str} -- [description]
+
+        Returns:
+            [type] -- [description]
+        '''
+        def add(command: callable):
             if category is None:
                 default_commands.append(command)
             else:
@@ -59,7 +67,7 @@ class Bot():
             for command in commands[category]:
                 command(args[0], kwargs)
 
-    def bot_auth(self, provider, token):
+    def bot_auth(self, provider: str, token: str):
         '''Bot registration
 
         Arguments:
@@ -70,11 +78,19 @@ class Bot():
 
         if provider.lower() is 'yandex':
             self.yandex_id = token
-        print("YANDEX_token=",self.yandex_id,provider)
+
+        print('YANDEX_token=', self.yandex_id, provider)
         self.Redis.set(provider.upper()+'_token', token)
 
-    def search_email(self, message):
-        '''Search email address in a message from the user VK
+    def search_email(self, message: str):
+        ''' 
+        Search email address in the string.
+        First, any e-mail address is searched.
+        Next, the search for supported services: yandex,mail,gmail.
+
+        1) In case of finding the right service, the pair is returned (1, found e-mail)
+        2) In the case of finding e-mail addresses are not supported service returns pair (0, None)
+        3) In the absence of string e-mail address returns a pair of (-1 , None)
 
         Arguments:
             message {str} -- A message from the user VK
@@ -88,30 +104,31 @@ class Bot():
 
             if re.search(service_pattern, email.group()):
                 return 1, email.group()
-            return 0, 'null'
-        return -1, 'null'
+            return 0, None
+        return -1, None
 
-    def add_to_Redis(self, email, ids, token):
+    def add_to_Redis(self, email: str, id: str, token: str):
         '''Adding to the DBMS
 
         Arguments:
             email {str} --  E-mail address (Key)
-            ids {list} -- The list of identifiers of VK users associated with the e-mail address (Value)
+            id {str} --  Identifiers (Value)
+            token {str} --- e-mail auth token (Value)
         '''
-        self.Redis.sadd(email, token+'|'+str(ids))
+        self.Redis.sadd(email, token+'|'+str(id))
 
-    def get_id_from_Redis(self, email):
+    def get_id_from_Redis(self, email: str) -> list:
         '''Getting identifiers (value) by e-mail address (key) in the DBMS
 
         Arguments:
             email {str} --  E-mail address (Key)
         Returns:
-            ids -- The list of identifiers of VK users associated with the e-mail address (Value)
+            list -- The list of pairs(token|id) associated with the e-mail address (Value)
         '''
 
-        return self.Redis.smembers(email).decode()
+        return list(self.Redis.smembers(email).decode())
 
-    def get_emails_from_Redis(self):
+    def get_emails_from_Redis(self) -> list:
         '''Getting  e-mail address (key) in the DBMS
 
         Arguments:
@@ -122,7 +139,7 @@ class Bot():
         '''
         return self.Redis.keys(pattern='[a-z0-9]*@[a-z0-9]*\.[a-z0-9]*')
 
-    def get_link(self, email):
+    def get_link(self, email: str) -> str:
         '''
 
         Arguments:
@@ -138,12 +155,12 @@ class Bot():
 
         return self.VK.utils.getShortLink(url=link)['short_url']
 
-    def send_message(self, id, message, network='VK'):
+    def send_message(self, id: str, message: str, network='VK'):
         '''[summary]
 
         Arguments:
-            id {[type]} -- vk user id
-            message {[type]} -- message
+            id {[type]} -- User id
+            message {[type]} -- Message
         '''
         if network is 'VK':
             self.VK.messages.send(
@@ -186,7 +203,7 @@ class Bot():
             self.send_message(id=peer_id, message=unknown+affairs)
 
         elif code == -1:  # without email
-            self.send_message(id=peer_id, message="Вы не указали email")
+            self.send_message(id=peer_id, message='Вы не указали email')
 
     @__add__(category=None)
     def default_command(self, *args, **kwargs):
@@ -196,7 +213,7 @@ class Bot():
         response = self.PAI.get_response(category)
         self.send_message(id=peer_id, message=response)
 
-    def dialog(self, message, peer_id, from_id):
+    def dialog(self, message: str, peer_id: str, from_id: str):
         '''[summary]
         '''
 
