@@ -45,12 +45,8 @@ def paiflow_delete(category, key, value):
 def logauth():
     if request.method == 'POST':
         data = request.form
-        print("LOGIN=", data)
-        if 'VK_token' in data:
-            bot.bot_auth(provider='VK', token=data['VK_token'])
-        if 'YANDEX_token' in data:
-            bot.bot_auth(provider='YANDEX', token=data['YANDEX_token'])
-
+        key = list(data.keys())[0]
+        bot.bot_auth(provider=key.split("_")[0], token=data['key'])
         return 'OK'
     return render_template('login.html')
 

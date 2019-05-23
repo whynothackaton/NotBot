@@ -42,22 +42,22 @@ class Bot():
     def __add__(category):
         def add(command):
             if category is None:
-                default_commands.append(command)
+                default_commands.append(command.__name__)
             else:
                 if category in commands:
-                    commands[category].append(command)
+                    commands[category].append(command.__name__)
                 else:
-                    commands[category] = [command]
+                    commands[category] = [command.__name__]
         return add
 
     def __execute__(self, *args, **kwargs):
         category = kwargs['category']
         if category not in commands:
             for command in default_commands:
-                command(args[0], kwargs)
+                getattr(self,command)(args[0], kwargs)
         else:
             for command in commands[category]:
-                command(args[0], kwargs)
+                getattr(self,command)(args[0], kwargs)
 
     def bot_auth(self, provider, token):
         '''Bot registration
