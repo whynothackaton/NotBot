@@ -54,6 +54,7 @@ class Bot():
         category = kwargs['category']
         if category not in commands:
             for command in default_commands:
+                print(command)
                 getattr(self,command)(args[0], kwargs)
         else:
             for command in commands[category]:
