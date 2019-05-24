@@ -35,7 +35,7 @@ class NetworkAPI(object):
         '''
         headers = None
         print("NETWORK_API=", self.provider, self.provider == 'vk')
-        if self.provider is 'vk':
+        if self.provider == 'vk':
             print("VKVKVKVKVK")
             params['access_token'] = self.token
             params['v'] = self.api_version
