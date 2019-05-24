@@ -117,9 +117,3 @@ class MailBox:
         self.imap.close()
 
 
-mb = MailBox('rollabushka@yandex.ru')
-file = open('..\\..\\token.txt')
-token = file.read()
-mb.connection(token)
-print(mb.get_new_message())
-mb.close_connection()
