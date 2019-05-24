@@ -235,6 +235,7 @@ class Bot():
             self.send_message(id=peer_id, message="Отправить письмо")
             self.used_id[peer_id] = 'sending'
             self.message_pool[peer_id] = Message()
+            self.message_pool[peer_id].set_this_item(peer_id)
 
     @__add__(category=None)
     def default_command(self, *args, **kwargs):
