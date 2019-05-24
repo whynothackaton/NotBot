@@ -224,18 +224,17 @@ class Bot():
         message = params['message']
         peer_id = params['peer_id']
         if peer_id in self.message_pool:
-            self.send_message(
-                id=peer_id, message=self.message_pool[peer_id].get_next_item())
             self.message_pool[peer_id].set_this_item(message)
             if self.message_pool[peer_id].get_occupancy() == 100:
                 print("MESSAGE=", self.message_pool[peer_id].toJSON())
                 self.send_message(id=peer_id, message="Thanks")
                 del self.used_id[peer_id]
         else:
-            self.send_message(id=peer_id, message="Отправить письмо")
             self.used_id[peer_id] = 'sending'
             self.message_pool[peer_id] = Message()
             self.message_pool[peer_id].set_this_item(peer_id)
+        self.send_message(id=peer_id,
+                          message=self.message_pool[peer_id].get_next_item())
 
     @__add__(category=None)
     def default_command(self, *args, **kwargs):
