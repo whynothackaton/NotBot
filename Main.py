@@ -49,7 +49,9 @@ def paiflow_delete(category, key, value):
 def logauth():
     if request.method == 'POST':
         data = request.form
+        print(data)
         key = list(data.keys())[0]
+        print(key)
         bot.bot_auth(provider=key.split('_')[0], token=data['key'])
         return 'OK'
     return render_template('login.html')
