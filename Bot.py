@@ -25,6 +25,7 @@ class Bot():
         self.Name = name
         self.api_version = api_version
         self.message_pool = {}
+        self.used_id = {}
         if not debug:
             self.PAI = PaiFlow()
             self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
@@ -60,7 +61,11 @@ class Bot():
         return add
 
     def __execute__(self, *args, **kwargs):
-        category = kwargs['category']
+        peer_id = kwargs['peer_id']
+        if peer_id in self.used_id:
+            category = self.used_id[peer_id]
+        else:
+            category = kwargs['category']
         if category not in commands:
             for command in default_commands:
                 command(args[0], kwargs)
@@ -224,9 +229,11 @@ class Bot():
             self.message_pool[peer_id].set_this_item(message)
             if self.message_pool[peer_id].get_occupancy() == 100:
                 print("MESSAGE=", self.message_pool[peer_id].toJSON())
-                del self.message_pool[peer_id]
+                self.send_message(id=peer_id, message="Thanks")
+                del self.used_id[peer_id]
         else:
             self.send_message(id=peer_id, message="Отправить письмо")
+            self.used_id[peer_id] = 'sending'
             self.message_pool[peer_id] = Message()
 
     @__add__(category=None)
