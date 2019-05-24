@@ -219,7 +219,7 @@ class Bot():
         params = args[0]
         message = params['message']
         peer_id = params['peer_id']
-        if peer id self.message_pool:
+        if peer_id in self.message_pool:
             self.send_message(id=peer_id,message=self.message_pool[peer_id].get_next_item())
             self.message_pool[peer_id].set_this_item(message)
             if self.message_pool[peer_id].get_occupancy()=100:
