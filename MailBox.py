@@ -46,19 +46,17 @@ class MailBox:
             assert status == 'OK'
             ids = data[0]  # data is a list.
             id_list = ids.split()  # ids is a space separated string            
-            for id in id_list:               
+            for id in id_list:           
+                
                 status, data = self.imap.uid( # fetch the email body () for the given ID
                     'fetch', id, '(RFC822)')        
 
                 assert status == 'OK'
-                date, message = self.parse_message(data)
-
-                print(date)
-                time_message = date.split()[4]
-                #timezone_message = date.split()[5]
+                time_message, message = self.parse_message(data)
 
                 now_delta_datetime = datetime.datetime.now() - \
-                    datetime.timedelta(seconds=30)
+                    datetime.timedelta(seconds=30) - \
+                    datetime.timedelta(hours=20)
                 message_datetime = datetime.datetime.strptime(
                     date + ' ' + time_message, '%d-%b-%Y %H:%M:%S')                
 
@@ -83,9 +81,9 @@ class MailBox:
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
                         
-        date = str(email.header.make_header(
+        time = str(email.header.make_header(
             email.header.decode_header(
-            email_message['Date'])))
+            email_message['Date']))).split()[4]
         email_from = 'Автор: ' + str(email.header.make_header(
             email.header.decode_header(email_message['From'])))
         subject = 'Тема: ' + str(email.header.make_header(
@@ -98,7 +96,7 @@ class MailBox:
                 body = part.get_payload(decode=True)
                 text = body.decode().split()[0]
 
-        return date, email_from + '\n' + subject + '\n\n' + text + '\n'
+        return time, email_from + '\n' + subject + '\n\n' + text + '\n'
 
     def close_connection(self):
         '''[summary]
