@@ -74,14 +74,14 @@ class Bot():
         Arguments:
             access_token {str} -- Access token 
         '''
-        if provider.lower() is 'vk':
+        if provider.lower() == 'vk':
             print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
             self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
                                  provider=provider,
                                  token=token,
                                  api_version=self.api_version)
 
-        if provider.lower() is 'yandex':
+        if provider.lower() == 'yandex':
             self.yandex_id = token
 
         print('YANDEX_token=', self.yandex_id, provider)
