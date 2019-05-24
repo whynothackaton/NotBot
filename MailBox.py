@@ -11,7 +11,7 @@ class MailBox:
         '''[summary]
         
         Arguments:
-            email {[type]} -- [description]
+            email {str} -- user's email
         '''
         self.email = email
         self.imap = None
