@@ -1,4 +1,4 @@
-#!c:\Users\g4039\Documents\GitHub\NotBot\NotBot\Scripts\python.exe
+#!c:\users\g4039\documents\github\notbot\notbot\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'autopep8==1.4.4','console_scripts','autopep8'
 __requires__ = 'autopep8==1.4.4'
 import re

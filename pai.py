@@ -114,7 +114,7 @@ class PaiFlow():
         Returns:
             [str] -- Category
         '''
-        pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
+        pattern = re.compile(r'[a-z0-9]+@[a-z0-9]+\.[a-z]+')
         sentence_re = re.search(pattern, sentence)
 
         if sentence_re:
