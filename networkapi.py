@@ -13,7 +13,7 @@ class NetworkAPI(object):
         self.api_url = api_url
         self.token = token
         self.api_version = api_version
-        self.provider = provider
+        self.provider = provider.lower()
         self.name = ''
         print("NETWORK_API=", self.provider, self.token)
         pass
