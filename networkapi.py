@@ -15,7 +15,7 @@ class NetworkAPI(object):
         self.api_version = api_version
         self.provider = provider.lower()
         self.name = ''
-        print("NETWORK_API=", self.provider, self.token)
+
         pass
 
     def __getattr__(self, name):
@@ -34,7 +34,9 @@ class NetworkAPI(object):
             r -- Response to a request
         '''
         headers = None
+        print("NETWORK_API=", self.provider, self.token)
         if self.provider is 'vk':
+            print("VKVKVKVKVK")
             params['access_token'] = self.token
             params['v'] = self.api_version
             print(r.json())
