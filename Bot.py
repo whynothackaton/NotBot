@@ -6,6 +6,7 @@ from pai import PaiFlow
 import os
 import random
 from functools import wraps
+from message import Message
 
 commands = {}
 default_commands = []
@@ -23,7 +24,7 @@ class Bot():
         print('SELF=', self)
         self.Name = name
         self.api_version = api_version
-
+        self.message_pool = {}
         if not debug:
             self.PAI = PaiFlow()
             self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
@@ -39,7 +40,7 @@ class Bot():
             if self.yandex_id != None:
                 self.yandex_id = self.yandex_id.decode()
 
-    def __add__(category: str):
+    def __add__(**kwargs):
         '''[summary]
 
         Arguments:
@@ -50,13 +51,13 @@ class Bot():
         '''
 
         def add(command: callable):
-            if category is None:
+            if 'category' in kwargs and kwargs['category'] == None:
                 default_commands.append(command)
-            else:
+            elif 'category' in kwargs:
                 if category in commands:
-                    commands[category].append(command)
+                    commands[kwargs['category']].append(command)
                 else:
-                    commands[category] = [command]
+                    commands[kwargs['category']] = [command]
 
         return add
 
@@ -94,7 +95,7 @@ class Bot():
         Next, the search for supported services: yandex,mail,gmail.
 
         1) In case of finding the right service, the pair is returned (1, found e-mail)
-        2) In the case of finding e-mail addresses are not supported service returns pair (0, None)
+        2) In the case of finding e-mail addresses are not supported service returns pair (0, found e-mail)
         3) In the absence of string e-mail address returns a pair of (-1 , None)
 
         Arguments:
@@ -109,7 +110,7 @@ class Bot():
 
             if re.search(service_pattern, email.group()):
                 return 1, email.group()
-            return 0, None
+            return 0, email.group()
         return -1, None
 
     def add_to_Redis(self, email: str, id: str, token: str):
@@ -212,6 +213,21 @@ class Bot():
 
         elif code == -1:  # without email
             self.send_message(id=peer_id, message='Вы не указали email')
+
+    @__add__(category='sending')
+    def send_email(self, *args, **kwargs):
+        params = args[0]
+        message = params['message']
+        peer_id = params['peer_id']
+        if peer id self.message_pool:
+            self.send_message(id=peer_id,message=self.message_pool[peer_id].get_next_item())
+            self.message_pool[peer_id].set_this_item(message)
+            if self.message_pool[peer_id].get_occupancy()=100:
+                print("MESSAGE=",self.message_pool[peer_id].toJSON())
+                del self.message_pool[peer_id]
+        else:
+            self.send_message(id=peer_id,message="Отправить письмо")
+            self.message_pool[peer_id]=Message()
 
     @__add__(category=None)
     def default_command(self, *args, **kwargs):
