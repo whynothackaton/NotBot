@@ -1,4 +1,4 @@
-from vkapi import VK
+from networkapi import NetworkAPI
 import requests
 import redis
 import re
@@ -12,7 +12,7 @@ default_commands = []
 
 
 class Bot():
-    def __init__(self, name='bot', group_id='', api_version='', debug=False):
+    def __init__(self, name='bot', api_version='', debug=False):
         '''[summary]
 
         Keyword Arguments:
@@ -21,7 +21,6 @@ class Bot():
             api_version {str} -- Version api VK (default: {''})
         '''
         print('SELF=', self)
-        self.group_id = group_id
         self.Name = name
         self.api_version = api_version
 
@@ -31,8 +30,10 @@ class Bot():
 
             self.vk_token = self.Redis.get('VK_token')
             if self.vk_token != None:
-                self.VK = VK(token=self.vk_token.decode(),
-                             api_version=self.api_version)
+                self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
+                                     provider='VK',
+                                     token=self.vk_token.decode(),
+                                     api_version=self.api_version)
 
             self.yandex_id = self.Redis.get('YANDEX_token')
             if self.yandex_id != None:
@@ -75,7 +76,10 @@ class Bot():
             access_token {str} -- Access token 
         '''
         if provider.lower() is 'vk':
-            self.VK = VK(token=token, api_version=self.api_version)
+            self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
+                                 provider=provider,
+                                 token=token,
+                                 api_version=self.api_version)
 
         if provider.lower() is 'yandex':
             self.yandex_id = token

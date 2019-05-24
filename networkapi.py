@@ -1,9 +1,8 @@
 import requests
 
 
-class VK(object):
-
-    def __init__(self, token, api_version):
+class NetworkAPI(object):
+    def __init__(self, token, api_url, provider, api_version=None):
         '''[summary]
 
         Arguments:
@@ -11,9 +10,10 @@ class VK(object):
             api_version {str} -- The version of the API.
         '''
 
-        self.api_url = 'https://api.vk.com/method/'
+        self.api_url = api_url
         self.token = token
         self.api_version = api_version
+        self.provider = provider
         self.name = ''
         pass
 
@@ -21,7 +21,7 @@ class VK(object):
         if self.name == '':
             self.name = name
         else:
-            self.name = self.name+'.'+name
+            self.name = self.name + '.' + name
         return self
 
     def method_request(self, method, params):
@@ -32,9 +32,16 @@ class VK(object):
         Returns:
             r -- Response to a request
         '''
-        params['access_token'] = self.token
-        params['v'] = self.api_version
-        r = requests.post(self.api_url + method, params=params)
+        headers = None
+        if self / provider is 'vk':
+            params['access_token'] = self.token
+            params['v'] = self.api_version
+        if self.provider is 'viber':
+            headers['X-Viber-Auth-Token'] = self.token
+
+        r = requests.post(self.api_url + method,
+                          params=params,
+                          headers=headers)
         print(r.json())
         return r.json()['response']
 
