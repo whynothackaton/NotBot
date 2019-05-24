@@ -102,10 +102,10 @@ def Main():
 
 
 if __name__ == '__main__':
-    #port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5000))
     thread1 = threading.Thread(target=Main)
     thread1.start()
-    app.run()
+    app.run(host="0.0.0.0", port=port)
 
     # достали токен из базы
     #token = ''
