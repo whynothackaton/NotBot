@@ -40,24 +40,22 @@ class Bot():
             if self.yandex_id != None:
                 self.yandex_id = self.yandex_id.decode()
 
-    def __add__(**kwargs):
+    def __add__(category: str):
         '''[summary]
-
         Arguments:
             category {str} -- [description]
-
         Returns:
             [type] -- [description]
         '''
 
         def add(command: callable):
-            if 'category' in kwargs and kwargs['category'] == None:
+            if category is None:
                 default_commands.append(command)
-            elif 'category' in kwargs:
+            else:
                 if category in commands:
-                    commands[kwargs['category']].append(command)
+                    commands[category].append(command)
                 else:
-                    commands[kwargs['category']] = [command]
+                    commands[category] = [command]
 
         return add
 
@@ -220,14 +218,15 @@ class Bot():
         message = params['message']
         peer_id = params['peer_id']
         if peer_id in self.message_pool:
-            self.send_message(id=peer_id,message=self.message_pool[peer_id].get_next_item())
+            self.send_message(
+                id=peer_id, message=self.message_pool[peer_id].get_next_item())
             self.message_pool[peer_id].set_this_item(message)
-            if self.message_pool[peer_id].get_occupancy()=100:
-                print("MESSAGE=",self.message_pool[peer_id].toJSON())
+            if self.message_pool[peer_id].get_occupancy() == 100:
+                print("MESSAGE=", self.message_pool[peer_id].toJSON())
                 del self.message_pool[peer_id]
         else:
-            self.send_message(id=peer_id,message="Отправить письмо")
-            self.message_pool[peer_id]=Message()
+            self.send_message(id=peer_id, message="Отправить письмо")
+            self.message_pool[peer_id] = Message()
 
     @__add__(category=None)
     def default_command(self, *args, **kwargs):
