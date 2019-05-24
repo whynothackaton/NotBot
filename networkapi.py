@@ -34,13 +34,11 @@ class NetworkAPI(object):
             r -- Response to a request
         '''
         headers = None
-        print("NETWORK_API=", self.provider, self.provider == 'vk')
         if self.provider == 'vk':
-            print("VKVKVKVKVK")
             params['access_token'] = self.token
             params['v'] = self.api_version
 
-        if self.provider is 'viber':
+        if self.provider == 'viber':
             headers['X-Viber-Auth-Token'] = self.token
 
         r = requests.post(self.api_url + method,
