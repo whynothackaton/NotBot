@@ -15,6 +15,7 @@ class NetworkAPI(object):
         self.api_version = api_version
         self.provider = provider
         self.name = ''
+        print("NETWORK_API=",self.provider,self.token)
         pass
 
     def __getattr__(self, name):
