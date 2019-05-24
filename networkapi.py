@@ -15,7 +15,7 @@ class NetworkAPI(object):
         self.api_version = api_version
         self.provider = provider
         self.name = ''
-        print("NETWORK_API=",self.provider,self.token)
+        print("NETWORK_API=", self.provider, self.token)
         pass
 
     def __getattr__(self, name):
@@ -37,12 +37,10 @@ class NetworkAPI(object):
         if self.provider is 'vk':
             params['access_token'] = self.token
             params['v'] = self.api_version
+            r = requests.post(self.api_url + method, params=params)
         if self.provider is 'viber':
             headers['X-Viber-Auth-Token'] = self.token
 
-        r = requests.post(self.api_url + method,
-                          params=params,
-                          headers=headers)
         print(r.json())
         return r.json()['response']
 
