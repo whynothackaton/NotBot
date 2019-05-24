@@ -34,7 +34,7 @@ class NetworkAPI(object):
             r -- Response to a request
         '''
         headers = None
-        print("NETWORK_API=", self.provider, self.token)
+        print("NETWORK_API=", self.provider, self.provider is 'vk')
         if self.provider is 'vk':
             print("VKVKVKVKVK")
             params['access_token'] = self.token
