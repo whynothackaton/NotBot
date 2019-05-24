@@ -75,6 +75,7 @@ class Bot():
             access_token {str} -- Access token 
         '''
         if provider.lower() is 'vk':
+            print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
             self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
                                  provider=provider,
                                  token=token,
