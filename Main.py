@@ -74,7 +74,7 @@ def botserver():
     data = json.loads(request.data)
     if data['type'] == 'confirmation':
         return '18258778'
-        
+
     elif data['type'] == 'message_new':
         id = data['object']['from_id']
         bot.dialog(data['object']['text'], data['object']

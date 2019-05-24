@@ -7,7 +7,6 @@ import os
 import random
 from functools import wraps
 
-
 commands = {}
 default_commands = []
 
@@ -48,6 +47,7 @@ class Bot():
         Returns:
             [type] -- [description]
         '''
+
         def add(command: callable):
             if category is None:
                 default_commands.append(command)
@@ -56,6 +56,7 @@ class Bot():
                     commands[category].append(command)
                 else:
                     commands[category] = [command]
+
         return add
 
     def __execute__(self, *args, **kwargs):
@@ -80,7 +81,7 @@ class Bot():
             self.yandex_id = token
 
         print('YANDEX_token=', self.yandex_id, provider)
-        self.Redis.set(provider.upper()+'_token', token)
+        self.Redis.set(provider.upper() + '_token', token)
 
     def search_email(self, message: str):
         ''' 
@@ -95,10 +96,10 @@ class Bot():
         Arguments:
             message {str} -- A message from the user VK
         '''
-        email_pattern = re.compile('[a-z0-9]+@[a-z0-9]+\.[a-z]+')
-        service_regexes = 'yandex\.ru', 'mail\.ru', 'gmail\.com'
-        service_pattern = re.compile(
-            '|'.join('(?:{0})'.format(x) for x in service_regexes))
+        email_pattern = re.compile(r'[a-z0-9]+@[a-z0-9]+\.[a-z]+')
+        service_regexes = r'yandex\.ru', r'mail\.ru', r'gmail\.com'
+        service_pattern = re.compile('|'.join('(?:{0})'.format(x)
+                                              for x in service_regexes))
         email = re.search(email_pattern, message)
         if email:
 
@@ -115,7 +116,7 @@ class Bot():
             id {str} --  Identifiers (Value)
             token {str} --- e-mail auth token (Value)
         '''
-        self.Redis.sadd(email, token+'|'+str(id))
+        self.Redis.sadd(email, token + '|' + str(id))
 
     def get_id_from_Redis(self, email: str) -> list:
         '''Getting identifiers (value) by e-mail address (key) in the DBMS
@@ -163,8 +164,9 @@ class Bot():
             message {[type]} -- Message
         '''
         if network is 'VK':
-            self.VK.messages.send(
-                peer_id=id, random_id=random.randint(0, int(id)), message=message)
+            self.VK.messages.send(peer_id=id,
+                                  random_id=random.randint(0, int(id)),
+                                  message=message)
 
     @__add__(category='greeting')
     def __greeting(self, *args, **kwargs):
@@ -173,15 +175,17 @@ class Bot():
         peer_id = params['peer_id']
         category = params['category']
         UserName = self.VK.users.get(user_ids=peer_id)
-        UserName = UserName[0]['first_name']+' '+UserName[0]['last_name']
+        UserName = UserName[0]['first_name'] + ' ' + UserName[0]['last_name']
 
         greeting = self.PAI.get_response(category)
         acquaintance = self.PAI.get_response('acquaintance')
         affairs = self.PAI.get_response('affairs')
         authorization_help = self.PAI.get_response('authorization help')
 
-        self.send_message(id=peer_id, message=greeting+' ' +
-                          UserName+'! '+acquaintance+self.Name+'.'+affairs+' '+authorization_help)
+        self.send_message(id=peer_id,
+                          message=greeting + ' ' + UserName + '! ' +
+                          acquaintance + self.Name + '.' + affairs + ' ' +
+                          authorization_help)
 
     @__add__(category='authorization')
     def __authorization(self, *args, **kwargs):
@@ -200,7 +204,7 @@ class Bot():
 
             unknown = self.PAI.get_response('unknown service')
             affairs = self.PAI.get_response('affairs')
-            self.send_message(id=peer_id, message=unknown+affairs)
+            self.send_message(id=peer_id, message=unknown + affairs)
 
         elif code == -1:  # without email
             self.send_message(id=peer_id, message='Вы не указали email')
@@ -222,5 +226,7 @@ class Bot():
 
         category = self.PAI.get_category(message)
 
-        self.__execute__(self, category=category,
-                         message=message, peer_id=peer_id)
+        self.__execute__(self,
+                         category=category,
+                         message=message,
+                         peer_id=peer_id)
