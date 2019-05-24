@@ -33,7 +33,7 @@ class NetworkAPI(object):
             r -- Response to a request
         '''
         headers = None
-        if self / provider is 'vk':
+        if self.provider is 'vk':
             params['access_token'] = self.token
             params['v'] = self.api_version
         if self.provider is 'viber':
