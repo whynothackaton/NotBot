@@ -39,12 +39,15 @@ class NetworkAPI(object):
             print("VKVKVKVKVK")
             params['access_token'] = self.token
             params['v'] = self.api_version
-            
-            r = requests.post(self.api_url + method, params=params)
-            print(r.json())
-            return r.json()['response']
+
         if self.provider is 'viber':
             headers['X-Viber-Auth-Token'] = self.token
+
+        r = requests.post(self.api_url + method,
+                          params=params,
+                          headers=headers)
+        print(r.json())
+        return r.json()['response']
 
     def __call__(self, *args, **kwargs):
         name = self.name
