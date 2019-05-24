@@ -52,7 +52,7 @@ def logauth():
         print(data)
         key = list(data.keys())[0]
         print(key)
-        bot.bot_auth(provider=key.split('_')[0], token=data['key'])
+        bot.bot_auth(provider=key.split('_')[0], token=data[key])
         return 'OK'
     return render_template('login.html')
 
