@@ -7,6 +7,7 @@ import datetime
 from Bot import Bot
 from MailBox import MailBox
 import threading
+import requests
 
 app = Flask(__name__)
 bot = Bot(name='bot', api_version='5.95')
@@ -79,8 +80,15 @@ def incoming_yandex():
 def incoming_mail():
     if 'code' in request.args:
         code = request.args['code']
-        print('Code =', code)
-    return redirect('/')
+    
+    url = 'https://oauth.mail.ru/token'
+    data = {'code':str(code),
+            'grant_type':'authorization_code',
+            'redirect_uri':'https://notbotme.herokuapp.com/mail_auth'}
+
+    response = requests.post(url=url, data=data)
+
+    return response.text
 
 
 @app.route('/bot', methods=['POST'])
