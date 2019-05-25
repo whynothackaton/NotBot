@@ -80,6 +80,11 @@ def incoming_mail():
     if 'code' in request.args:
         code = request.args['code']
         print('Code =', code)
+    if 'access_token' in request.args:
+        #! Get token
+        pass
+    print('TOKEN =', request.args, request.data, request.get_json(),
+          request.form)
     return redirect('/')
 
 
