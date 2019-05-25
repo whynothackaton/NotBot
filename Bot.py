@@ -166,14 +166,14 @@ class Bot():
             link = f'https://oauth.yandex.ru/authorize?' + \
                 f'response_type=token&' + \
                 f'client_id={self.id_yandex_app}&' + \
-                f'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
+                f'redirect_uri=https://notbotme.herokuapp.com/yandex_auth&' +\
                 f'&state={email}'
         if 'mail' in email:
             link = f'https://oauth.mail.ru/login?' + \
             f'client_id={self.id_mail_app}' + \
             f'&response_type=code' + \
             f'&scope=mail.imap' + \
-            f'&redirect_uri=https://notbotme.herokuapp.com/auth' + \
+            f'&redirect_uri=https://notbotme.herokuapp.com/mail_auth' + \
             f'&state={email}'
 
         return self.VK.utils.getShortLink(url=link)['short_url']

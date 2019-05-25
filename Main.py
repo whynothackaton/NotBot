@@ -69,14 +69,14 @@ def resetRedis():
 
 
 @app.route('/yandex_auth', methods=['GET', 'POST'])
-def incoming():
+def incoming_yandex():
     print('TOKEN =', request.args, request.data, request.get_json(),
           request.form)
     return redirect('/')
 
 
 @app.route('/mail_auth', methods=['GET', 'POST'])
-def incoming():
+def incoming_mail():
     print('TOKEN =', request.args, request.data, request.get_json(),
           request.form)
     return redirect('/')
