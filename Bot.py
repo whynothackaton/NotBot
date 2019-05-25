@@ -42,11 +42,11 @@ class Bot():
             print("YANDEX_TOKEN=", self.id_yandex_app)
 
     def extract_id(self, name):
-        self.id_email_app = self.Redis.get(name)
-        if self.id_email_app != None:
-            self.id_email_app = self.id_email_app.decode()
+        id_email_app = self.Redis.get(name)
+        if id_email_app != None:
+            id_email_app = id_email_app.decode()
 
-        return self.id_email_app
+        return id_email_app
 
     def __add__(category: str):
         '''[summary]
