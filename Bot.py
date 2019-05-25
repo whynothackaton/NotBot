@@ -37,10 +37,11 @@ class Bot():
                                      token=self.vk_token.decode(),
                                      api_version=self.api_version)
 
-            self.id_yandex_app = extract_id('YANDEX_token')
-            self.id_mail_app = extract_id('MAIL_token')
-            print("YANDEX_TOKEN=",self.id_yandex_app)
-    def extract_id(name):
+            self.id_yandex_app = self.extract_id('YANDEX_token')
+            self.id_mail_app = self.extract_id('MAIL_token')
+            print("YANDEX_TOKEN=", self.id_yandex_app)
+
+    def extract_id(self, name):
         self.id_email_app = self.Redis.get(name)
         if self.id_email_app != None:
             self.id_email_app = self.id_email_app.decode()
