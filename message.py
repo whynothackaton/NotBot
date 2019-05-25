@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import json
 
 
@@ -16,7 +16,7 @@ class Message():
         return json.dumps(self, default=lambda dic: dic.__dict__)
 
     def fromJSON(self, json_string):
-        self.__dict__ = json.loads(json_string)
+        self.__dict__ = json.loads(json_str)
 
     def get_next_item(self):
 
@@ -28,5 +28,3 @@ class Message():
 
     def get_occupancy(self):
         return int(self.occupancy * (100 / len(self.keys)))
-
-

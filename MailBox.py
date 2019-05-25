@@ -115,5 +115,3 @@ class MailBox:
         '''[summary]
         '''
         self.imap.close()
-
-
