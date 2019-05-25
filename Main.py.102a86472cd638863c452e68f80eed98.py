@@ -78,8 +78,9 @@ def incoming_yandex():
 @app.route('/mail_auth', methods=['GET', 'POST'])
 def incoming_mail():
     if 'code' in request.args:
-        code = request.args['code']
-        print('Code =', code)
+
+         print('TOKEN =', 'code' in request.args, request.data, request.get_json(),
+          request.form)
     return redirect('/')
 
 
