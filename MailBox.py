@@ -15,7 +15,6 @@ class MailBox:
         '''
         self.email = email
         self.imap = None
-        self.id = '3ee652c711e9455c98afa34a2807e4f3'
 
     def connection(self, token):
         '''[summary]
@@ -25,7 +24,7 @@ class MailBox:
         '''
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
-        self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
+        self.imap = imaplib.IMAP4_SSL('imap' + self.email.split('@')[1])
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
 
     def get_new_message(self):
@@ -115,3 +114,12 @@ class MailBox:
         '''[summary]
         '''
         self.imap.close()
+
+'''
+mb = MailBox('rollabushka@yandex.ru')
+file = open('..\\..\\token.txt')
+token = file.read()
+mb.connection(token)
+print(mb.get_new_message())
+mb.close_connection()
+'''

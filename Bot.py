@@ -37,9 +37,16 @@ class Bot():
                                      token=self.vk_token.decode(),
                                      api_version=self.api_version)
 
-            self.yandex_id = self.Redis.get('YANDEX_token')
-            if self.yandex_id != None:
-                self.yandex_id = self.yandex_id.decode()
+            self.id_yandex_app = extract_id('YANDEX_token')
+            self.id_mail_app = extract_id('MAIL_token')
+
+    def extract_id(name):
+        self.id_email_app = self.Redis.get(name)
+
+            if self.id_email_app != None:
+                self.id_email_app = self.id_email_app.decode()
+
+        return self.id_email_app
 
     def __add__(category: str):
         '''[summary]
@@ -86,8 +93,11 @@ class Bot():
                                  api_version=self.api_version)
 
         if provider.lower() == 'yandex':
-            self.yandex_id = token
+            self.id_yandex_app = token
+        if provider.lower() == 'mail':
+            self.id_mail_app = token
 
+        print('email_token=', self.id_yandex_app, provider)
         self.Redis.set(provider.upper() + '_token', token)
 
     def search_email(self, message: str):
@@ -109,7 +119,6 @@ class Bot():
                                               for x in service_regexes))
         email = re.search(email_pattern, message)
         if email:
-
             if re.search(service_pattern, email.group()):
                 return 1, email.group()
             return 0, email.group()
@@ -153,13 +162,19 @@ class Bot():
         Arguments:
             email {[type]} -- e-mail address
         '''
-        link = ''
         if 'yandex' in email:
             link = f'https://oauth.yandex.ru/authorize?' + \
                 f'response_type=token&' + \
-                f'client_id={self.yandex_id}&' + \
+                f'client_id={self.id_yandex_app}&' + \
                 f'redirect_uri=https://notbotme.herokuapp.com/auth&' +\
                 f'login_hint={email}&state={email}'
+        if 'mail' in email:
+            link = f'https://oauth.mail.ru/login?' + \
+            f'client_id={self.id_mail_app}' + \
+            f'&response_type=code' + \
+            f'&scope=mail.imap' + \
+            f'&redirect_uri=https://notbotme.herokuapp.com/auth' + \
+            f'&state={email}'
 
         return self.VK.utils.getShortLink(url=link)['short_url']
 
