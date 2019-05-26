@@ -76,6 +76,16 @@ def incoming_yandex():
     return redirect('/')
 
 
+@app.route('/supported_email', methods=['GET', 'POST'])
+def supported_email():
+    if request.method == 'POST':
+        data = request.form
+        bot.Redis.sadd('EMAILS', data['email'])
+    emails = list(bot.Redis.smembers('EMAILS'))
+    print('****', categories)
+    return render_template('emails.html', emails=[e.decode() for e in emails])
+
+
 @app.route('/mail_auth', methods=['GET', 'POST'])
 def incoming_mail():
     if 'code' in request.args:

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PAIflow</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <meta charset="utf-8">
+
+</head>
+
+<body class="body">
+    <header>
+        <h1>PAIflow</h1>
+    </header>
+    <div class="container-fluid"
+        style="display: flex; align-items: center;align-content: center; justify-content: center;overflow: auto; ">
+        <div class="row">
+            <div class="col">
+                <h1>Добавление сервиса</h1>
+                <form method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="email" id="inputEmail"
+                            placeholder="Введите категорию" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Принять</button>
+                </form>
+            </div>
+            <div class="col">
+                <h1>Доступные сервисы</h1>
+                <ul class="list-group">
+                    {% for email in emails %}
+                    <li class="list-group-item">
+
+                        {{email}}
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
