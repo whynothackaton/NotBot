@@ -168,7 +168,7 @@ class Bot():
                 f'client_id={self.id_yandex_app}&' + \
                 f'redirect_uri=https://notbotme.herokuapp.com/yandex_auth&' +\
                 f'&state={email}'
-        if 'mail' in email:
+        if '@mail' in email:
             link = f'https://oauth.mail.ru/login?' + \
             f'client_id={self.id_mail_app}' + \
             f'&response_type=code' + \
