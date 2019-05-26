@@ -99,7 +99,7 @@ def incoming_mail():
         'redirect_uri': 'https://notbotme.herokuapp.com/mail_auth'
     }
 
-    response = requests.post(url=url, data=data)
+    response = requests.post(url=url, params=data)
 
     return str(response.text) + " " + str(response.json())
 
