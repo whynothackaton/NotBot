@@ -92,10 +92,10 @@ def incoming_mail():
 
     url = 'https://connect.mail.ru/oauth/token'
     data = {
-        'client_id': bot.id_mail_app,
-        'client_secret': '&e445588790a04e93949b96d9bb7bcd6b&',
-        'code': code,
-        'grant_type': '&authorization_code&',
+        'client_id': bot.id_mail_app + '&',
+        'client_secret': 'e445588790a04e93949b96d9bb7bcd6b&',
+        'code': code + '&',
+        'grant_type': 'authorization_code&',
         'redirect_uri': '&https://notbotme.herokuapp.com/mail_auth'
     }
 
