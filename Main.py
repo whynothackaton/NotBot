@@ -94,13 +94,13 @@ def incoming_mail():
         data = {
             'client_id': bot.id_mail_app,
             'client_secret': 'e445588790a04e93949b96d9bb7bcd6b',
-            'code': str(code),
+            'code': code,
             'grant_type': 'authorization_code',
             'redirect_uri': 'https://notbotme.herokuapp.com/mail_auth'
         }
 
-        response = requests.post(url=url, data=json.dumps(data))  
-        print(f'response = {response}')
+        response = requests.post(url=url, data=data))  
+        
         return response.text
 
     return redirect('/')
