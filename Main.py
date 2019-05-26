@@ -103,6 +103,7 @@ def incoming_mail():
         
         return response.text
 
+    return None
 
 @app.route('/bot', methods=['POST'])
 def botserver():
