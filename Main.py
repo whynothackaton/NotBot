@@ -101,7 +101,7 @@ def incoming_mail():
 
         response = requests.post(url=url, data=data)  
 
-        print(f'response = {response}, data = {data}')
+        print('data type: ', type(data))
 
         return response.text
 
