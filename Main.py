@@ -99,11 +99,10 @@ def incoming_mail():
             'redirect_uri': 'https://notbotme.herokuapp.com/mail_auth'
         }
 
-        response = requests.post(url=url, data=data)
-        
+        response = requests.post(url=url, data=data)   
         return response.text
 
-    return None
+    return redirect('/')
 
 @app.route('/bot', methods=['POST'])
 def botserver():
