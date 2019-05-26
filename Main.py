@@ -80,11 +80,13 @@ def incoming_yandex():
 def incoming_mail():
     if 'code' in request.args:
         code = request.args['code']
-    
+
     url = 'https://oauth.mail.ru/token'
-    data = {'code':str(code),
-            'grant_type':'authorization_code',
-            'redirect_uri':'https://notbotme.herokuapp.com/mail_auth'}
+    data = {
+        'code': str(code),
+        'grant_type': 'authorization_code',
+        'redirect_uri': 'https://notbotme.herokuapp.com/mail_auth'
+    }
 
     response = requests.post(url=url, data=data)
 
