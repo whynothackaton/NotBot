@@ -85,6 +85,11 @@ def supported_email():
     return render_template('emails.html', emails=[e.decode() for e in emails])
 
 
+@app.route('/receiver', methods=['GET', 'POST'])
+def receiver():
+    return render_template('_receiver.html')
+
+
 @app.route('/mail_auth', methods=['GET', 'POST'])
 def incoming_mail():
     if 'code' in request.args:
