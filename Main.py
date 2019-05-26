@@ -92,7 +92,7 @@ def incoming_mail():
 
     response = requests.post(url=url, data=data)
 
-    return data, response.text
+    return response.text
 
 
 @app.route('/bot', methods=['POST'])
