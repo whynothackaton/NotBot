@@ -91,7 +91,7 @@ def incoming_mail():
 
     response = requests.post(url=url, data=data)
 
-    return response.text['access_token']
+    return response.text
 
 
 @app.route('/bot', methods=['POST'])
