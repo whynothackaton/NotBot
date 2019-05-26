@@ -100,7 +100,7 @@ def incoming_mail():
     }
 
     response = requests.post(url=url, params=data)
-
+    print("PRINT=", data, response.url)
     return str(response.text) + " " + str(response.json())
 
 
