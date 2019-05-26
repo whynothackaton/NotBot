@@ -92,7 +92,7 @@ def incoming_mail():
 
     url = 'https://connect.mail.ru/oauth/token'
     data = {
-        'client_id': '9c7ca2972c9c4db583c7d8929a8abd63',
+        'client_id': bot.id_mail_app,
         'client_secret': 'e445588790a04e93949b96d9bb7bcd6b',
         'code': code,
         'grant_type': 'authorization_code',
@@ -101,7 +101,7 @@ def incoming_mail():
 
     response = requests.post(url=url, data=data)
 
-    return response.text
+    return str(response.text) + " " + str(response.json())
 
 
 @app.route('/bot', methods=['POST'])
