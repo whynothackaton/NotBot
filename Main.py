@@ -82,7 +82,6 @@ def supported_email():
         data = request.form
         bot.Redis.sadd('EMAILS', data['email'])
     emails = list(bot.Redis.smembers('EMAILS'))
-    print('****', categories)
     return render_template('emails.html', emails=[e.decode() for e in emails])
 
 
