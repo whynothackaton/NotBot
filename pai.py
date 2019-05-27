@@ -151,4 +151,4 @@ class PaiFlow():
                 return secrets.choice(resp).decode()
         except Exception as e:
             print(e)
-        return get_response('unknown')
+        return self.get_response('unknown')
