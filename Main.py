@@ -10,7 +10,7 @@ import threading
 import requests
 
 app = Flask(__name__)
-bot = Bot(name='bot', api_version='5.95')
+bot = Bot(name='NotBot', api_version='5.95')
 
 
 @app.route('/paiflow', methods=['GET', 'POST'])
