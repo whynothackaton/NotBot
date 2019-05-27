@@ -195,8 +195,8 @@ class Bot():
                                   random_id=random.randint(0, int(id)),
                                   message=message)
 
-    @__add__(category='greeting')
-    def __greeting(self, *args, **kwargs):
+    @__add__(category='start')
+    def __start(self, *args, **kwargs):
 
         params = args[0]
         peer_id = params['peer_id']
@@ -210,9 +210,21 @@ class Bot():
         authorization_help = self.PAI.get_response('authorization help')
 
         self.send_message(id=peer_id,
-                          message=greeting + ' ' + UserName + '! ' +
-                          acquaintance + self.Name + '.' + affairs + ' ' +
-                          authorization_help)
+                          message=greeting + ', ' + UserName + '! ' +
+                          acquaintance + ' ' + self.Name + '.' + affairs +
+                          ' ' + authorization_help)
+
+    @__add__(category='greeting')
+    def __greeting(self, *args, **kwargs):
+
+        params = args[0]
+        peer_id = params['peer_id']
+        category = params['category']
+        UserName = self.VK.users.get(user_ids=peer_id)
+        UserName = UserName[0]['first_name']
+        greeting = self.PAI.get_response(category)
+        self.send_message(id=peer_id,
+                          message=greeting + ', ' + UserName + '! ')
 
     @__add__(category='authorization')
     def __authorization(self, *args, **kwargs):
