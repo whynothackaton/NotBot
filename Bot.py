@@ -204,7 +204,7 @@ class Bot():
         UserName = self.VK.users.get(user_ids=peer_id)
         UserName = UserName[0]['first_name'] + ' ' + UserName[0]['last_name']
 
-        greeting = self.PAI.get_response(category)
+        greeting = self.PAI.get_response('greeting')
         acquaintance = self.PAI.get_response('acquaintance')
         affairs = self.PAI.get_response('affairs')
         authorization_help = self.PAI.get_response('authorization help')
