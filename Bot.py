@@ -212,7 +212,7 @@ class Bot():
         self.send_message(id=peer_id,
                           message=greeting + ', ' + UserName + '! ' +
                           acquaintance + ' ' + self.Name + '.' + affairs +
-                          ' ' + authorization_help)
+                          '. ' + authorization_help)
 
     @__add__(category='greeting')
     def __greeting(self, *args, **kwargs):
