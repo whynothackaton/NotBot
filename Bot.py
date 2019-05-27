@@ -242,8 +242,8 @@ class Bot():
         elif code == 0:  # incorrect email
 
             unknown = self.PAI.get_response('unknown service')
-            affairs = self.PAI.get_response('affairs')
-            self.send_message(id=peer_id, message=unknown + affairs)
+            #affairs = self.PAI.get_response('affairs')
+            self.send_message(id=peer_id, message=unknown)
 
         elif code == -1:  # without email
             self.send_message(id=peer_id, message='Вы не указали email')
