@@ -207,7 +207,7 @@ class Bot():
         greeting = self.PAI.get_response('greeting')
         acquaintance = self.PAI.get_response('acquaintance')
         affairs = self.PAI.get_response('affairs')
-        authorization_help = self.PAI.get_response('authorization help')
+        authorization_help = self.PAI.get_response('authorization_help')
 
         self.send_message(id=peer_id,
                           message=greeting + ', ' + UserName + '! ' +
