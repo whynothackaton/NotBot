@@ -270,7 +270,7 @@ class Bot():
     def default_command(self, *args, **kwargs):
         params = args[0]
         category = params['category']
-        peer_id = params['category']
+        peer_id = params['peer_id']
         response = self.PAI.get_response(category)
         self.send_message(id=peer_id, message=response)
 
