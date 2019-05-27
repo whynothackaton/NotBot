@@ -7,6 +7,7 @@ import os
 import random
 from functools import wraps
 from message import Message
+from linkbuilder import LinkBuilder
 
 commands = {}
 default_commands = []
@@ -162,21 +163,25 @@ class Bot():
         Arguments:
             email {[type]} -- e-mail address
         '''
-        if 'yandex' in email:
-            link = f'https://oauth.yandex.ru/authorize?' + \
-                f'response_type=token&' + \
-                f'client_id={self.id_yandex_app}&' + \
-                f'redirect_uri=https://notbotme.herokuapp.com/yandex_auth&' +\
-                f'&state={email}'
-        if '@mail' in email:
-            link = f'https://oauth.mail.ru/login?' + \
-            f'client_id={self.id_mail_app}' + \
-            f'&response_type=code' + \
-            f'&scope=mail.imap' + \
-            f'&redirect_uri=https://notbotme.herokuapp.com/mail_auth' + \
-            f'&state={email}'
 
-        return self.VK.utils.getShortLink(url=link)['short_url']
+        if 'yandex' in email:
+            lb = LinkBuilder(
+                url="https://oauth.yandex.ru/authorize",
+                client_id=self.id_yandex_app,
+                redirect_uri="https://notbotme.herokuapp.com/yandex_auth",
+                response_type="token",
+                scope="mail.imap",
+                state=email)
+        if '@mail' in email:
+            lb = LinkBuilder(
+                url="https://oauth.mail.ru/login",
+                client_id=self.id_mail_app,
+                redirect_uri="https://notbotme.herokuapp.com/mail_auth",
+                response_type="code",
+                scope="mail.imap",
+                state=email)
+
+        return self.VK.utils.getShortLink(url=lb.get())['short_url']
 
     def send_message(self, id: str, message: str, network='VK'):
         '''[summary]
