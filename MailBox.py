@@ -25,7 +25,7 @@ class MailBox:
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
 
-        im = 'imap' + self.email.split('@')[1]
+        im = 'imap.' + self.email.split('@')[1]
         print("IMAP=", im)
         self.imap = imaplib.IMAP4_SSL(im)
 
