@@ -27,7 +27,7 @@ class MailBox:
             .format(self.email, token)
 
         if '@mail.ru' in self.email:
-            self.imap = imaplib.IMAP4_SSL('imap.mail.com')
+            self.imap = imaplib.IMAP4_SSL('imap.mail.ru')#! было  imap.mail.com
         if 'yandex' in self.email:
             self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
 
