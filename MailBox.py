@@ -23,7 +23,7 @@ class MailBox:
         Arguments:
             token {[type]} -- [description]
         '''
-        auth_string = 'user={0}\\1auth=Bearer {1}\\1\\1' \
+        auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
 
         im = 'imap.' + self.email.split('@')[1]
@@ -32,17 +32,21 @@ class MailBox:
         #auth_string = base64.b64encode(bytes(auth_string,'utf-8'))
         self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
         #! Нашел в документации что яндекс просит делать соединения к 993 порту
-        #! Также в документации написано, что: 
+        #! Также в документации написано, что:
         #!<<Обращаться к почтовым серверам следует по следующим адресам:
         #!   * IMAP-сервер — imap.yandex.com:993
         #!   * SMTP-сервер — smtp.yandex.com:465
         #! >>
         #? Поэтому, я думаю, вариант с разбором email не подходит
+        #? потому что адрес @yandex.ru, а обращатся нужно к yandex.com
+
+        #? Как не странно, вариант с \1 работает
+        #* Так работает user=username@yandex.ruauth=Bearer T1o2K3e4N
+        #! Так не работает user=username@yandex.ru\1auth=Bearer T1o2K3e4N\1\1
         try:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
         except Exception as exception:
-            print("Exception:",exception)
-        
+            print("Exception:", exception)
 
     def get_new_message(self):
         '''[summary]
@@ -121,6 +125,8 @@ class MailBox:
         # this will loop through all the available multiparts in mail
         for part in email_message.walk():
             # ignore attachments/html
+            #! Вылетает ошибка list index out of range в строке 130 :
+            #! text = body.decode().split()[0]
             if part.get_content_type() == 'text/plain':
                 body = part.get_payload(decode=True)
                 text = body.decode().split()[0]
@@ -131,12 +137,3 @@ class MailBox:
         '''[summary]
         '''
         self.imap.close()
-
-'''
-mb = MailBox('medvedev0denis@yandex.ru')
-#file = open('')
-#token = file.read()
-mb.connection('AgAAAAAnwmJfAAWrEP3wG4lzBUI9ldEl0_CEC1k')
-print(mb.get_new_message())
-mb.close_connection()
-'''

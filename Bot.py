@@ -170,7 +170,7 @@ class Bot():
                 url="https://oauth.yandex.ru/authorize",
                 client_id=self.id_yandex_app,
                 redirect_uri="https://notbotme.herokuapp.com/yandex_auth",
-                response_type="token",
+                response_type="code",
                 scope="mail:imap_full",
                 state=email + '|' + id)
         if '@mail' in email:
