@@ -28,7 +28,7 @@ class MailBox:
 
         im = 'imap.' + self.email.split('@')[1]
         print("IMAP=", auth_string)
-        auth_string = base64.b64encode(auth_string.encode('UTF-8'))
+        #auth_string = base64.b64encode(auth_string.encode('UTF-8'))
         self.imap = imaplib.IMAP4_SSL(im)
 
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
@@ -120,6 +120,7 @@ class MailBox:
         '''[summary]
         '''
         self.imap.close()
+
 
 '''
 mb = MailBox('')
