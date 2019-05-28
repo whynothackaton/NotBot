@@ -23,12 +23,12 @@ class MailBox:
         Arguments:
             token {[type]} -- [description]
         '''
-        auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
+        auth_string = 'user={0}\\1auth=Bearer {1}\\1\\1' \
             .format(self.email, token)
 
         im = 'imap.' + self.email.split('@')[1]
         print("IMAP=", auth_string)
-        auth_string = base64.encode(auth_string, 'UTF-8')
+        #auth_string = base64.encode(auth_string, 'UTF-8')
         self.imap = imaplib.IMAP4_SSL(im)
 
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
