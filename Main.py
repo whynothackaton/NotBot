@@ -142,6 +142,7 @@ def Main():
             mb = MailBox(email.decode())
             mb.connection(token)
             message = mb.get_new_message()
+            mb.close_connection()
             if message is not None:
                 print("message")
                 bot.send_message(id=id, message=message)
