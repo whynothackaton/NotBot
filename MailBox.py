@@ -122,7 +122,8 @@ class MailBox:
             if part.get_content_type() == 'text/plain':
                 body = part.get_payload(decode=True)
                 try:
-                    text = body.decode().split()[0]
+                    text = body.decode() #!!! нужно для скриншота
+                    #* Было text = body.decode().split()[0]
                     #! Предлагаю text = body.decode(), без split()[0]
                     #! Тогда будет текст
                 except Exception as exp:
