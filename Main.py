@@ -158,12 +158,12 @@ def Main():
             print("TOKEN=", email, token, id)
             mb = MailBox(email.decode())
             mb.connection(token)
-            message = mb.get_new_message()
+            time.sleep(30)
+            message = mb.get_new_message()            
+            print("MESSAGE", message)
             mb.close_connection()
-            if message is not None:
-                print("message")
-                bot.send_message(id=id, message=message)
-        time.sleep(30)
+            if message is not None:                
+                bot.send_message(id=id, message=message)        
 
 
 if __name__ == '__main__':

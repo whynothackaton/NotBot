@@ -173,7 +173,7 @@ class Bot():
                 response_type="code",
                 scope="mail:imap_full",
                 state=email + '|' + id)
-        if '@mail' in email:
+        if '@mail.ru' in email:
             lb = LinkBuilder(
                 url="https://oauth.mail.ru/login",
                 client_id=self.id_mail_app,
