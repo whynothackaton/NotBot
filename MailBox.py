@@ -4,6 +4,7 @@ import email
 import datetime
 import re
 import time
+import base64
 
 
 class MailBox:
@@ -26,7 +27,8 @@ class MailBox:
             .format(self.email, token)
 
         im = 'imap.' + self.email.split('@')[1]
-        print("IMAP=", im)
+        print("IMAP=", auth_string)
+        auth_string = base64.encode(auth_string, 'UTF-8')
         self.imap = imaplib.IMAP4_SSL(im)
 
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
