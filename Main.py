@@ -105,7 +105,7 @@ def incoming_mail():
         }
 
         response = requests.post(url=url, data=data)
-        bot.add_to_Redis(email,id,token)
+        #! bot.add_to_Redis(email,id,token)
         return response.text
 
     return redirect('/')
