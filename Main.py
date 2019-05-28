@@ -136,8 +136,8 @@ def Main():
         emails = bot.get_emails_from_Redis()
         for email in emails:
             token_id = bot.get_id_from_Redis(email).split('|')
-            token = token_id[0].decode()
-            id = token_id[1].decode()
+            token = token_id[0]
+            id = token_id[1]
             print("TOKEN=", email, token, id)
             #! message
             #*
