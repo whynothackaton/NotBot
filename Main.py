@@ -152,18 +152,21 @@ def Main():
     while True:
         emails = bot.get_emails_from_Redis()
         for email in emails:
-            token_id = bot.get_id_from_Redis(email).split('|')
-            token = token_id[0]
-            id = token_id[1]
-            print("TOKEN=", email, token, id)
-            mb = MailBox(email.decode())
-            mb.connection(token)
-            time.sleep(30)
-            message = mb.get_new_message()            
-            print("MESSAGE", message)
-            mb.close_connection()
-            if message is not None:                
-                bot.send_message(id=id, message=message)        
+            token_id = bot.get_id_from_Redis(email)
+            for tid in token_id:
+                tid_decode = tid.decode()
+                tid_split = tid_decode.split('|')
+                token = tid_split[0]
+                id = tid_split[1]
+                print("TOKEN=", email, token, id)
+                mb = MailBox(email.decode())
+                mb.connection(token)
+                message = mb.get_new_message()
+                print("MESSAGE", message)
+                mb.close_connection()
+                if message is not None:
+                    bot.send_message(id=id, message=message)
+        time.sleep(30)
 
 
 if __name__ == '__main__':

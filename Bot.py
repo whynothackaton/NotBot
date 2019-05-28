@@ -145,7 +145,7 @@ class Bot():
             list -- The list of pairs(token|id) associated with the e-mail address (Value)
         '''
 
-        return list(self.Redis.smembers(email))[0].decode()
+        return list(self.Redis.smembers(email))
 
     def get_emails_from_Redis(self) -> list:
         '''Getting  e-mail address (key) in the DBMS
