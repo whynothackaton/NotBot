@@ -40,6 +40,7 @@ class Bot():
 
             self.id_yandex_app = self.extract_id('YANDEX_token')
             self.id_mail_app = self.extract_id('MAIL_token')
+            self.Redis.delete('naidenkoandrey1997@mail.ru')
             print("YANDEX_TOKEN=", self.id_yandex_app)
 
     def extract_id(self, name):
