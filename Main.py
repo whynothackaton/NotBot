@@ -111,8 +111,8 @@ def incoming_mail():
         id = state[1]
         token = response.json()['access_token']
         print("TETETETET=", email, id, token)
-        #! bot.add_to_Redis(email,id,token)
-        return response.text
+        bot.add_to_Redis(email, id, token)
+        return "Спасибо!"
 
     return redirect('/')
 
@@ -135,12 +135,11 @@ def Main():
     while True:
         emails = bot.get_emails_from_Redis()
         for email in emails:
-            mb = MailBox(email)
             token_id = bot.get_id_from_Redis(email).split('|')
             email = token
             token = token_id[0]
             id = token_id[1]
-            print("TOKEN=", token, id)
+            print("TOKEN=", email, token, id)
             #! message
             #*
             #* print("message")
@@ -150,8 +149,8 @@ def Main():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    #thread1 = threading.Thread(target=Main)
-    #thread1.start()
+    thread1 = threading.Thread(target=Main)
+    thread1.start()
     app.run(host="0.0.0.0", port=port)
 
     # достали токен из базы
