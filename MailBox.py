@@ -28,7 +28,7 @@ class MailBox:
 
         im = 'imap.' + self.email.split('@')[1]
         print("IMAP=", auth_string)
-        #auth_string = base64.encode(auth_string, 'UTF-8')
+        auth_string = base64.b64encode(auth_string.encode('UTF-8'))
         self.imap = imaplib.IMAP4_SSL(im)
 
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
@@ -121,12 +121,11 @@ class MailBox:
         '''
         self.imap.close()
 
-
 '''
-mb = MailBox('rollabushka@yandex.ru')
-file = open('..\\..\\token.txt')
-token = file.read()
-mb.connection(token)
+mb = MailBox('')
+#file = open('')
+#token = file.read()
+mb.connection('')
 print(mb.get_new_message())
 mb.close_connection()
 '''
