@@ -105,6 +105,7 @@ def incoming_mail():
         }
 
         response = requests.post(url=url, data=data)
+        print("TETETETET=", request.args)
         #! bot.add_to_Redis(email,id,token)
         return response.text
 
