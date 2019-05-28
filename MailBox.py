@@ -27,11 +27,22 @@ class MailBox:
             .format(self.email, token)
 
         im = 'imap.' + self.email.split('@')[1]
+        print(im)
         print("IMAP=", auth_string)
-        #auth_string = base64.b64encode(auth_string.encode('UTF-8'))
-        self.imap = imaplib.IMAP4_SSL(im)
-
-        self.imap.authenticate('XOAUTH2', lambda x: auth_string)
+        #auth_string = base64.b64encode(bytes(auth_string,'utf-8'))
+        self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
+        #! Нашел в документации что яндекс просит делать соединения к 993 порту
+        #! Также в документации написано, что: 
+        #!<<Обращаться к почтовым серверам следует по следующим адресам:
+        #!   * IMAP-сервер — imap.yandex.com:993
+        #!   * SMTP-сервер — smtp.yandex.com:465
+        #! >>
+        #? Поэтому, я думаю, вариант с разбором email не подходит
+        try:
+            self.imap.authenticate('XOAUTH2', lambda x: auth_string)
+        except Exception as exception:
+            print("Exception:",exception)
+        
 
     def get_new_message(self):
         '''[summary]
@@ -122,11 +133,9 @@ class MailBox:
         self.imap.close()
 
 
-'''
-mb = MailBox('')
+mb = MailBox('medvedev0denis@yandex.ru')
 #file = open('')
 #token = file.read()
-mb.connection('')
+mb.connection('AgAAAAAnwmJfAAWrEP3wG4lzBUI9ldEl0_CEC1k')
 print(mb.get_new_message())
 mb.close_connection()
-'''
