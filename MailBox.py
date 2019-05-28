@@ -30,7 +30,7 @@ class MailBox:
             self.imap = imaplib.IMAP4_SSL('imap.mail.com')
         if 'yandex' in self.email:
             self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
-                
+
         try:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
         except Exception as exception:
@@ -100,7 +100,6 @@ class MailBox:
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
 
-        
         time = str(
             email.header.make_header(
                 email.header.decode_header(email_message['Date'])))
@@ -124,6 +123,8 @@ class MailBox:
                 body = part.get_payload(decode=True)
                 try:
                     text = body.decode().split()[0]
+                    #! Предлагаю text = body.decode(), без split()[0]
+                    #! Тогда будет текст
                 except Exception as exp:
                     print('Exception in parse_letter:', exp)
                     print('body', body)
