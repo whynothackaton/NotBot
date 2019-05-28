@@ -100,17 +100,25 @@ class MailBox:
         raw_email_string = raw_email.decode('utf-8')
         email_message = email.message_from_string(raw_email_string)
 
+        
         time = str(
             email.header.make_header(
                 email.header.decode_header(email_message['Date'])))
         email_from = 'Автор: ' + str(
             email.header.make_header(
                 email.header.decode_header(email_message['From'])))
-        subject = 'Тема: ' + str(
-            email.header.make_header(
-                email.header.decode_header(email_message['Subject'])))
+
+        subject = 'Тема: '
+        try:
+            subject += str(
+                email.header.make_header(
+                    email.header.decode_header(email_message['Subject']))) + \
+                '\n\n'
+        except:
+            subject = ''
 
         # this will loop through all the available multiparts in mail
+        text = ''
         for part in email_message.walk():
             if part.get_content_type() == 'text/plain':
                 body = part.get_payload(decode=True)
@@ -120,8 +128,7 @@ class MailBox:
                     print('Exception in parse_letter:', exp)
                     print('body', body)
 
-
-        return time, email_from + '\n' + subject + '\n\n' + text + '\n'
+        return time, email_from + '\n' + subject + text
 
     def close_connection(self):
         '''[summary]
