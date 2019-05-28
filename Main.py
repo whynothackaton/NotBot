@@ -69,13 +69,6 @@ def resetRedis():
     return redirect('/')
 
 
-@app.route('/yandex_auth', methods=['GET', 'POST'])
-def incoming_yandex():
-    print('TOKEN =', request.args, request.data, request.get_json(),
-          request.form)
-    return redirect('/')
-
-
 @app.route('/supported_email', methods=['GET', 'POST'])
 def supported_email():
     if request.method == 'POST':
@@ -88,6 +81,30 @@ def supported_email():
 @app.route('/receiver', methods=['GET', 'POST'])
 def receiver():
     return render_template('_receiver.html')
+
+
+@app.route('/yandex_auth', methods=['GET', 'POST'])
+def incoming_yandex():
+    if 'code' in request.args:
+        code = request.args['code']
+        url = 'https://oauth.yandex.ru/token'
+        data = {
+            'client_id': bot.id_yandex_app,
+            'client_secret': 'cb25abcfb77847afa762e04cdbc506fa',
+            'code': code,
+            'grant_type': 'authorization_code',
+            'redirect_uri': 'https://notbotme.herokuapp.com/yandex_auth'
+        }
+        response = requests.post(url=url, data=data)
+        state = request.args['state'].split('|')
+        email = state[0]
+        id = state[1]
+        token = response.json()['access_token']
+        print("TETETETET=", email, id, token)
+        bot.add_to_Redis(email, id, token)
+        return "Спасибо!"
+
+    return redirect('/')
 
 
 @app.route('/mail_auth', methods=['GET', 'POST'])

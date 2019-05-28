@@ -41,7 +41,6 @@ class Bot():
             self.id_yandex_app = self.extract_id('YANDEX_token')
             self.id_mail_app = self.extract_id('MAIL_token')
             print("YANDEX_TOKEN=", self.id_yandex_app)
-            self.Redis.delete("medvedev0denis@mail.ru")
 
     def extract_id(self, name):
         id_email_app = self.Redis.get(name)
@@ -170,8 +169,8 @@ class Bot():
                 url="https://oauth.yandex.ru/authorize",
                 client_id=self.id_yandex_app,
                 redirect_uri="https://notbotme.herokuapp.com/yandex_auth",
-                response_type="token",
-                scope="mail.imap",
+                response_type="code",
+                scope="mail:imap_full",
                 state=email + '|' + id)
         if '@mail' in email:
             lb = LinkBuilder(
