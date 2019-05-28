@@ -24,7 +24,11 @@ class MailBox:
         '''
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
-        self.imap = imaplib.IMAP4_SSL('imap' + self.email.split('@')[1])
+
+        im = 'imap' + self.email.split('@')[1]
+        print("IMAP=", im)
+        self.imap = imaplib.IMAP4_SSL(im)
+
         self.imap.authenticate('XOAUTH2', lambda x: auth_string)
 
     def get_new_message(self):
@@ -114,6 +118,7 @@ class MailBox:
         '''[summary]
         '''
         self.imap.close()
+
 
 '''
 mb = MailBox('rollabushka@yandex.ru')
