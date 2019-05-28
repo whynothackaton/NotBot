@@ -144,7 +144,7 @@ def Main():
             message = mb.get_new_message()
             if message is not None:
                 print("message")
-                bot.send_message(id=id, message=message)
+                bot.send_message(id=id,message=message)
         time.sleep(30)
 
 
