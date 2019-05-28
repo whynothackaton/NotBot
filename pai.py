@@ -119,6 +119,11 @@ class PaiFlow():
 
         if sentence_re:
             sentence = sentence.replace(sentence_re.group(), '')
+        pattern = re.compile(r'\[[a-z0-9]+|@[a-z0-9]+\]')
+        sentence_re = re.search(pattern, sentence)
+
+        if sentence_re:
+            sentence = sentence.replace(sentence_re.group(), '')
         max_sim = 0.5
         best = ''
         try:
