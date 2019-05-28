@@ -132,10 +132,11 @@ class MailBox:
         '''
         self.imap.close()
 
-
+'''
 mb = MailBox('medvedev0denis@yandex.ru')
 #file = open('')
 #token = file.read()
 mb.connection('AgAAAAAnwmJfAAWrEP3wG4lzBUI9ldEl0_CEC1k')
 print(mb.get_new_message())
 mb.close_connection()
+'''
