@@ -157,7 +157,7 @@ class Bot():
         '''
         return self.Redis.keys(pattern='[a-z0-9]*@[a-z0-9]*\.[a-z0-9]*')
 
-    def get_link(self, email: str) -> str:
+    def get_link(self, email: str, id: str) -> str:
         '''
 
         Arguments:
@@ -171,7 +171,7 @@ class Bot():
                 redirect_uri="https://notbotme.herokuapp.com/yandex_auth",
                 response_type="token",
                 scope="mail.imap",
-                state=email)
+                state=email + '|' + id)
         if '@mail' in email:
             lb = LinkBuilder(
                 url="https://oauth.mail.ru/login",
@@ -179,7 +179,7 @@ class Bot():
                 redirect_uri="https://notbotme.herokuapp.com/mail_auth",
                 response_type="code",
                 scope="mail.imap",
-                state=email)
+                state=email + '|' + id)
 
         return self.VK.utils.getShortLink(url=lb.get())['short_url']
 
@@ -234,7 +234,7 @@ class Bot():
         code, email = self.search_email(message)
 
         if code == 1:  # correct email
-            short_link = self.get_link(email)
+            short_link = self.get_link(email, str(peer_id))
             link = self.PAI.get_response('link')
             self.send_message(id=peer_id, message=link)
             self.send_message(id=peer_id, message=short_link)

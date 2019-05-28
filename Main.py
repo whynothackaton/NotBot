@@ -105,7 +105,7 @@ def incoming_mail():
         }
 
         response = requests.post(url=url, data=data)
-
+        bot.add_to_Redis(email,id,token)
         return response.text
 
     return redirect('/')
@@ -131,11 +131,14 @@ def Main():
         for email in emails:
             mb = MailBox(email)
             token_id = bot.get_id_from_Redis(email).split('|')
+            email = token
             token = token_id[0]
             id = token_id[1]
-            mb.connection(token)
-            print('peer_id=', id)
-            print('token=', token)
+            print("TOKEN=", token, id)
+            #! message
+            #*
+            #* print("message")
+            #* bot.send_message(id=id,message=message)
         time.sleep(30)
 
 
