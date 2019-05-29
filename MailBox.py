@@ -35,6 +35,8 @@ class MailBox:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
         except Exception as exception:
             print("Exception with AUTH:", exception)
+            return False
+        return True
 
     def get_new_message(self):
         '''[summary]
