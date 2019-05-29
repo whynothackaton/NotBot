@@ -155,9 +155,11 @@ def Main():
             token_id = bot.get_id_from_Redis(email)
             mb = MailBox(email.decode())
             token=token_id[0].decode().split('|')[0]
+            print("Я НЕ СПЛЮ!!!",email,token)
             mb.connection(token)
             message = mb.get_new_message()
             mb.close_connection()
+            print("Я ЕЩЕ НЕ СПЛЮ!!!",email,token,message)
             if message is not None:
                 for tid in token_id:
                     tid_decode = tid.decode()
