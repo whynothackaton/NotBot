@@ -153,18 +153,18 @@ def Main():
         emails = bot.get_emails_from_Redis()
         for email in emails:
             token_id = bot.get_id_from_Redis(email)
-            for tid in token_id:
-                tid_decode = tid.decode()
-                tid_split = tid_decode.split('|')
-                token = tid_split[0]
-                id = tid_split[1]
-                print("TOKEN=", email, token, id)
-                mb = MailBox(email.decode())
-                mb.connection(token)
-                message = mb.get_new_message()
-                print("MESSAGE", message)
-                mb.close_connection()
-                if message is not None:
+            mb = MailBox(email.decode())
+            token=token_id[0].decode().split('|')[0]
+            mb.connection(token)
+            message = mb.get_new_message()
+            mb.close_connection()
+            if message is not None:
+                for tid in token_id:
+                    tid_decode = tid.decode()
+                    tid_split = tid_decode.split('|')
+                    token = tid_split[0]
+                    id = tid_split[1]
+                    print("TOKEN=", email, token, id)
                     bot.send_message(id=id, message=message)
         time.sleep(30)
 
@@ -174,10 +174,3 @@ if __name__ == '__main__':
     thread1 = threading.Thread(target=Main)
     thread1.start()
     app.run(host="0.0.0.0", port=port)
-
-    # достали токен из базы
-    #token = ''
-    # mb.connection(token)
-    #new_message = mb.get_new_message()
-    # if new_message is not None:
-    #    pass  # отправляем new_message в вк
