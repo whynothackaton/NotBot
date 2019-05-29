@@ -49,7 +49,11 @@ class MailBox:
             print('Exception with IMAP SELECT:', exp)            
 
         date = datetime.date.today().strftime('%d-%b-%Y')
-        status, data = self.imap.uid('search', None, '(ON {0})'.format(date))
+        
+        try:
+            status, data = self.imap.uid('search', None, '(ON {0})'.format(date))
+        except Exception as exp:
+            print('Exception with IMAP SEARCH', exp)
 
         if len(data[0]) != 0:
             ids = data[0]  # data is a list.
