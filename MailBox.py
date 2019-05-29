@@ -33,6 +33,7 @@ class MailBox:
                 self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
         except Exception as exp:
             print('Exception in self.connection:', exp)
+            return False
 
         try:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
