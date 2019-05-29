@@ -150,6 +150,7 @@ def botserver():
 
 def Main():
     while True:
+        message = None
         emails = bot.get_emails_from_Redis()
         for email in emails:
             token_id = bot.get_id_from_Redis(email)
@@ -159,7 +160,7 @@ def Main():
             if mb.connection(token):
                 message = mb.get_new_message()
                 mb.close_connection()
-            print("Я ЕЩЕ НЕ СПЛЮ!!!",email,token,message)
+                print("Я ЕЩЕ НЕ СПЛЮ!!!",email,token,message)
             if message is not None:
                 for tid in token_id:
                     tid_decode = tid.decode()
