@@ -26,10 +26,13 @@ class MailBox:
         auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
             .format(self.email, token)
 
-        if '@mail.ru' in self.email:
-            self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
-        if 'yandex' in self.email:
-            self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
+        try:
+            if '@mail.ru' in self.email:
+                self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
+            if 'yandex' in self.email:
+                self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
+        except Exception as exp:
+            print('Exception in self.connection:', exp)
 
         try:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
