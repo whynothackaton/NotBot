@@ -27,14 +27,14 @@ class MailBox:
             .format(self.email, token)
 
         if '@mail.ru' in self.email:
-            self.imap = imaplib.IMAP4_SSL('imap.mail.ru')#! было  imap.mail.com
+            self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
         if 'yandex' in self.email:
             self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
 
         try:
             self.imap.authenticate('XOAUTH2', lambda x: auth_string)
         except Exception as exception:
-            print("Exception:", exception)
+            print("Exception with AUTH:", exception)
 
     def get_new_message(self):
         '''[summary]
@@ -43,21 +43,21 @@ class MailBox:
             [type] -- [description]
         '''
         messages = ''
-        status, self.amount_message = self.imap.select('INBOX')
+        try:
+            status, self.amount_message = self.imap.select('INBOX')
+        except Exception as exp:
+            print('Exception with IMAP SELECT:', exp)            
 
-        assert status == 'OK'
         date = datetime.date.today().strftime('%d-%b-%Y')
         status, data = self.imap.uid('search', None, '(ON {0})'.format(date))
 
         if len(data[0]) != 0:
-            assert status == 'OK'
             ids = data[0]  # data is a list.
             id_list = ids.split()  # ids is a space separated string
             for id in id_list:
                 status, data = self.imap.uid(  # fetch the email body () for the given ID
                     'fetch', id, '(RFC822)')
 
-                assert status == 'OK'
                 message_date, message = self.parse_message(data)
 
                 message_time = message_date.split()[4]
@@ -122,10 +122,7 @@ class MailBox:
             if part.get_content_type() == 'text/plain':
                 body = part.get_payload(decode=True)
                 try:
-                    text = body.decode() #!!! нужно для скриншота
-                    #* Было text = body.decode().split()[0]
-                    #! Предлагаю text = body.decode(), без split()[0]
-                    #! Тогда будет текст
+                    text = body.decode()
                 except Exception as exp:
                     print('Exception in parse_letter:', exp)
                     print('body', body)
