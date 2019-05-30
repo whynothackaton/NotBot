@@ -28,6 +28,8 @@ class MailBox:
 
         try:
             if '@mail.ru' in self.email:
+                auth_string = auth_string.replace('\n', '')
+                auth_string = base64.b64encode(auth_string.encode())
                 self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
             if 'yandex' in self.email:
                 self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
