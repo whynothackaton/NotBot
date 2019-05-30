@@ -32,7 +32,7 @@ class MailBox:
                     .format(self.email, token)                
                 print('auth_mail:', auth_string)
                 auth_string = base64.b64encode(auth_string.encode())
-                auth_string = auth_string.replace('\n', '')
+                auth_string = auth_string.replace(b'\n', b'')
                 print('auth_mail after b64encode:', auth_string)
                 self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
             if 'yandex' in self.email:
