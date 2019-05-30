@@ -23,14 +23,14 @@ class MailBox:
         Arguments:
             token {[type]} -- [description]
         '''
-        auth_string = 'user={0}\1auth=Bearer {1}\1\1' \
+        auth_string = 'user={0}\001auth=Bearer {1}\001\001' \
             .format(self.email, token)
 
         try:
             if '@mail.ru' in self.email:        
                 print('auth_mail:', auth_string)
-                auth_string = base64.b64encode(bytes(auth_string),"utf-8")
-                auth_string = auth_string.replace(b'\n',b'')
+                #auth_string = base64.b64encode(bytes(auth_string,"utf-8"))
+                #auth_string = auth_string.replace(b'\n',b'')
                 print('auth_mail after b64encode:', auth_string)
                 self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
             if 'yandex' in self.email:
