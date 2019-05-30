@@ -179,7 +179,7 @@ class Bot():
                 client_id=self.id_mail_app,
                 redirect_uri="https://notbotme.herokuapp.com/mail_auth",
                 response_type="code",
-                scope="mail.imap",
+                scope="userinfo mail.imap",
                 state=email + '|' + id)
 
         return self.VK.utils.getShortLink(url=lb.get())['short_url']
