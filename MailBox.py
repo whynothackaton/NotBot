@@ -29,7 +29,7 @@ class MailBox:
         try:
             if '@mail.ru' in self.email:
                 print('auth_mail:', auth_string)
-                auth_string = auth_string.replace('\n', '')
+                #auth_string = auth_string.replace('\n', '')
                 print('auth_mail after delete n', auth_string)
                 auth_string = base64.b64encode(auth_string.encode())
                 print('auth_mail after b64encode:', auth_string)
