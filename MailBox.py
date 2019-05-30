@@ -30,6 +30,7 @@ class MailBox:
             if '@mail.ru' in self.email:
                 auth_string = 'user={0}\\1auth=Bearer {1}\\1\\1' \
                     .format(self.email, token)
+                auth_string = auth_string.replace('\n', '')
                 print('auth_mail:', auth_string)
                 auth_string = base64.b64encode(auth_string.encode())
                 print('auth_mail after b64encode:', auth_string)
