@@ -133,6 +133,7 @@ class MailBox:
 
         # this will loop through all the available multiparts in mail
         text = ''
+        print('TEXT')
         for part in email_message.walk():
             if part.get_content_type() == 'text/plain':
                 body = part.get_payload(decode=True)
