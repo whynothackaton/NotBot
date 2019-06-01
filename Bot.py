@@ -230,6 +230,7 @@ class Bot():
         category = params['category']
 
         if peer_id in self.used_id:
+            print("TRUE----------------------------")
             code, email = self.search_email(message)
 
             if code == 1:  # correct email
@@ -249,6 +250,7 @@ class Bot():
 
             del self.used_id[peer_id]
         else:
+            print("FALSE----------------------------")
             self.used_id[peer_id] = 'authorization'
             response = self.PAI.get_response(category)
             self.send_message(id=peer_id, message=response)
