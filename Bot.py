@@ -231,7 +231,7 @@ class Bot():
 
         if peer_id in self.used_id:
             code, email = self.search_email(message)
-            print("CODE=",code,"EMAIL=",email)
+            print("CODE=", code, "EMAIL=", email)
             if code == 1:  # correct email
                 short_link = self.get_link(email, str(peer_id))
                 link = self.PAI.get_response('link')
@@ -289,7 +289,8 @@ class Bot():
             subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
             if category != 'misunderstanding':
-                self.__execute__(self,
-                                 category=category,
-                                 message=message,
-                                 peer_id=peer_id)
+                break
+            self.__execute__(self,
+                             category=category,
+                             message=message,
+                             peer_id=peer_id)
