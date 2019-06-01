@@ -223,25 +223,35 @@ class Bot():
 
     @__add__(category='authorization')
     def __authorization(self, *args, **kwargs):
+
         params = args[0]
         message = params['message']
         peer_id = params['peer_id']
-        code, email = self.search_email(message)
+        category = params['category']
 
-        if code == 1:  # correct email
-            short_link = self.get_link(email, str(peer_id))
-            link = self.PAI.get_response('link')
-            self.send_message(id=peer_id, message=link)
-            self.send_message(id=peer_id, message=short_link)
+        if peer_id in self.used_id:
+            code, email = self.search_email(message)
 
-        elif code == 0:  # incorrect email
+            if code == 1:  # correct email
+                short_link = self.get_link(email, str(peer_id))
+                link = self.PAI.get_response('link')
+                self.send_message(id=peer_id, message=link)
+                self.send_message(id=peer_id, message=short_link)
 
-            unknown = self.PAI.get_response('unknown service')
-            #affairs = self.PAI.get_response('affairs')
-            self.send_message(id=peer_id, message=unknown)
+            elif code == 0:  # incorrect email
 
-        elif code == -1:  # without email
-            self.send_message(id=peer_id, message='Вы не указали email')
+                unknown = self.PAI.get_response('unknown service')
+                #affairs = self.PAI.get_response('affairs')
+                self.send_message(id=peer_id, message=unknown)
+
+            elif code == -1:  # without email
+                self.send_message(id=peer_id, message='Вы не указали email')
+
+            del self.used_id[peer_id]
+        else:
+            self.used_id[peer_id] = 'authorization'
+            response = self.PAI.get_response(category)
+            self.send_message(id=peer_id, message=response)
 
     @__add__(category='sending')
     def send_email(self, *args, **kwargs):
@@ -277,9 +287,9 @@ class Bot():
         words = message.split(' ')
         for subset in powerset(words):
             print(subset)
-            subset_join=' '.join(subset)
+            subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
             self.__execute__(self,
-                            category=category,
-                            message=message,
-                            peer_id=peer_id)
+                             category=category,
+                             message=message,
+                             peer_id=peer_id)
