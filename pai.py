@@ -1,8 +1,8 @@
 import redis
 import secrets
-from difflib import SequenceMatcher
 import os
 import re
+from utils import similar
 
 
 class PaiFlow():

@@ -1,4 +1,5 @@
 from itertools import chain, combinations
+from difflib import SequenceMatcher
 
 
 def powerset(X: list):
