@@ -66,10 +66,7 @@ class Bot():
 
     def __execute__(self, *args, **kwargs):
         peer_id = kwargs['peer_id']
-        if peer_id in self.used_id:
-            category = self.used_id[peer_id]
-        else:
-            category = kwargs['category']
+
         if category not in commands:
             for command in default_commands:
                 command(args[0], kwargs)
@@ -288,7 +285,8 @@ class Bot():
         for subset in powerset(words):
             subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
-            print("CATEGORY=", category)
+            if peer_id in self.used_id:
+                category = self.used_id[peer_id]
             if category == 'misunderstanding':
                 break
             self.__execute__(self,
