@@ -19,7 +19,6 @@ def paiflow():
         data = request.form
         bot.PAI.add('CATEGORY', data['category'])
     categories = bot.PAI.get_categories()
-    print('****', categories)
     return render_template('paiflow.html',
                            categories=[c.decode() for c in categories])
 
@@ -47,12 +46,10 @@ def paiflow_delete(category, key, value):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def logauth():
+def login():
     if request.method == 'POST':
         data = request.form
-        print(data)
         key = list(data.keys())[0]
-        print(key)
         bot.bot_auth(provider=key.split('_')[0], token=data[key])
         return redirect("/")
     return render_template('login.html')
@@ -83,11 +80,11 @@ def receiver():
     return render_template('_receiver.html')
 
 
-@app.route('/yandex_auth', methods=['GET', 'POST'])
-def incoming_yandex():
+@app.route('/authorization', methods=['GET', 'POST'])
+def authorization():
     if 'code' in request.args:
         code = request.args['code']
-        url = 'https://oauth.yandex.ru/token'
+        url = 'https://oauth.yandex.ru/token'  #! https://oauth.mail.ru/token
         data = {
             'client_id': bot.id_yandex_app,
             'client_secret': 'cb25abcfb77847afa762e04cdbc506fa',
@@ -100,37 +97,8 @@ def incoming_yandex():
         email = state[0]
         id = state[1]
         token = response.json()['access_token']
-        print("TETETETET=", email, id, token)
         bot.add_to_Redis(email, id, token)
         return "Спасибо!"
-
-    return redirect('/')
-
-
-@app.route('/mail_auth', methods=['GET', 'POST'])
-def incoming_mail():
-    if 'code' in request.args:
-        code = request.args['code']
-
-        url = 'https://oauth.mail.ru/token'
-        data = {
-            'client_id': bot.id_mail_app,
-            'client_secret': '55f04d3e6f1146f4b5b0ec8005c060a2',
-            'code': code,
-            'grant_type': 'authorization_code',
-            'redirect_uri': 'https://notbotme.herokuapp.com/mail_auth'
-        }
-
-        response = requests.post(url=url, data=data)
-
-        state = request.args['state'].split('|')
-        email = state[0]
-        id = state[1]
-        token = response.json()['access_token']
-        print("TETETETET=", email, id, token)
-        bot.add_to_Redis(email, id, token)
-        return "Спасибо!"
-
     return redirect('/')
 
 
@@ -155,12 +123,12 @@ def Main():
         for email in emails:
             token_id = bot.get_id_from_Redis(email)
             mb = MailBox(email.decode())
-            token=token_id[0].decode().split('|')[0]
-            print("Я НЕ СПЛЮ!!!",email,token)
+            token = token_id[0].decode().split('|')[0]
+            print("Я НЕ СПЛЮ!!!", email, token)
             if mb.connection(token):
                 message = mb.get_new_message()
                 mb.close_connection()
-                print("Я ЕЩЕ НЕ СПЛЮ!!!",email,token,message)
+                print("Я ЕЩЕ НЕ СПЛЮ!!!", email, token, message)
             if message is not None:
                 for tid in token_id:
                     tid_decode = tid.decode()

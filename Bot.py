@@ -22,32 +22,26 @@ class Bot():
             group_id {str} -- VK group identifier (default: {''})
             api_version {str} -- Version api VK (default: {''})
         '''
-        print('SELF=', self)
         self.Name = name
         self.api_version = api_version
         self.message_pool = {}
         self.used_id = {}
-        if not debug:
-            self.PAI = PaiFlow()
-            self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
+        self.PAI = PaiFlow()
+        self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
-            self.vk_token = self.Redis.get('VK_token')
-            if self.vk_token != None:
-                self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
-                                     provider='VK',
-                                     token=self.vk_token.decode(),
-                                     api_version=self.api_version)
-
+        self.vk_token = self.Redis.get('VK_token')
+        if self.vk_token != None:
+            self.VK = NetworkAPI(api_url='https://api.vk.com/method/',
+                                 provider='VK',
+                                 token=self.vk_token.decode(),
+                                 api_version=self.api_version)
             self.id_yandex_app = self.extract_id('YANDEX_token')
             self.id_mail_app = self.extract_id('MAIL_token')
-            self.Redis.delete('medvedev0denis@mail.ru')
-            print("YANDEX_TOKEN=", self.id_yandex_app)
 
     def extract_id(self, name):
         id_email_app = self.Redis.get(name)
         if id_email_app != None:
             id_email_app = id_email_app.decode()
-
         return id_email_app
 
     def __add__(category: str):
@@ -99,7 +93,6 @@ class Bot():
         if provider.lower() == 'mail':
             self.id_mail_app = token
 
-        print('email_token=', self.id_yandex_app, provider)
         self.Redis.set(provider.upper() + '_token', token)
 
     def search_email(self, message: str):
@@ -257,7 +250,6 @@ class Bot():
         if peer_id in self.message_pool:
             self.message_pool[peer_id].set_this_item(message)
             if self.message_pool[peer_id].get_occupancy() == 100:
-                print("MESSAGE=", self.message_pool[peer_id].toJSON())
                 self.send_message(id=peer_id, message="Thanks")
                 del self.used_id[peer_id]
         else:
