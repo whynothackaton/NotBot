@@ -119,7 +119,7 @@ class PaiFlow():
                     max_sim = sim
             resp = list(self.Redis.smembers(best))
             if resp != None and len(resp) > 0:
-                print(resp, best)
+                print("AAA="resp, best,max_sim)
                 return resp[0].decode()
         except Exception as e:
             print(e)

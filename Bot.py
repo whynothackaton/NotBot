@@ -289,6 +289,7 @@ class Bot():
             print(subset)
             subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
+            print("CATEGORY=",category)
             self.__execute__(self,
                              category=category,
                              message=message,

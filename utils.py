@@ -24,3 +24,4 @@ def similar(a: str, b: str) -> float:
             [float] -- similarity
         '''
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
+
