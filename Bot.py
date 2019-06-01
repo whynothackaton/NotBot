@@ -288,7 +288,8 @@ class Bot():
             if peer_id in self.used_id:
                 category = self.used_id[peer_id]
             if category == 'misunderstanding':
-                break
+                continue
+            print("___________________________________",category)
             self.__execute__(self,
                              category=category,
                              message=message,
