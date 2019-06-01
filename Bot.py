@@ -288,6 +288,7 @@ class Bot():
         for subset in powerset(words):
             subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
+            print("CATEGORY=", category)
             if category != 'misunderstanding':
                 break
             self.__execute__(self,
