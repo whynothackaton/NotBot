@@ -66,7 +66,7 @@ class Bot():
 
     def __execute__(self, *args, **kwargs):
         peer_id = kwargs['peer_id']
-
+        category = kwargs['category']
         if category not in commands:
             for command in default_commands:
                 command(args[0], kwargs)
