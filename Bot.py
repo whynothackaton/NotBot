@@ -276,6 +276,7 @@ class Bot():
             peer_id = from_id
         words = message.split(' ')
         for subset in powerset(words):
+            print(subset)
             subset_join=' '.join(subset)
             category = self.PAI.get_category(subset_join)
             self.__execute__(self,
