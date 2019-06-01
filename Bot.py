@@ -230,7 +230,6 @@ class Bot():
         category = params['category']
 
         if peer_id in self.used_id:
-            print("TRUE----------------------------")
             code, email = self.search_email(message)
 
             if code == 1:  # correct email
@@ -250,7 +249,6 @@ class Bot():
 
             del self.used_id[peer_id]
         else:
-            print("FALSE----------------------------")
             self.used_id[peer_id] = 'authorization'
             response = self.PAI.get_response(category)
             self.send_message(id=peer_id, message=response)
@@ -288,11 +286,10 @@ class Bot():
             peer_id = from_id
         words = message.split(' ')
         for subset in powerset(words):
-            print(subset)
             subset_join = ' '.join(subset)
             category = self.PAI.get_category(subset_join)
-            print("CATEGORY=",category)
-            self.__execute__(self,
-                             category=category,
-                             message=message,
-                             peer_id=peer_id)
+            if category != 'misunderstanding':
+                self.__execute__(self,
+                                 category=category,
+                                 message=message,
+                                 peer_id=peer_id)
