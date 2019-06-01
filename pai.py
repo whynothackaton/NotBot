@@ -108,7 +108,7 @@ class PaiFlow():
 
         if sentence_re:
             sentence = sentence.replace(sentence_re.group(), '')
-        max_sim = 0.5
+        max_sim = 0.8
         best = ''
         try:
             for key in self.Redis.keys('[а-я0-9]*'):
