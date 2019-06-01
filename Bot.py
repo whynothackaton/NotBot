@@ -8,6 +8,7 @@ import random
 from functools import wraps
 from message import Message
 from linkbuilder import LinkBuilder
+from utils import powerset
 
 commands = {}
 default_commands = []
@@ -273,10 +274,11 @@ class Bot():
 
         if peer_id != from_id:
             peer_id = from_id
-
-        category = self.PAI.get_category(message)
-
-        self.__execute__(self,
-                         category=category,
-                         message=message,
-                         peer_id=peer_id)
+        words = message.split(' ')
+        for subset in powerset(words):
+            subset_join=' '.join(pairs)
+            category = self.PAI.get_category(subset_join)
+            self.__execute__(self,
+                            category=category,
+                            message=message,
+                            peer_id=peer_id)

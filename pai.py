@@ -9,22 +9,6 @@ class PaiFlow():
     def __init__(self):
         self.Redis = redis.from_url(os.environ.get('REDIS_URL'), db=0)
 
-    def similar(self, a: str, b: str) -> float:
-        '''
-        Calculation of similarity measures between two strings.
-
-        A return value of 1 matches the equal strings.
-        A return value of 0 corresponds to strongly different strings.
-
-        Arguments:
-            a {str} -- String A
-            b {str} -- String B
-
-        Returns:
-            [float] -- similarity
-        '''
-        return SequenceMatcher(None, a.lower(), b.lower()).ratio()
-
     def add(self, key: str, value: str):
         '''
         Adding {key: value} data to Redis.
@@ -129,7 +113,7 @@ class PaiFlow():
         try:
             for key in self.Redis.keys('[а-я0-9]*'):
                 s = key.decode()
-                sim = self.similar(sentence, s)
+                sim = similar(sentence, s)
                 if sim > max_sim:
                     best = s
                     max_sim = sim
