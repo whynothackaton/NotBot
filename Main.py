@@ -30,10 +30,10 @@ def paiflow():
 def admin():
     Session = sessionmaker(bind=engine)
     session = Session()
-    print(engine.table_names())
     session.add(EmailServices('gmail','123','435'))
     session.commit()
     session.close()
+    return render_template('admin.html',tables=engine.table_names())
 
 @app.route('/paiflow/<category>', methods=['GET', 'POST'])
 def paiflow_categories(category):
