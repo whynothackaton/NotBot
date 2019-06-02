@@ -179,7 +179,7 @@ class Bot():
             lb = LinkBuilder(
                 url="https://accounts.google.com/o/oauth2/v2/auth",
                 client_id=self.id_gmail_app,
-                redirect_uri="https://notbotme.herokuapp.com/gmail_auth",
+                redirect_uri="https://notbotme.herokuapp.com",
                 response_type="code",
                 scope="https://www.googleapis.com/auth/gmail.readonly",
                 state=email + '|' + id)
