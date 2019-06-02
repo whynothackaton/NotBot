@@ -66,11 +66,11 @@ def admin_update_table(tablename, name):
         return redirect('/admin/tables/' + tablename)
     session.commit()
     session.close()
-
+    print(str(obj))
     fields = [field for field in obj.__dict__ if field[0] != '_']
     values = [obj.__dict__[field] for field in fields]
     object = dict(zip(fields, values))
-
+    print(object)
     return render_template('admin_new_table.html', object=object)
 
 
