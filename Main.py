@@ -63,6 +63,7 @@ def admin_update_table(tablename, name):
     if request.method == 'POST':
         for key in request.form:
             obj.__dict__[key] = request.form[key]
+        print(str(obj))
         return redirect('/admin/tables/' + tablename)
 
     print(str(obj))
