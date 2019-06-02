@@ -38,12 +38,13 @@ class Bot():
                                  api_version=self.api_version)
             self.id_yandex_app = self.extract_id('YANDEX_token')
             self.id_mail_app = self.extract_id('MAIL_token')
+            self.id_gmail_app = self.extract_id('GMAIL_token')
 
     def extract_id(self, name):
         id_email_app = self.Redis.get(name)
         if id_email_app != None:
             id_email_app = id_email_app.decode()
-        return id_email_app
+        return id_emagil_app
 
     def __add__(category: str):
         '''[summary]
@@ -90,6 +91,8 @@ class Bot():
             self.id_yandex_app = token
         if provider.lower() == 'mail':
             self.id_mail_app = token
+        if provider.lower() == 'gmail':
+            self.id_gmail_app = token
 
         self.Redis.set(provider.upper() + '_token', token)
 
@@ -97,7 +100,7 @@ class Bot():
         ''' 
         Search email address in the string.
         First, any e-mail address is searched.
-        Next, the search for supported services: yandex,mail,gmail.
+        Next, the search for supported services: yandex, mail, gmail.
 
         1) In case of finding the right service, the pair is returned (1, found e-mail)
         2) In the case of finding e-mail addresses are not supported service returns pair (0, found e-mail)
@@ -171,6 +174,14 @@ class Bot():
                 redirect_uri="https://notbotme.herokuapp.com/mail_auth",
                 response_type="code",
                 scope="mail.imap userinfo",
+                state=email + '|' + id)
+        if 'gmail' in email:
+            lb = LinkBuilder(
+                url="https://accounts.google.com/o/oauth2/v2/auth",
+                client_id=self.id_gmail_app,
+                redirect_uri="https://notbotme.herokuapp.com/gmail_auth",
+                response_type="code",
+                scope="https://www.googleapis.com/auth/gmail.readonly",
                 state=email + '|' + id)
 
         return self.VK.utils.getShortLink(url=lb.get())['short_url']

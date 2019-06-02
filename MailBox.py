@@ -35,6 +35,8 @@ class MailBox:
                 self.imap = imaplib.IMAP4_SSL('imap.mail.ru')
             if 'yandex' in self.email:
                 self.imap = imaplib.IMAP4_SSL('imap.yandex.com')
+            if 'gmail' in self.email:
+                self.imap = imaplib.IMAP4_SSL('imap.gmail.com')
         except Exception as exp:
             print('Exception in self.connection:', exp)
             return False
