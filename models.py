@@ -17,4 +17,4 @@ class EmailServices(Base):
         self.client_secret = client_secret
 
     def __str__(self):
-        return name
+        return self.name
