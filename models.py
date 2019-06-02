@@ -11,7 +11,7 @@ class EmailServices(Base):
     client_id = Column(String)
     client_secret = Column(String)
 
-    def __init__(self, name, client_id, client_secret):
+    def __init__(self, name=None, client_id=None, client_secret=None):
         self.name = name
         self.client_id = client_id
         self.client_secret = client_secret
