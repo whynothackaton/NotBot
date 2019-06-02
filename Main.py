@@ -48,7 +48,7 @@ def admin_delete_table(tablename, name):
     session.query(EmailServices).filter(EmailServices.name == name).delete()
     session.commit()
     session.close()
-    return 'OK'
+    return redirect('/admin/tables/' + tablename)
 
 
 @app.route('/admin/tables/<tablename>', methods=['GET', 'POST'])
