@@ -66,7 +66,7 @@ def admin_update_table(tablename, name):
         print(str(obj))
         session.commit()
         session.close()
-        return redirect('/admin/tables/' + tablename)
+        #return redirect('/admin/tables/' + tablename)
 
     print(str(obj))
     fields = [field for field in obj.__dict__ if field[0] != '_']
