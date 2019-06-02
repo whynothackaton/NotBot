@@ -298,7 +298,7 @@ class Bot():
             category = self.PAI.get_category(subset_join)
             if peer_id in self.used_id:
                 category = self.used_id[peer_id]
-            if category != 'misunderstanding':
+            if category != 'misunderstanding' or peer_id in self.used_id:
                 self.__execute__(self,
                                  category=category,
                                  message=message,
