@@ -44,7 +44,7 @@ class Bot():
         id_email_app = self.Redis.get(name)
         if id_email_app != None:
             id_email_app = id_email_app.decode()
-        return id_emagil_app
+        return id_email_app
 
     def __add__(category: str):
         '''[summary]
