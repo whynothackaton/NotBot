@@ -48,7 +48,9 @@ def admin_table(tablename):
     objects = session.query(EmailServices).all()
     session.close()
     str_objects = [str(object) for object in objects]
-    return render_template('admin_tables.html', objects=str_objects)
+    return render_template('admin_tables.html',
+                           tablename=tablename,
+                           objects=str_objects)
 
 
 @app.route('/admin', methods=['GET', 'POST'])
