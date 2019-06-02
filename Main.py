@@ -1,16 +1,19 @@
-from flask import Flask, request, Response, render_template, redirect
 import json
 import os
 import threading
 import time
 import datetime
-from Bot import Bot
-from MailBox import MailBox
 import threading
 import requests
 
+from flask import Flask, request, Response, render_template, redirect
+from Bot import Bot
+from MailBox import MailBox
+from sqlalchemy import create_engine
+
 app = Flask(__name__)
 bot = Bot(name='NotBot', api_version='5.95')
+engine = create_engine(os.environ['DATABASE_URL'])
 
 
 @app.route('/paiflow', methods=['GET', 'POST'])
