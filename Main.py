@@ -41,6 +41,16 @@ def admin_new_table(tablename):
     return render_template('admin_new_table.html', fields=fields)
 
 
+@app.route('/admin/tables/<tablename>/delete/<name>', methods=['GET', 'POST'])
+def admin_new_table(name):
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    session.query(EmailServices).filter(EmailServices.name == name).delete()
+    session.commit()
+    session.close()
+    return 'OK'
+
+
 @app.route('/admin/tables/<tablename>', methods=['GET', 'POST'])
 def admin_table(tablename):
     Session = sessionmaker(bind=engine)

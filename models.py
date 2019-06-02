@@ -6,8 +6,8 @@ Base = declarative_base()
 
 class EmailServices(Base):
     __tablename__ = 'EmailServices'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
+
+    name = Column(String, primary_key=True)
     client_id = Column(String)
     client_secret = Column(String)
 
@@ -18,4 +18,3 @@ class EmailServices(Base):
 
     def __str__(self):
         return self.name
-
