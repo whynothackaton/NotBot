@@ -21,11 +21,11 @@
 
 <body class="body">
     <form method="POST">
-        {% for field in fields %}
+        {% for key, value in dict_item.items() %}
 
         <div class="form-group">
-            <label for="{{field}}">{{field}}</label>
-            <input type="text" class="form-control" name="{{field}}" id="{{field}}" required>
+            <label for="{{field}}">{{key}}</label>
+            <input type="text" class="form-control" value="{{value}}" name="{{key}}" id="{{key}}" required>
         </div>
         {% endfor %}
         <button type="submit" class="btn btn-primary">Принять</button>

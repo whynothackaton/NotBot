@@ -18,3 +18,9 @@ class EmailServices(Base):
 
     def __str__(self):
         return self.name
+
+
+em=EmailServices({'name':1,'client_id':2,'client_secret':3})
+d=em.__dict__
+for v in d:
+    print(v)
