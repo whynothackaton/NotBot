@@ -38,7 +38,7 @@ class Bot():
                                  api_version=self.api_version)
             self.id_yandex_app = self.extract_id('YANDEX_token')
             self.id_mail_app = self.extract_id('MAIL_token')
-            self.id_gmail_app = self.extract_id('GMAIL_token')
+            self.id_gmail_app = self.extract_id('GOOGLE_token')
 
     def extract_id(self, name):
         id_email_app = self.Redis.get(name)
