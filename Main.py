@@ -10,7 +10,8 @@ from flask import Flask, request, Response, render_template, redirect
 from Bot import Bot
 from MailBox import MailBox
 from sqlalchemy import create_engine
-
+from sqlalchemy.orm import sessionmaker
+from models import EmailServices
 app = Flask(__name__)
 bot = Bot(name='NotBot', api_version='5.95')
 engine = create_engine(os.environ['DATABASE_URL'])
@@ -25,6 +26,14 @@ def paiflow():
     return render_template('paiflow.html',
                            categories=[c.decode() for c in categories])
 
+@app.route('/admin',methods=['GET', 'POST'])
+def admin():
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    print(engine.table_names())
+    session.add(EmailServices('gmail','123','435'))
+    session.commit()
+    session.close()
 
 @app.route('/paiflow/<category>', methods=['GET', 'POST'])
 def paiflow_categories(category):
