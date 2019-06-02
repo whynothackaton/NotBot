@@ -64,13 +64,14 @@ def admin_update_table(tablename, name):
         for key in request.form:
             obj.__dict__[key] = request.form[key]
         return redirect('/admin/tables/' + tablename)
-    session.commit()
-    session.close()
+
     print(str(obj))
     fields = [field for field in obj.__dict__ if field[0] != '_']
     values = [obj.__dict__[field] for field in fields]
     object = dict(zip(fields, values))
     print(object)
+    session.commit()
+    session.close()
     return render_template('admin_new_table.html', object=object)
 
 
