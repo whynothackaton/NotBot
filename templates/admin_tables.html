@@ -22,7 +22,7 @@
 <body class="body">
     <a href="{{tablename}}/new">Добавить данные</a>
     {% for object in objects %}
-    <p> {{object}} <a href="delete/{{object}}">Удалить</a> <a>Изменить</a> </p>
+    <p> {{object}} <a href="{{tablename}}/delete/{{object}}">Удалить</a> <a>Изменить</a> </p>
     {% endfor %}
 </body>
 
