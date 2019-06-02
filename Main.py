@@ -29,7 +29,7 @@ def paiflow():
 
 
 @app.route('/admin/<tablename>/new', methods=['GET', 'POST'])
-def admin_table(tablename):
+def admin_new_table(tablename):
     fields = vars(EmailServices())
     return render_template('admin_new_table.html', fields=fields)
 
