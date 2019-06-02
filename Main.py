@@ -11,11 +11,11 @@ from Bot import Bot
 from MailBox import MailBox
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import EmailServices
+from models import EmailServices,Base
 app = Flask(__name__)
 bot = Bot(name='NotBot', api_version='5.95')
 engine = create_engine(os.environ['DATABASE_URL'])
-
+Base.metadata.create_all(engine)
 
 @app.route('/paiflow', methods=['GET', 'POST'])
 def paiflow():
