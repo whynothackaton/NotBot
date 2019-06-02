@@ -37,7 +37,7 @@ def admin_new_table(tablename):
         session.commit()
         session.close()
         return 'OK'
-    fields = [field for field in dir(EmailServices) if field[0] != '_']
+    fields = [field for field in EmailServices.__dict__ if field[0] != '_']
     return render_template('admin_new_table.html', fields=fields)
 
 
