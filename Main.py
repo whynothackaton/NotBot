@@ -31,7 +31,9 @@ def paiflow():
 @app.route('/admin/table=<tablename>', methods=['GET', 'POST'])
 def admin_table(tablename):
     fields = vars(EmailServices())
-    return render_template('admin_table.html', fields=fields)
+    obj = session.query(EmailServices)
+    print(obj)
+    return render_template('admin_tables.html', fields=fields)
 
 
 @app.route('/admin', methods=['GET', 'POST'])
