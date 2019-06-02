@@ -42,7 +42,7 @@ def admin_new_table(tablename):
 
 
 @app.route('/admin/tables/<tablename>/delete/<name>', methods=['GET', 'POST'])
-def admin_new_table(name):
+def admin_delete_table(name):
     Session = sessionmaker(bind=engine)
     session = Session()
     session.query(EmailServices).filter(EmailServices.name == name).delete()
