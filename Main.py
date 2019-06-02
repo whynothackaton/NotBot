@@ -38,10 +38,10 @@ def admin_new_table(tablename):
 def admin_table(tablename):
     Session = sessionmaker(bind=engine)
     session = Session()
-    obj = session.query(EmailServices).all()
-    print("Object=", obj)
+    objects = session.query(EmailServices).all()
     session.close()
-    return render_template('admin_tables.html')
+    str_objects = [str(object) for object in objects]
+    return render_template('admin_tables.html', objects=str_objects)
 
 
 @app.route('/admin', methods=['GET', 'POST'])

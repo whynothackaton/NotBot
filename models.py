@@ -15,3 +15,6 @@ class EmailServices(Base):
         self.name = name
         self.client_id = client_id
         self.client_secret = client_secret
+
+    def __str__(self):
+        return name
