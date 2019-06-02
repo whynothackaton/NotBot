@@ -28,13 +28,13 @@ def paiflow():
                            categories=[c.decode() for c in categories])
 
 
-@app.route('/admin/<tablename>/new', methods=['GET', 'POST'])
+@app.route('/admin/tables/<tablename>/new', methods=['GET', 'POST'])
 def admin_new_table(tablename):
     fields = [field for field in vars(EmailServices()) if field[0] != '_']
     return render_template('admin_new_table.html', fields=fields)
 
 
-@app.route('/admin/<tablename>', methods=['GET', 'POST'])
+@app.route('/admin/tables/<tablename>', methods=['GET', 'POST'])
 def admin_table(tablename):
     Session = sessionmaker(bind=engine)
     session = Session()
