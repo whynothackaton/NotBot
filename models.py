@@ -11,10 +11,11 @@ class EmailServices(Base):
     client_id = Column(String)
     client_secret = Column(String)
 
-    def __init__(self, **p):
-        self.name = p['name']
-        self.client_id = p['client_id']
-        self.client_secret = p['client_secret']
+    def __init__(self, params):
+        self.name = params['name']
+        self.client_id = params['client_id']
+        self.client_secret = params['client_secret']
 
     def __str__(self):
         return self.name
+
