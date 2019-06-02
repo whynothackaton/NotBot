@@ -30,7 +30,7 @@ def paiflow():
 
 @app.route('/admin/<tablename>/new', methods=['GET', 'POST'])
 def admin_new_table(tablename):
-    fields = vars(EmailServices())
+    fields = [field for field in vars(EmailServices()) if field[0]!='_']
     return render_template('admin_new_table.html', fields=fields)
 
 
@@ -39,7 +39,7 @@ def admin_table(tablename):
     Session = sessionmaker(bind=engine)
     session = Session()
     obj = session.query(EmailServices)
-    print(obj)
+    print("Object=",obj)
     session.close()
     return render_template('admin_tables.html')
 
