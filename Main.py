@@ -38,8 +38,8 @@ def admin_new_table(tablename):
         session.close()
         return redirect('/admin/tables/' + tablename)
     fields = [field for field in EmailServices.__dict__ if field[0] != '_']
-    values  = ['' for i in range(len(fields))]
-    object=dict(zip(fields, values))
+    values = ['' for i in range(len(fields))]
+    object = dict(zip(fields, values))
     return render_template('admin_new_table.html', object=object)
 
 
@@ -57,17 +57,21 @@ def admin_delete_table(tablename, name):
 def admin_update_table(tablename, name):
     Session = sessionmaker(bind=engine)
     session = Session()
-    objects = session.query(EmailServices).all()
+    obj = session.query(EmailServices).filter(
+        EmailServices.name == name).first()
 
     if request.method == 'POST':
-        obj = session.query(EmailServices).filter(
-            EmailServices.name == name).first()
         for key in request.form:
             obj.__dict__[key] = request.form[key]
-            
+        return redirect('/admin/tables/' + tablename)
     session.commit()
     session.close()
-    return redirect('/admin/tables/' + tablename)
+
+    fields = [field for field in obj.__dict__ if field[0] != '_']
+    values = [obj.__dict__[field] for field in fields]
+    object = dict(zip(fields, values))
+
+    return render_template('admin_new_table.html', object=object)
 
 
 @app.route('/admin/tables/<tablename>', methods=['GET', 'POST'])
