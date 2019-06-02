@@ -64,6 +64,8 @@ def admin_update_table(tablename, name):
         for key in request.form:
             obj.__dict__[key] = request.form[key]
         print(str(obj))
+        session.commit()
+        session.close()
         return redirect('/admin/tables/' + tablename)
 
     print(str(obj))
