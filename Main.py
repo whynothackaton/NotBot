@@ -154,7 +154,7 @@ def authorization():
         session = Session()
         objects = session.query(EmailServices) \
             .filter(EmailServices.name == host) \
-            .all()
+            .first()
         print(objects)
         session.close()
                 
