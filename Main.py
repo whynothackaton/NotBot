@@ -151,8 +151,8 @@ def authorization():
 
         Session = sessionmaker(bind=engine)
         session = Session()
-        objects = session.query(EmailServices)
-            .filter(EmailServices.name == host)
+        objects = session.query(EmailServices) \
+            .filter(EmailServices.name == host) \
             .all()
         print(objects)
         session.close()
