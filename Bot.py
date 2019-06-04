@@ -239,7 +239,6 @@ class Bot():
 
         if peer_id in self.used_id:
             code, email = self.search_email(message)
-            print("CODE=", code, "EMAIL=", email)
             if code == 1:  # correct email
                 short_link = self.get_link(email, str(peer_id))
                 link = self.PAI.get_response('link')

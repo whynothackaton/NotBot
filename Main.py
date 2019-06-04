@@ -137,36 +137,36 @@ def resetRedis():
     return redirect('/')
 
 
-@app.route('/supported_email', methods=['GET', 'POST'])
-def supported_email():
-    if request.method == 'POST':
-        data = request.form
-        bot.Redis.sadd('EMAILS', data['email'])
-    emails = list(bot.Redis.smembers('EMAILS'))
-    return render_template('emails.html', emails=[e.decode() for e in emails])
-
-
-@app.route('/receiver', methods=['GET', 'POST'])
-def receiver():
-    return render_template('_receiver.html')
-
-
 @app.route('/authorization', methods=['GET', 'POST'])
 def authorization():
     if 'code' in request.args:
-        code = request.args['code']
-        url = 'https://oauth.yandex.ru/token'  #! https://oauth.mail.ru/token
-        data = {
-            'client_id': bot.id_yandex_app,
-            'client_secret': 'cb25abcfb77847afa762e04cdbc506fa',
-            'code': code,
-            'grant_type': 'authorization_code',
-            'redirect_uri': 'https://notbotme.herokuapp.com/yandex_auth'
-        }
-        response = requests.post(url=url, data=data)
+        code = request.args['code']        
         state = request.args['state'].split('|')
         email = state[0]
         id = state[1]
+
+        email_pattern = re.compile(r'@(?P<host>(?:[a-z0-9-]+))')
+        host = re.search(email_pattern, email).group('host')
+        print(host)
+
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        objects = session.query(EmailServices)
+            .filter(EmailServices.name == host)
+            .all()
+        print(objects)
+        session.close()
+                
+        url = objects.url
+        data = {
+            'client_id': objects.client_id,
+            'client_secret': objects.client_secret,
+            'code': code,
+            'grant_type': 'authorization_code',
+            'redirect_uri': 'https://notbotme.herokuapp.com/authorization'
+        }
+        response = requests.post(url=url, data=data)
+        
         token = response.json()['access_token']
         bot.add_to_Redis(email, id, token)
         return "Спасибо!"
