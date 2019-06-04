@@ -92,7 +92,7 @@ class MailBox:
                                        variance_timezone) + message_time[2:8]
 
                 now_delta_datetime = datetime.datetime.now() - \
-                    datetime.timedelta(seconds=30)
+                    datetime.timedelta(seconds=100)
                 message_datetime = datetime.datetime.strptime(
                     date + ' ' + message_time, '%d-%b-%Y %H:%M:%S')
 

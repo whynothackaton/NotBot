@@ -199,8 +199,6 @@ def Main():
             print("Я НЕ СПЛЮ!!!", email, token)
             if mb.connection(token):
                 message = mb.get_new_message()
-                time.sleep(30)
-                message = mb.get_new_message()
                 print('MESSAGE:', message)
                 mb.close_connection()
                 print("Я ЕЩЕ НЕ СПЛЮ!!!", email, token, message)
